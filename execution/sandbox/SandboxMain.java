@@ -84,8 +84,9 @@ public final class SandboxMain {
 
     private static boolean runConcurrent(Object service, java.lang.reflect.Method method, TestCase test)
             throws Exception {
-        var executor = Executors.newFixedThreadPool(Math.min(test.callCount(), 16));
-        var ready = new CountDownLatch(test.callCount());
+        int workerCount = Math.min(test.callCount(), 16);
+        var executor = Executors.newFixedThreadPool(workerCount);
+        var ready = new CountDownLatch(workerCount);
         var start = new CountDownLatch(1);
         var successes = new AtomicInteger();
         List<java.util.concurrent.Future<?>> calls = new ArrayList<>();

@@ -29,10 +29,26 @@ the PostgreSQL data volume.
 
 The execution worker is disabled by default. To enable public challenge tests, deploy on
 a dedicated Linux host with Docker Engine configured to use the gVisor `runsc` runtime.
-Prefer a rootless Docker daemon and an otherwise disposable runner host. The worker alone
-gets access to that daemon socket; neither the platform API nor sandbox containers get
-it. Do not enable this profile on macOS Docker Desktop or a machine containing valuable
-host data.
+Prefer a rootless Docker daemon on an otherwise disposable runner host. The worker alone
+gets access to that daemon socket, which gives it control of that Docker host; neither the
+platform API nor sandbox containers get the socket. Do not use this profile on a shared
+or sensitive host, or expose it to public submissions. Docker Desktop is not supported
+for this setup.
+
+For a local development smoke test on macOS, Colima can provide the Linux Docker daemon.
+Install `runsc` inside the Colima VM using the
+[official gVisor installation instructions](https://gvisor.dev/docs/user_guide/install/),
+then run the worker against the same daemon selected by the `colima` Docker context:
+
+```sh
+EXECUTION_DOCKER_SOCKET=/var/run/docker.sock \
+EXECUTION_DOCKER_GID="$(colima ssh -- getent group docker | cut -d: -f3)" \
+ENABLE_EXECUTION_WORKER=true \
+./scripts/start.sh
+```
+
+This Colima setup is for single-user development and smoke testing only; do not expose it
+to public submissions or use it as a shared production runner.
 
 Set the socket path and its group ID for the dedicated runner daemon, then start:
 
