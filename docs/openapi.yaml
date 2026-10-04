@@ -3,25 +3,24 @@ info:
   title: JavaCraft Platform API
   version: 1.0.0
   description: |
-    Versioned HTTP contract. Catalog reads are implemented in the foundation slice;
-    operations tagged Planned are contracts for subsequent MVP milestones.
+    Catalog, identity, and progress endpoints are implemented. Submission and execution
+    operations describe a later security-gated milestone and are not enabled.
 servers:
   - url: http://localhost:8080/api/v1
 tags:
   - name: Catalog
   - name: Identity
   - name: Learning
-  - name: Submissions
   - name: Execution
 paths:
   /catalog:
     get:
       tags: [Catalog]
-      summary: Get the learning catalog and demo workspace overview
+      summary: Get the published learning catalog
       operationId: getCatalog
       responses:
         "200":
-          description: Catalog overview
+          description: Database-backed public catalog
           content:
             application/json:
               schema:
@@ -29,11 +28,11 @@ paths:
   /tutorials:
     get:
       tags: [Catalog]
-      summary: List tutorials
+      summary: List published tutorials
       operationId: listTutorials
       responses:
         "200":
-          description: Tutorial list
+          description: Published tutorial summaries
           content:
             application/json:
               schema:
@@ -59,24 +58,42 @@ paths:
   /challenges/{slug}:
     get:
       tags: [Catalog]
-      summary: Get public challenge instructions
+      summary: Get public challenge instructions (never hidden tests)
       operationId: getChallenge
       parameters:
         - $ref: "#/components/parameters/Slug"
       responses:
         "200":
-          description: Public challenge details (never includes hidden tests)
+          description: Public challenge details
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Challenge"
         "404":
           $ref: "#/components/responses/NotFound"
+  /auth/csrf:
+    get:
+      tags: [Identity]
+      summary: Obtain the CSRF token for state-changing operations
+      operationId: getCsrfToken
+      responses:
+        "200":
+          description: Token also stored in the XSRF-TOKEN cookie
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token]
+                properties:
+                  token:
+                    type: string
   /auth/register:
     post:
       tags: [Identity]
-      summary: Register a learner (Planned)
+      summary: Register a learner and create a session
       operationId: register
+      security:
+        - csrfHeader: []
       requestBody:
         required: true
         content:
@@ -85,115 +102,158 @@ paths:
               $ref: "#/components/schemas/RegisterRequest"
       responses:
         "201":
-          description: Account created
+          description: Account created; issues an HttpOnly session cookie
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Learner"
         "400":
           $ref: "#/components/responses/Problem"
         "409":
-          description: Email already registered
+          description: An account with the email already exists
   /auth/login:
     post:
       tags: [Identity]
-      summary: Create a learner session (Planned)
+      summary: Create a learner session
       operationId: login
-      responses:
-        "200":
-          description: Authenticated session
-        "401":
-          description: Invalid credentials
-  /submissions:
-    post:
-      tags: [Submissions]
-      summary: Create a submission and queue an execution (Planned)
-      operationId: createSubmission
       security:
-        - bearerAuth: []
-      parameters:
-        - name: Idempotency-Key
-          in: header
-          required: true
-          schema:
-            type: string
-            maxLength: 128
+        - csrfHeader: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SubmissionRequest"
+              $ref: "#/components/schemas/LoginRequest"
       responses:
-        "202":
-          description: Accepted for isolated execution
+        "200":
+          description: Authenticated learner; issues an HttpOnly session cookie
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Execution"
+                $ref: "#/components/schemas/Learner"
+        "401":
+          description: Invalid credentials
+  /auth/me:
+    get:
+      tags: [Identity]
+      summary: Get the current learner
+      operationId: getCurrentLearner
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Current learner
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Learner"
         "401":
           description: Authentication required
-        "429":
-          description: Submission rate limit exceeded
-        "503":
-          description: Execution queue unavailable
-  /executions/{executionId}:
-    get:
-      tags: [Execution]
-      summary: Get execution state and sanitized results (Planned)
-      operationId: getExecution
+  /auth/logout:
+    post:
+      tags: [Identity]
+      summary: Revoke the current session
+      operationId: logout
       security:
-        - bearerAuth: []
-      parameters:
-        - name: executionId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - cookieAuth: []
+          csrfHeader: []
       responses:
-        "200":
-          description: Execution state visible to its owner
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Execution"
-        "404":
-          $ref: "#/components/responses/NotFound"
-  /executions/{executionId}/events:
-    get:
-      tags: [Execution]
-      summary: Stream bounded execution events over SSE (Planned)
-      operationId: streamExecutionEvents
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: executionId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: Server-sent execution status and bounded output
-          content:
-            text/event-stream:
-              schema:
-                type: string
+        "204":
+          description: Session revoked and cookie cleared
   /me/progress:
     get:
       tags: [Learning]
-      summary: Get evidence-backed learner progress (Planned)
+      summary: Get the authenticated learner's durable progress
       operationId: getProgress
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       responses:
         "200":
-          description: Skill and learning progress
-
+          description: Track, tutorial completion, and skill evidence
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LearnerProgress"
+        "401":
+          description: Authentication required
+  /me/tutorials/{slug}/progress:
+    put:
+      tags: [Learning]
+      summary: Save tutorial progress
+      operationId: updateTutorialProgress
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: "#/components/parameters/Slug"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [IN_PROGRESS, COMPLETED]
+      responses:
+        "200":
+          description: Updated learner progress
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LearnerProgress"
+        "401":
+          description: Authentication required
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /submissions:
+    post:
+      tags: [Execution]
+      summary: Queue a submission for isolated execution (planned; disabled)
+      operationId: createSubmission
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      responses:
+        "202":
+          description: Accepted only when the isolated worker is implemented
+        "503":
+          description: Execution service is unavailable
+  /executions/{executionId}:
+    get:
+      tags: [Execution]
+      summary: Get sanitized execution results (planned; disabled)
+      operationId: getExecution
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: executionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Execution status and sanitized aggregate test results
+        "404":
+          $ref: "#/components/responses/NotFound"
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: JAVACRAFT_SESSION
+    csrfHeader:
+      type: apiKey
+      in: header
+      name: X-XSRF-TOKEN
   parameters:
     Slug:
       name: slug
@@ -234,28 +294,8 @@ components:
           format: uri-reference
     Catalog:
       type: object
-      required: [currentLevel, nextLevel, progressPercent, skills, tutorials, challenge]
+      required: [tutorials, challenge]
       properties:
-        currentLevel:
-          type: string
-        nextLevel:
-          type: string
-        progressPercent:
-          type: integer
-          minimum: 0
-          maximum: 100
-        skills:
-          type: array
-          items:
-            type: object
-            required: [name, percent]
-            properties:
-              name:
-                type: string
-              percent:
-                type: integer
-                minimum: 0
-                maximum: 100
         tutorials:
           type: array
           items:
@@ -264,7 +304,7 @@ components:
           $ref: "#/components/schemas/Challenge"
     TutorialSummary:
       type: object
-      required: [slug, title, description, durationMinutes, status]
+      required: [slug, title, description, durationMinutes]
       properties:
         slug:
           type: string
@@ -274,24 +314,30 @@ components:
           type: string
         durationMinutes:
           type: integer
-        status:
-          type: string
-          enum: [locked, available, in_progress, completed]
     Tutorial:
-      allOf:
-        - $ref: "#/components/schemas/TutorialSummary"
-        - type: object
-          properties:
-            sections:
-              type: array
-              items:
-                type: object
-                required: [title, body]
-                properties:
-                  title:
-                    type: string
-                  body:
-                    type: string
+      type: object
+      required: [slug, title, description, durationMinutes, sections]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        durationMinutes:
+          type: integer
+        sections:
+          type: array
+          items:
+            type: object
+            required: [title, body, exampleCode]
+            properties:
+              title:
+                type: string
+              body:
+                type: string
+              exampleCode:
+                type: string
     Challenge:
       type: object
       required: [slug, title, level, category, description, requirements, starterCode]
@@ -333,50 +379,65 @@ components:
           type: string
           minLength: 1
           maxLength: 80
-    SubmissionRequest:
+    LoginRequest:
       type: object
-      required: [challengeSlug, sourceFiles]
+      required: [email, password]
       properties:
-        challengeSlug:
+        email:
           type: string
-        sourceFiles:
-          type: array
-          maxItems: 30
-          items:
-            type: object
-            required: [path, content]
-            properties:
-              path:
-                type: string
-                maxLength: 240
-              content:
-                type: string
-                maxLength: 100000
-    Execution:
+          format: email
+        password:
+          type: string
+          format: password
+          maxLength: 128
+    Learner:
       type: object
-      required: [id, state, createdAt]
+      required: [id, email, displayName]
       properties:
         id:
           type: string
           format: uuid
-        state:
+        email:
           type: string
-          enum: [queued, running, passed, failed, timed_out, resource_limited, infrastructure_error]
-        createdAt:
+          format: email
+        displayName:
           type: string
-          format: date-time
-        publicTests:
-          type: object
-          properties:
-            passed:
-              type: integer
-            total:
-              type: integer
-        hiddenTests:
-          type: object
-          description: Aggregate counts only; hidden test names and source are never returned.
-          properties:
-            passed:
-              type: integer
-            total:
-              type: integer
+    LearnerProgress:
+      type: object
+      required: [currentTrack, completedTutorials, totalTutorials, progressPercent, tutorials, skills]
+      properties:
+        currentTrack:
+          type: string
+        completedTutorials:
+          type: integer
+        totalTutorials:
+          type: integer
+        progressPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+        tutorials:
+          type: array
+          items:
+            type: object
+            required: [slug, status]
+            properties:
+              slug:
+                type: string
+              status:
+                type: string
+                enum: [NOT_STARTED, IN_PROGRESS, COMPLETED]
+        skills:
+          type: array
+          items:
+            type: object
+            required: [slug, name, proficiency]
+            properties:
+              slug:
+                type: string
+              name:
+                type: string
+              proficiency:
+                type: integer
+                minimum: 0
+                maximum: 100

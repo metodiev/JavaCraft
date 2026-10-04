@@ -36,7 +36,7 @@ export function TutorialsPage() {
                 </div>
                 <div className="tutorial-card-body">
                   <div className="tutorial-meta">
-                    <span className="status-chip">{tutorial.status.replace("_", " ")}</span>
+                    <span className="status-chip">LEARNING MODULE</span>
                     <span>
                       <Clock3 size={12} /> {tutorial.durationMinutes} min
                     </span>

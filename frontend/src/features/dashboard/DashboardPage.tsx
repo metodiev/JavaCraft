@@ -7,9 +7,7 @@ import {
   ChevronRight,
   Clock3,
   Code2,
-  Flame,
   GitBranch,
-  LockKeyhole,
   Sparkles,
   Target,
   Trophy,
@@ -23,69 +21,71 @@ import { api } from "../../lib/api";
 const skillColors = ["#d0f56c", "#82dbbc", "#b1a3ff", "#6e9fff"];
 
 export function DashboardPage() {
-  const { data, isLoading, error } = useQuery({
+  const catalogQuery = useQuery({
     queryKey: ["catalog"],
     queryFn: ({ signal }) => api.catalog(signal),
   });
+  const progressQuery = useQuery({
+    queryKey: ["progress"],
+    queryFn: ({ signal }) => api.progress(signal),
+  });
+  const data = catalogQuery.data;
+  const progress = progressQuery.data;
+  const loading = catalogQuery.isLoading || progressQuery.isLoading;
+  const error = catalogQuery.error ?? progressQuery.error;
 
   return (
-    <QueryState isLoading={isLoading} error={error}>
-      {data && (
+    <QueryState isLoading={loading} error={error}>
+      {data && progress && (
         <div className="dashboard-page">
           <div className="welcome-row">
             <div>
               <div className="eyebrow">
                 <span className="eyebrow-line" />
-                SAMPLE WORKSPACE
+                YOUR ENGINEERING WORKSPACE
               </div>
               <h1>
                 Build things that <span>hold up.</span>
               </h1>
               <p className="page-subtitle">A little better at engineering, every day.</p>
             </div>
-            <div className="streak-pill">
-              <Flame size={15} fill="currentColor" />
-              <strong>4</strong>
-              <span>day streak</span>
-            </div>
           </div>
 
           <section className="hero-grid">
             <article className="level-card">
               <div className="card-overline">
-                <span className="level-badge">
-                  <span /> YOUR CURRENT LEVEL
-                </span>
-                <span className="card-muted">LEVEL 02 / 06</span>
+                  <span className="level-badge">
+                    <span /> CURRENT LEARNING TRACK
+                  </span>
               </div>
               <div className="level-heading">
                 <div>
-                  <h2>{data.currentLevel}</h2>
-                  <p>You're building a solid foundation.</p>
+                  <h2>{progress.currentTrack}</h2>
+                  <p>Skills grow through demonstrated engineering work.</p>
                 </div>
                 <div className="level-emblem">
                   <Code2 size={24} />
                 </div>
               </div>
               <div className="progress-label">
-                <span>Progress to {data.nextLevel}</span>
+                <span>Learning modules completed</span>
                 <strong>
-                  {data.progressPercent}
+                  {progress.progressPercent}
                   <small>%</small>
                 </strong>
               </div>
               <div className="progress-track">
-                <div style={{ width: `${data.progressPercent}%` }} />
+                <div style={{ width: `${progress.progressPercent}%` }} />
               </div>
               <div className="level-foot">
                 <span>
-                  <Sparkles size={13} /> 3 skills trending up
+                  <Sparkles size={13} /> Progress is saved to your account
                 </span>
                 <Link to="/learning-path">
                   View your path <ArrowRight size={13} />
                 </Link>
               </div>
-              <div className="level-watermark">02</div>
+              <div className="level-watermark">01</div>
             </article>
 
             <article className="focus-card">
@@ -115,28 +115,28 @@ export function DashboardPage() {
 
           <section className="metrics-grid">
             <MetricCard
-              label="SKILLS IN PROGRESS"
-              value="08"
-              detail="+2 this week"
+              label="SKILLS TRACKED"
+              value={String(progress.skills.length).padStart(2, "0")}
+              detail="Evidence grows with assessed work"
               icon={<GitBranch size={15} />}
               positive
             />
             <MetricCard
               label="TUTORIALS COMPLETED"
-              value="12"
-              detail="of 24 in your path"
+              value={String(progress.completedTutorials).padStart(2, "0")}
+              detail={`of ${progress.totalTutorials} in your path`}
               icon={<BookOpen size={15} />}
             />
             <MetricCard
               label="CHALLENGES SOLVED"
-              value="06"
-              detail="Best streak: 3"
+              value="00"
+              detail="No assessed submissions yet"
               icon={<Zap size={15} />}
             />
             <MetricCard
               label="YOUR RANK"
-              value="Rookie"
-              detail="Top 35% this month"
+              value="Unranked"
+              detail="Ranking follows assessed work"
               icon={<Trophy size={15} />}
             />
           </section>
@@ -153,7 +153,7 @@ export function DashboardPage() {
                 </Link>
               </div>
               <div className="skill-list">
-                {data.skills.map((skill, index) => (
+                {progress.skills.map((skill, index) => (
                   <div className="skill-row" key={skill.name}>
                     <div
                       className="skill-icon"
@@ -162,23 +162,18 @@ export function DashboardPage() {
                       <Code2 size={15} />
                     </div>
                     <div className="skill-info">
-                      <div className="skill-name">
-                        {skill.name}
-                        <span className="skill-trend">
-                          <ArrowUpRight size={11} /> +{index === 0 ? "8" : "4"}%
-                        </span>
-                      </div>
+                            <div className="skill-name">{skill.name}</div>
                       <div className="skill-track">
                         <span
                           style={{
-                            width: `${skill.percent}%`,
+                            width: `${skill.proficiency}%`,
                             backgroundColor: skillColors[index % skillColors.length],
                           }}
                         />
                       </div>
                     </div>
                     <span className="skill-percent">
-                      {skill.percent}
+                      {skill.proficiency}
                       <small>%</small>
                     </span>
                   </div>
@@ -201,35 +196,45 @@ export function DashboardPage() {
                 </Link>
               </div>
               <div className="upnext-list">
-                {data.tutorials.map((tutorial, index) => (
-                  <Link
-                    to={`/tutorials/${tutorial.slug}`}
-                    className={`upnext-item${tutorial.status === "locked" ? " locked" : ""}`}
-                    key={tutorial.slug}
-                  >
-                    <div className={`upnext-marker marker-${tutorial.status}`}>
-                      {tutorial.status === "completed" ? (
-                        <Check size={13} />
-                      ) : tutorial.status === "locked" ? (
-                        <LockKeyhole size={12} />
-                      ) : (
-                        <span>0{index + 1}</span>
-                      )}
-                    </div>
-                    <div className="upnext-copy">
-                      <strong>{tutorial.title}</strong>
-                      <span>
-                        {tutorial.durationMinutes} min <i />{" "}
-                        {tutorial.status.replace("_", " ")}
-                      </span>
-                    </div>
-                    <ChevronRight size={15} className="upnext-chevron" />
-                  </Link>
-                ))}
+                {data.tutorials.map((tutorial, index) => {
+                  const status =
+                    progress.tutorials.find((item) => item.slug === tutorial.slug)?.status ??
+                    "NOT_STARTED";
+                  const displayStatus =
+                    status === "COMPLETED"
+                      ? "completed"
+                      : status === "IN_PROGRESS"
+                        ? "in_progress"
+                        : "available";
+                  return (
+                    <Link
+                      to={`/tutorials/${tutorial.slug}`}
+                      className="upnext-item"
+                      key={tutorial.slug}
+                    >
+                      <div className={`upnext-marker marker-${displayStatus}`}>
+                        {displayStatus === "completed" ? (
+                          <Check size={13} />
+                        ) : (
+                          <span>0{index + 1}</span>
+                        )}
+                      </div>
+                      <div className="upnext-copy">
+                        <strong>{tutorial.title}</strong>
+                        <span>
+                          {tutorial.durationMinutes} min <i />{" "}
+                          {displayStatus.replace("_", " ")}
+                        </span>
+                      </div>
+                      <ChevronRight size={15} className="upnext-chevron" />
+                    </Link>
+                  );
+                })}
               </div>
               <div className="path-footer">
                 <span>
-                  <Check size={12} /> 12 of 24 modules complete
+                  <Check size={12} /> {progress.completedTutorials} of{" "}
+                  {progress.totalTutorials} modules complete
                 </span>
                 <Link to="/learning-path">
                   View learning path <ArrowRight size={13} />
@@ -241,11 +246,11 @@ export function DashboardPage() {
           <section className="bottom-quote">
             <div className="quote-mark">“</div>
             <div>
-            <p>
-              Good engineering isn't about knowing all the answers. It's about asking better
-              questions.
-            </p>
-            <span>THE JAVACRAFT PRINCIPLE</span>
+              <p>
+                Good engineering isn't about knowing all the answers. It's about asking better
+                questions.
+              </p>
+              <span>THE JAVACRAFT PRINCIPLE</span>
             </div>
           </section>
         </div>

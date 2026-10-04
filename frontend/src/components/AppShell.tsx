@@ -15,6 +15,8 @@ import {
   TerminalSquare,
 } from "lucide-react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../app/AuthContext";
 
 const navigation = [
   { to: "/", label: "Overview", icon: LayoutDashboard, end: true },
@@ -30,6 +32,8 @@ const pageTitles: Record<string, string> = {
 
 export function AppShell() {
   const { pathname } = useLocation();
+  const { learner, logout } = useAuth();
+  const [logoutError, setLogoutError] = useState("");
   const pageTitle =
     pageTitles[pathname] ??
     (pathname.startsWith("/challenges/") ? "Challenge workspace" : "Tutorial");
@@ -47,9 +51,9 @@ export function AppShell() {
           <span className="brand-beta">BETA</span>
         </NavLink>
         <button className="workspace-picker">
-          <span className="workspace-avatar">A</span>
+          <span className="workspace-avatar">{learner?.displayName.slice(0, 1).toUpperCase()}</span>
           <span className="workspace-name">
-            <strong>Alex Morgan</strong>
+            <strong>{learner?.displayName}</strong>
             <small>Personal workspace</small>
           </span>
           <PanelLeftClose size={15} />
@@ -134,13 +138,30 @@ export function AppShell() {
               <Lightbulb size={17} />
             </button>
             <div className="top-divider" />
-            <button className="profile-button">
-              <span className="profile-avatar">AM</span>
-              <span className="profile-chevron">⌄</span>
+            <button
+              className="profile-button"
+              onClick={() => {
+                void logout().catch((cause: unknown) => {
+                  setLogoutError(cause instanceof Error ? cause.message : "Sign out failed.");
+                });
+              }}
+              aria-label="Sign out"
+              title="Sign out"
+            >
+              <span className="profile-avatar">
+                {learner?.displayName
+                  .split(/\s+/)
+                  .map((part) => part.charAt(0))
+                  .join("")
+                  .slice(0, 2)
+                  .toUpperCase()}
+              </span>
+              <span className="profile-chevron">↪</span>
             </button>
           </div>
         </header>
         <div className="page-content">
+          {logoutError && <div className="inline-error" role="alert">{logoutError}</div>}
           <Outlet />
         </div>
       </main>

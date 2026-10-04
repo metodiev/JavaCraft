@@ -3,12 +3,11 @@
 JavaCraft is an engineering simulator for learning to build production Java systems:
 **read → think → code → run → debug → test → submit → review → improve**.
 
-The repository is being built in incremental, runnable slices. The initial foundation
-provides the product architecture and contracts, a React learning-workspace shell, and
-a Spring Boot content API. User authentication, persisted progress, and sandboxed code
-execution are deliberately not represented as complete features yet.
-The workspace dashboard and learning-progress figures are sample content, not a signed-in
-learner account or persisted assessment results.
+The repository is being built in incremental, runnable slices. It currently provides
+the product architecture, a React learning workspace, a Spring Boot API, learner
+registration/login, and PostgreSQL-backed learning progress. Skill proficiency is
+not awarded for reading tutorials. Code execution remains disabled until the isolated
+worker and its security controls are implemented and tested.
 
 ## Run locally
 
@@ -49,8 +48,8 @@ API never executes submitted code.
 ## Build sequence
 
 1. Platform foundation: architecture, data/API contracts, content API, and workspace shell.
-2. Identity and persistence: registration/login, authorization, database-backed catalog,
-   progress, and submission history.
+2. Identity and durable learning: registration/login, database-backed catalog, and learner
+   tutorial/skill progress.
 3. Isolated execution: asynchronous jobs, public/hidden tests, bounded output, and
    hardened sandbox workers. This is a security gate, not an in-process implementation.
 4. Learning and feedback: scoring, skill graph, achievements, and guided code review.

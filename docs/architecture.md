@@ -88,9 +88,10 @@ Important invariants:
 - Use SSE only for authorized, short-lived execution status/output events. REST remains
   the source of truth for job state.
 
-The currently implemented first slice exposes public catalog reads only. The complete
-initial contract, including planned identity, submission, and execution operations, is
-in `docs/openapi.yaml`; operations marked planned are not implemented by the scaffold.
+The implemented slices expose public database-backed catalog reads, learner
+registration/login/logout, current-learner lookup, and durable tutorial progress.
+The complete initial contract, including later execution operations, is in
+`docs/openapi.yaml`; planned operations are not implemented by the current API.
 
 ## Execution and sandbox security
 
@@ -127,12 +128,12 @@ evaluation of user code.
 
 ## Authentication and authorization
 
-The planned identity slice uses Spring Security, BCrypt/Argon2id password hashing,
-short-lived access tokens and rotating, revocable refresh sessions (or an equivalent
-secure same-site cookie session). Apply role checks to authoring/admin APIs, ownership
-checks to submissions, CSRF protection for cookie-authenticated mutations, and rate
-limits for login and execution submission. Secrets are injected at runtime and never
-committed.
+The current identity slice uses Spring Security, BCrypt password hashes, and opaque
+random session cookies. Only the SHA-256 digest of each session token is persisted;
+sessions can be revoked and expire after 30 days. The browser uses an HttpOnly,
+SameSite=Lax session cookie and sends a CSRF token header for state-changing requests.
+Set `APP_COOKIE_SECURE=true` behind HTTPS in deployed environments. Admin authoring,
+submission ownership, and abuse-rate-limits remain later work.
 
 ## Frontend structure
 

@@ -1,18 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, BookOpen, Clock3 } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { QueryState } from "../../components/QueryState";
 import { api } from "../../lib/api";
 
 export function TutorialPage() {
   const { slug = "" } = useParams();
+  const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["tutorial", slug],
     queryFn: ({ signal }) => api.tutorial(slug, signal),
   });
+  const progressQuery = useQuery({
+    queryKey: ["progress"],
+    queryFn: ({ signal }) => api.progress(signal),
+  });
+  const updateProgress = useMutation({
+    mutationFn: (status: "IN_PROGRESS" | "COMPLETED") =>
+      api.updateTutorialProgress(slug, status),
+    onSuccess: (progress) => queryClient.setQueryData(["progress"], progress),
+  });
+  const tutorialStatus = progressQuery.data?.tutorials.find((item) => item.slug === slug)?.status;
 
   return (
-    <QueryState isLoading={isLoading} error={error}>
+    <QueryState
+      isLoading={isLoading || progressQuery.isLoading}
+      error={error ?? progressQuery.error}
+    >
       {data && (
         <div className="standard-page tutorial-detail">
           <Link className="back-link" to="/tutorials">
@@ -35,6 +49,28 @@ export function TutorialPage() {
               <BookOpen size={14} /> Interactive lesson
             </span>
           </div>
+          <div className="lesson-progress">
+            <span>
+              {tutorialStatus === "COMPLETED"
+                ? "Completed"
+                : tutorialStatus === "IN_PROGRESS"
+                  ? "In progress"
+                  : "Not started"}
+            </span>
+            <button
+              className="secondary-button"
+              disabled={tutorialStatus === "COMPLETED" || updateProgress.isPending}
+              onClick={() => updateProgress.mutate("COMPLETED")}
+            >
+              {tutorialStatus === "COMPLETED" ? <Check size={14} /> : null}
+              {tutorialStatus === "COMPLETED" ? "Completed" : "Mark complete"}
+            </button>
+          </div>
+          {updateProgress.error && (
+            <div className="inline-error" role="alert">
+              {updateProgress.error.message}
+            </div>
+          )}
           {data.sections.map((section) => (
             <article className="lesson-section panel" key={section.title}>
               <div className="section-kicker">THE CONCEPT</div>
@@ -52,9 +88,20 @@ export function TutorialPage() {
               </div>
             </article>
           ))}
-          <Link className="primary-button" to="/challenges/payment-race-condition">
-            Apply it in a challenge <ArrowRight size={15} />
-          </Link>
+          <div className="tutorial-actions">
+            {tutorialStatus !== "COMPLETED" && (
+              <button
+                className="primary-button"
+                disabled={updateProgress.isPending}
+                onClick={() => updateProgress.mutate("IN_PROGRESS")}
+              >
+                {updateProgress.isPending ? "Saving…" : "Save as in progress"}
+              </button>
+            )}
+            <Link className="primary-button" to="/challenges/payment-race-condition">
+              Apply it in a challenge <ArrowRight size={15} />
+            </Link>
+          </div>
         </div>
       )}
     </QueryState>
