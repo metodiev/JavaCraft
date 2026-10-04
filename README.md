@@ -15,7 +15,7 @@ learner account or persisted assessment results.
 Requirements: Docker with Compose.
 
 ```sh
-docker compose up --build
+./scripts/start.sh
 ```
 
 - Frontend: <http://localhost:5173>
@@ -23,6 +23,10 @@ docker compose up --build
 - Health: <http://localhost:8080/actuator/health>
 - PostgreSQL is reachable only on the Compose network. To open a local SQL shell, run
   `docker compose exec db psql -U javacraft -d javacraft`.
+
+Use `./scripts/stop.sh` to stop and remove the JavaCraft containers and network, or
+`./scripts/restart.sh` to rebuild and start the platform again. Both scripts preserve
+the PostgreSQL data volume.
 
 The editor is an interface preview. **Run Tests is not enabled as a code runner** until
 the isolated execution service and its security controls are implemented. The platform
