@@ -1,0 +1,382 @@
+openapi: 3.1.0
+info:
+  title: JavaCraft Platform API
+  version: 1.0.0
+  description: |
+    Versioned HTTP contract. Catalog reads are implemented in the foundation slice;
+    operations tagged Planned are contracts for subsequent MVP milestones.
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: Catalog
+  - name: Identity
+  - name: Learning
+  - name: Submissions
+  - name: Execution
+paths:
+  /catalog:
+    get:
+      tags: [Catalog]
+      summary: Get the learning catalog and demo workspace overview
+      operationId: getCatalog
+      responses:
+        "200":
+          description: Catalog overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Catalog"
+  /tutorials:
+    get:
+      tags: [Catalog]
+      summary: List tutorials
+      operationId: listTutorials
+      responses:
+        "200":
+          description: Tutorial list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TutorialSummary"
+  /tutorials/{slug}:
+    get:
+      tags: [Catalog]
+      summary: Get a tutorial and its sections
+      operationId: getTutorial
+      parameters:
+        - $ref: "#/components/parameters/Slug"
+      responses:
+        "200":
+          description: Tutorial content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutorial"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /challenges/{slug}:
+    get:
+      tags: [Catalog]
+      summary: Get public challenge instructions
+      operationId: getChallenge
+      parameters:
+        - $ref: "#/components/parameters/Slug"
+      responses:
+        "200":
+          description: Public challenge details (never includes hidden tests)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Challenge"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /auth/register:
+    post:
+      tags: [Identity]
+      summary: Register a learner (Planned)
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: Account created
+        "400":
+          $ref: "#/components/responses/Problem"
+        "409":
+          description: Email already registered
+  /auth/login:
+    post:
+      tags: [Identity]
+      summary: Create a learner session (Planned)
+      operationId: login
+      responses:
+        "200":
+          description: Authenticated session
+        "401":
+          description: Invalid credentials
+  /submissions:
+    post:
+      tags: [Submissions]
+      summary: Create a submission and queue an execution (Planned)
+      operationId: createSubmission
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionRequest"
+      responses:
+        "202":
+          description: Accepted for isolated execution
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Execution"
+        "401":
+          description: Authentication required
+        "429":
+          description: Submission rate limit exceeded
+        "503":
+          description: Execution queue unavailable
+  /executions/{executionId}:
+    get:
+      tags: [Execution]
+      summary: Get execution state and sanitized results (Planned)
+      operationId: getExecution
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: executionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Execution state visible to its owner
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Execution"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /executions/{executionId}/events:
+    get:
+      tags: [Execution]
+      summary: Stream bounded execution events over SSE (Planned)
+      operationId: streamExecutionEvents
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: executionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Server-sent execution status and bounded output
+          content:
+            text/event-stream:
+              schema:
+                type: string
+  /me/progress:
+    get:
+      tags: [Learning]
+      summary: Get evidence-backed learner progress (Planned)
+      operationId: getProgress
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Skill and learning progress
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    Slug:
+      name: slug
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Problem:
+      description: Invalid request
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    Problem:
+      type: object
+      required: [title, status]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri-reference
+    Catalog:
+      type: object
+      required: [currentLevel, nextLevel, progressPercent, skills, tutorials, challenge]
+      properties:
+        currentLevel:
+          type: string
+        nextLevel:
+          type: string
+        progressPercent:
+          type: integer
+          minimum: 0
+          maximum: 100
+        skills:
+          type: array
+          items:
+            type: object
+            required: [name, percent]
+            properties:
+              name:
+                type: string
+              percent:
+                type: integer
+                minimum: 0
+                maximum: 100
+        tutorials:
+          type: array
+          items:
+            $ref: "#/components/schemas/TutorialSummary"
+        challenge:
+          $ref: "#/components/schemas/Challenge"
+    TutorialSummary:
+      type: object
+      required: [slug, title, description, durationMinutes, status]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        durationMinutes:
+          type: integer
+        status:
+          type: string
+          enum: [locked, available, in_progress, completed]
+    Tutorial:
+      allOf:
+        - $ref: "#/components/schemas/TutorialSummary"
+        - type: object
+          properties:
+            sections:
+              type: array
+              items:
+                type: object
+                required: [title, body]
+                properties:
+                  title:
+                    type: string
+                  body:
+                    type: string
+    Challenge:
+      type: object
+      required: [slug, title, level, category, description, requirements, starterCode]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        level:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        requirements:
+          type: array
+          items:
+            type: string
+        starterCode:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+    RegisterRequest:
+      type: object
+      required: [email, password, displayName]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          format: password
+          minLength: 12
+          maxLength: 128
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 80
+    SubmissionRequest:
+      type: object
+      required: [challengeSlug, sourceFiles]
+      properties:
+        challengeSlug:
+          type: string
+        sourceFiles:
+          type: array
+          maxItems: 30
+          items:
+            type: object
+            required: [path, content]
+            properties:
+              path:
+                type: string
+                maxLength: 240
+              content:
+                type: string
+                maxLength: 100000
+    Execution:
+      type: object
+      required: [id, state, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum: [queued, running, passed, failed, timed_out, resource_limited, infrastructure_error]
+        createdAt:
+          type: string
+          format: date-time
+        publicTests:
+          type: object
+          properties:
+            passed:
+              type: integer
+            total:
+              type: integer
+        hiddenTests:
+          type: object
+          description: Aggregate counts only; hidden test names and source are never returned.
+          properties:
+            passed:
+              type: integer
+            total:
+              type: integer
