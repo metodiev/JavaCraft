@@ -33,8 +33,8 @@ Browser
 | Web app | Navigation, editor, user feedback, API state | Trust client-side scores or test outcomes |
 | Platform API | Identity/authorization, catalog, progress, submissions, job orchestration | Run or compile submitted code |
 | PostgreSQL | Durable users, content, progress, execution metadata | Store plaintext credentials or hidden-test source in client-readable content |
-| Execution control plane | Queue, worker lifecycle, limits, result normalization | Share application secrets or unrestricted host access with a worker |
-| Sandbox worker | Compile/test one immutable job and return bounded results | Reach the internet, other jobs, host files, Docker socket, or internal services |
+| Execution control plane | Queue, worker lifecycle, gVisor container lifecycle, result normalization | Expose the Docker socket to the API or learner code; fall back to `runc` |
+| Sandbox worker | Compile/test one immutable public-test job and return bounded results | Reach the internet, other jobs, host files, Docker socket, or internal services |
 
 ## Repository structure
 
@@ -45,7 +45,7 @@ backend/
     catalog/      tutorial/challenge read models and endpoints
     identity/     registration, sessions, roles (milestone 2)
     progress/     skill evidence and progression (milestone 2+)
-    submission/   submission lifecycle and execution orchestration (milestone 3)
+    execution/    queued challenge runs and gVisor worker orchestration
   src/main/resources/db/migration/ normalized PostgreSQL schema
 docs/                            architecture and API contracts
 frontend/src/
@@ -53,7 +53,7 @@ frontend/src/
   components/      reusable shell and UI
   features/        dashboard, learning path, tutorials, challenge workspace
   lib/             typed API client
-execution/                         planned isolated worker/control plane (milestone 3)
+execution/sandbox/                 public-test image run only with Docker runtime runsc
 ```
 
 The API is organized by product capability, with transport DTOs at the boundary and
@@ -88,21 +88,21 @@ Important invariants:
 - Use SSE only for authorized, short-lived execution status/output events. REST remains
   the source of truth for job state.
 
-The implemented slices expose public database-backed catalog reads, learner
-registration/login/logout, current-learner lookup, and durable tutorial progress.
-The complete initial contract, including later execution operations, is in
-`docs/openapi.yaml`; planned operations are not implemented by the current API.
+The API exposes public database-backed catalog reads, learner registration/login/logout,
+current-learner lookup, durable tutorial progress, and ownership-checked challenge-run
+records. New runs are accepted only while the gVisor worker heartbeat is current.
 
 ## Execution and sandbox security
 
 Execution is a separate service and trust boundary. Treat every source file, build file,
 annotation processor, test, dependency, generated class, and process as hostile.
 
-For production, workers must run on a dedicated node/VM pool with a hardened runtime
-(prefer gVisor or Kata Containers, or an equivalent kernel boundary), not on API nodes.
-The worker manager uses a narrowly scoped control-plane API; no worker or API container
-gets the host Docker socket. A normal Docker container shares the host kernel and is not
-by itself a sufficient boundary for a public arbitrary-code service.
+For public execution, workers must run on a dedicated Linux host with a hardened runtime
+(gVisor `runsc` in this slice), not on developer machines or hosts with valuable data.
+The trusted execution manager is the only component with the Docker daemon socket; use a
+rootless Docker daemon on a disposable host where possible. The API and sandbox have no
+socket mount. A normal Docker `runc` container shares the host kernel and is not by itself
+a sufficient boundary for a public arbitrary-code service.
 
 Each job receives an ephemeral workspace and container with:
 
@@ -111,20 +111,20 @@ Each job receives an ephemeral workspace and container with:
 - no network namespace connectivity or DNS; dependencies come only from a pinned,
   reviewed, pre-populated artifact cache;
 - cgroup CPU, memory, PID, file-size, and wall-clock limits enforced outside the job;
-- bounded stdout/stderr capture, rate-limited event delivery, and forced process-tree kill;
-- one job per disposable worker; cleanup and image digest verification on completion.
+- bounded stdout/stderr capture, per-learner submission limits, and forced container
+  termination at the job deadline;
+- one disposable `runsc` container per job; the sandbox image is resolved to an immutable
+  image ID when the worker starts.
 
-Hidden tests are retrieved by the worker only after job authorization and injected from
-trusted storage. The submitted project cannot read their source through the UI/API; test
-reports are reduced to pass counts and non-sensitive classifications before persistence.
-Do not claim hidden-test secrecy against arbitrary code sharing the same OS process and
-filesystem: use process/container separation and a hardened runtime, and keep test source
-outside user-writable mounts.
+This slice executes only public tests for the payment race-condition challenge. No hidden
+test payload is sent to the sandbox, and hidden-test grading remains disabled. The
+current challenge harness is specific to that single-file Java challenge; expand it only
+with tests that preserve the test/code separation and secrecy requirements.
 
-Local development must use an isolated disposable worker/runtime as well. Until that
-worker is implemented and threat-model tested, execution remains disabled. Never replace
-it with `Runtime.exec`, `ProcessBuilder`, a compiler invocation in the API, or browser-side
-evaluation of user code.
+The execution Compose profile is opt-in and fails closed unless the Docker daemon reports
+the `runsc` runtime and the sandbox image is present. The default local profile does not
+start an execution worker. Never replace it with `runc`, compiler execution in the API,
+or browser-side evaluation of user code.
 
 ## Authentication and authorization
 
@@ -133,7 +133,7 @@ random session cookies. Only the SHA-256 digest of each session token is persist
 sessions can be revoked and expire after 30 days. The browser uses an HttpOnly,
 SameSite=Lax session cookie and sends a CSRF token header for state-changing requests.
 Set `APP_COOKIE_SECURE=true` behind HTTPS in deployed environments. Admin authoring,
-submission ownership, and abuse-rate-limits remain later work.
+hidden-test grading, and broader abuse controls remain later work.
 
 ## Frontend structure
 
@@ -149,9 +149,9 @@ feature components so the challenge workspace remains navigable and testable.
    are reachable; schema/API architecture is documented; no arbitrary code runs.
 2. **Identity and durable learning:** registration/login, protected profile, database
    catalog, learning path, progress, and submission-history APIs with integration tests.
-3. **Sandboxed execution:** queued job lifecycle, bounded SSE/polling, Maven/JUnit runner,
-   public/hidden test separation, kill/cleanup tests, and security tests on the isolated
-   worker runtime. No release until resource/network/filesystem isolation is verified.
+3. **Sandboxed execution:** the opt-in worker runs public challenge tests on gVisor with
+   bounded resources and polling. Hidden-test grading, worker-runtime verification on the
+   dedicated Linux deployment, and broader language/challenge support remain gated.
 4. **Engineering feedback:** scoring, evidence-backed skills, review/hints, and progression.
 5. **Authoring and operations:** admin content workflows, observability, CI/security
    scanning, backups, and production deployment manifests.

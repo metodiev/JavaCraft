@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Editor from "@monaco-editor/react";
 import {
   AlertTriangle,
@@ -18,16 +18,43 @@ import {
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { QueryState } from "../../components/QueryState";
+import { useAuth } from "../../app/AuthContext";
 import { api } from "../../lib/api";
 
 export function ChallengePage() {
   const { slug = "" } = useParams();
+  const { learner } = useAuth();
   const { data, isLoading, error } = useQuery({
     queryKey: ["challenge", slug],
     queryFn: ({ signal }) => api.challenge(slug, signal),
   });
   const [source, setSource] = useState<string | undefined>();
-  const [showRunNotice, setShowRunNotice] = useState(false);
+  const [executionId, setExecutionId] = useState<string | null>(null);
+  const run = useMutation({
+    mutationFn: () => api.runChallenge(slug, source ?? data?.starterCode ?? "", crypto.randomUUID()),
+    onMutate: () => setExecutionId(null),
+    onSuccess: (execution) => setExecutionId(execution.id),
+  });
+  const execution = useQuery({
+    queryKey: ["execution", executionId],
+    queryFn: ({ signal }) => api.execution(executionId ?? "", signal),
+    enabled: executionId !== null,
+    refetchInterval: (query) => {
+      const state = query.state.data?.state;
+      return state === "QUEUED" || state === "RUNNING" ? 1_000 : false;
+    },
+  });
+  const isRunning =
+    run.isPending ||
+    execution.data?.state === "QUEUED" ||
+    execution.data?.state === "RUNNING";
+  const runError = run.error ?? execution.error;
+  const initials = learner?.displayName
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <QueryState isLoading={isLoading} error={error}>
@@ -44,7 +71,7 @@ export function ChallengePage() {
             </div>
             <div className="challenge-toolbar-right">
               <span className="save-status">Unsaved draft</span>
-              <span className="avatar-mini">AM</span>
+              <span className="avatar-mini">{initials}</span>
             </div>
           </div>
           <div className="challenge-layout">
@@ -102,7 +129,7 @@ export function ChallengePage() {
                 </div>
                 <div className="hidden-tests-note">
                   <LockKeyhole size={13} />
-                  <span>Hidden tests are private and only run inside the sandbox.</span>
+                  <span>Only public tests are enabled. Hidden-test grading is not available yet.</span>
                 </div>
               </div>
             </aside>
@@ -115,7 +142,7 @@ export function ChallengePage() {
                 </div>
                 <div className="editor-tools">
                   <span>
-                    <Shield size={13} /> Sandbox planned
+                    <Shield size={13} /> gVisor sandbox required
                   </span>
                   <button disabled title="Editor settings coming soon">
                     <ChevronDown size={14} />
@@ -156,21 +183,50 @@ export function ChallengePage() {
                   </div>
                   <div className="output-actions">
                     <span>
-                      <Clock3 size={12} /> 0.0s
+                      <Clock3 size={12} />{" "}
+                      {execution.data?.durationMs === null || execution.data?.durationMs === undefined
+                        ? "0.0s"
+                        : `${(execution.data.durationMs / 1_000).toFixed(2)}s`}
                     </span>
                     <ChevronDown size={14} />
                   </div>
                 </div>
-                <div className={`output-body${showRunNotice ? " output-notice" : ""}`}>
-                  {showRunNotice ? (
+                <div
+                  className={`output-body${runError || execution.data?.state === "FAILED" ? " output-notice" : ""}`}
+                  aria-live="polite"
+                >
+                  {runError ? (
                     <>
                       <AlertTriangle size={15} />
                       <div>
-                        <strong>Sandbox execution is not available yet.</strong>
-                        <p>
-                          Your code was not sent or executed. Test runs will be enabled when
-                          the isolated worker and resource limits are in place.
-                        </p>
+                        <strong>Could not run this challenge.</strong>
+                        <p>{runError.message}</p>
+                      </div>
+                    </>
+                  ) : isRunning ? (
+                    <>
+                      <Clock3 size={15} />
+                      <span>
+                        {execution.data?.state === "RUNNING"
+                          ? "Running public tests in the isolated sandbox…"
+                          : "Waiting for the isolated sandbox…"}
+                      </span>
+                    </>
+                  ) : execution.data ? (
+                    <>
+                      {execution.data.state === "PASSED" ? (
+                        <Check size={15} />
+                      ) : (
+                        <AlertTriangle size={15} />
+                      )}
+                      <div>
+                        <strong>{execution.data.summary ?? execution.data.state}</strong>
+                        {execution.data.durationMs !== null && (
+                          <p>Completed in {(execution.data.durationMs / 1_000).toFixed(2)}s.</p>
+                        )}
+                        {execution.data.outputTruncated && (
+                          <p>Some output was truncated to protect the runner.</p>
+                        )}
                       </div>
                     </>
                   ) : (
@@ -192,10 +248,18 @@ export function ChallengePage() {
                   <button className="hint-button" disabled title="Hints are coming soon">
                     <CircleHelp size={14} /> Get a hint
                   </button>
-                  <button className="run-button" onClick={() => setShowRunNotice(true)}>
-                    <Play size={13} fill="currentColor" /> Run tests
+                  <button
+                    className="run-button"
+                    onClick={() => run.mutate()}
+                    disabled={isRunning}
+                  >
+                    <Play size={13} fill="currentColor" /> {isRunning ? "Running…" : "Run public tests"}
                   </button>
-                  <button className="submit-button" onClick={() => setShowRunNotice(true)}>
+                  <button
+                    className="submit-button"
+                    disabled
+                    title="Hidden-test grading is not available yet"
+                  >
                     <Send size={13} /> Submit
                   </button>
                 </div>

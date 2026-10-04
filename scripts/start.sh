@@ -3,7 +3,11 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-docker compose -f "$PROJECT_ROOT/docker-compose.yml" up --build -d
+if [ "${ENABLE_EXECUTION_WORKER:-false}" = "true" ]; then
+  docker compose -f "$PROJECT_ROOT/docker-compose.yml" --profile execution up --build -d
+else
+  docker compose -f "$PROJECT_ROOT/docker-compose.yml" up --build -d
+fi
 
 printf '\nJavaCraft is starting.\n'
 printf 'Frontend:   http://localhost:5173\n'

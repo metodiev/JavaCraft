@@ -3,8 +3,9 @@ info:
   title: JavaCraft Platform API
   version: 1.0.0
   description: |
-    Catalog, identity, and progress endpoints are implemented. Submission and execution
-    operations describe a later security-gated milestone and are not enabled.
+    Catalog, identity, progress, and public challenge-run endpoints are implemented.
+    Challenge execution requires an opt-in Linux worker using the Docker gVisor runtime.
+    Hidden-test grading is not enabled.
 servers:
   - url: http://localhost:8080/api/v1
 tags:
@@ -212,23 +213,55 @@ paths:
           description: Authentication required
         "404":
           $ref: "#/components/responses/NotFound"
-  /submissions:
+  /challenges/{slug}/runs:
     post:
       tags: [Execution]
-      summary: Queue a submission for isolated execution (planned; disabled)
-      operationId: createSubmission
+      summary: Queue a public-test challenge run
+      operationId: runChallenge
       security:
         - cookieAuth: []
           csrfHeader: []
+      parameters:
+        - $ref: "#/components/parameters/Slug"
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 128
+            pattern: "^[a-zA-Z0-9-]+$"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [source]
+              properties:
+                source:
+                  type: string
+                  minLength: 1
+                  maxLength: 32768
       responses:
         "202":
-          description: Accepted only when the isolated worker is implemented
+          description: Challenge source queued for public tests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChallengeExecution"
+        "401":
+          description: Authentication required
+        "413":
+          description: Source exceeds the configured size limit
+        "429":
+          description: Learner submission or global queue limit reached
         "503":
-          description: Execution service is unavailable
+          description: Isolated gVisor worker is unavailable
   /executions/{executionId}:
     get:
       tags: [Execution]
-      summary: Get sanitized execution results (planned; disabled)
+      summary: Get the authenticated learner's sanitized run result
       operationId: getExecution
       security:
         - cookieAuth: []
@@ -241,7 +274,13 @@ paths:
             format: uuid
       responses:
         "200":
-          description: Execution status and sanitized aggregate test results
+          description: Run state and public test summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChallengeExecution"
+        "401":
+          description: Authentication required
         "404":
           $ref: "#/components/responses/NotFound"
 components:
@@ -441,3 +480,33 @@ components:
                 type: integer
                 minimum: 0
                 maximum: 100
+    ChallengeExecution:
+      type: object
+      required: [id, state, outputTruncated]
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+            - QUEUED
+            - RUNNING
+            - PASSED
+            - FAILED
+            - TIMED_OUT
+            - RESOURCE_LIMITED
+            - INFRASTRUCTURE_ERROR
+        durationMs:
+          type: [integer, "null"]
+          minimum: 0
+        passed:
+          type: [integer, "null"]
+          minimum: 0
+        total:
+          type: [integer, "null"]
+          minimum: 0
+        summary:
+          type: [string, "null"]
+        outputTruncated:
+          type: boolean

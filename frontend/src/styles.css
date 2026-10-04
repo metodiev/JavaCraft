@@ -1966,6 +1966,11 @@ p {
   color: #c5d5aa;
 }
 
+.editor-buttons button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .auth-page {
   position: relative;
   display: grid;

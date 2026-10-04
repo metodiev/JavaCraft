@@ -42,6 +42,23 @@ export interface LearnerProgress {
   skills: Array<{ slug: string; name: string; proficiency: number }>;
 }
 
+export interface ChallengeExecution {
+  id: string;
+  state:
+    | "QUEUED"
+    | "RUNNING"
+    | "PASSED"
+    | "FAILED"
+    | "TIMED_OUT"
+    | "RESOURCE_LIMITED"
+    | "INFRASTRUCTURE_ERROR";
+  durationMs: number | null;
+  passed: number | null;
+  total: number | null;
+  summary: string | null;
+  outputTruncated: boolean;
+}
+
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -68,10 +85,15 @@ async function loadCsrfToken(signal?: AbortSignal): Promise<void> {
 
 async function request<T>(
   path: string,
-  options: { method?: string; body?: unknown; signal?: AbortSignal } = {},
+  options: {
+    method?: string;
+    body?: unknown;
+    signal?: AbortSignal;
+    headers?: HeadersInit;
+  } = {},
 ): Promise<T> {
   const method = options.method ?? "GET";
-  const headers = new Headers();
+  const headers = new Headers(options.headers);
   if (options.body !== undefined) {
     headers.set("Content-Type", "application/json");
   }
@@ -133,4 +155,12 @@ export const api = {
       method: "PUT",
       body: { status },
     }),
+  runChallenge: (slug: string, source: string, idempotencyKey: string) =>
+    request<ChallengeExecution>(`/challenges/${encodeURIComponent(slug)}/runs`, {
+      method: "POST",
+      body: { source },
+      headers: { "Idempotency-Key": idempotencyKey },
+    }),
+  execution: (executionId: string, signal?: AbortSignal) =>
+    request<ChallengeExecution>(`/executions/${encodeURIComponent(executionId)}`, { signal }),
 };
