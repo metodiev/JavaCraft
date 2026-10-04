@@ -1,0 +1,2 @@
+mayRead is true only when the principal tenant and the record tenant are both present and exactly equal; anything missing or blank fails closed.
+mayAdminRead allows normal same-tenant reads, and allows a cross-tenant read only for a platform admin who supplies a non-blank audit reason.

@@ -1,0 +1,3 @@
+A word is a maximal run of letters or digits; whitespace and punctuation separate words.
+Count words case-insensitively and return the lower-case word as the map key.
+Return an empty map for null or blank input.

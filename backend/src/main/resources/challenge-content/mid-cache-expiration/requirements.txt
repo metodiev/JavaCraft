@@ -1,0 +1,3 @@
+Fresh means elapsed time is strictly less than the ttl; the exact expiry instant is expired.
+Throw IllegalArgumentException for null times, a negative ttl, or now before createdAt.
+Very large ttl values must not overflow.

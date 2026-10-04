@@ -1,0 +1,3 @@
+The candidate must equal previous + 1 exactly; gaps, duplicates and older events are rejected.
+Overflow past Long.MAX_VALUE must never be treated as the next sequence.
+A negative previous sequence throws IllegalArgumentException.

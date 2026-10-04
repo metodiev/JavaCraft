@@ -1,0 +1,3 @@
+Return Optional.of(value) when the list is non-null and the index is valid.
+Return Optional.empty() for a null list, a negative index, or an index at or beyond the size.
+Return Optional.empty() when the selected element is null. Never modify the list.

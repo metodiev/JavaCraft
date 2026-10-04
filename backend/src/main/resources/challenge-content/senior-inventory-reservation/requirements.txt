@@ -1,0 +1,3 @@
+Stock starts at 10. reserve(quantity) returns true and subtracts when enough stock exists; otherwise it returns false and changes nothing.
+Quantities of zero or less throw IllegalArgumentException.
+Use a compare-and-set loop so concurrent callers can never oversell.

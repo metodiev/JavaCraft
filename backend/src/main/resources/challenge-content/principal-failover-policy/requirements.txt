@@ -1,0 +1,2 @@
+Promote only when the old primary is fenced and lag <= maxLag.
+Negative lag or limit values are untrusted and must return false.

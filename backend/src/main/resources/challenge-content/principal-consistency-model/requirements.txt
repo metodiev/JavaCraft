@@ -1,0 +1,2 @@
+Invariant-critical or unknown (null) criticality requires STRONG consistency.
+Non-critical operations that accept stale reads may use EVENTUAL; otherwise (including unknown tolerance) use BOUNDED_STALENESS.

@@ -94,6 +94,17 @@ public class ExecutionRepository {
                 && queued < 20;
     }
 
+    public boolean isRunnable(String slug) {
+        return Boolean.TRUE.equals(jdbc.queryForObject(
+                """
+                SELECT EXISTS (
+                    SELECT 1 FROM challenge c JOIN challenge_test t ON t.challenge_id = c.id
+                    WHERE c.slug = ? AND c.published = true AND t.visibility = 'PUBLIC')
+                """,
+                Boolean.class,
+                slug));
+    }
+
     public UUID create(UUID learnerId, String slug, String source, String idempotencyKey) {
         var submissionIds = jdbc.query(
                 """
@@ -101,7 +112,9 @@ public class ExecutionRepository {
                     user_id, challenge_id, challenge_version, source_bundle, idempotency_key)
                 SELECT ?, c.id, c.version, ?, ?
                 FROM challenge c
-                WHERE c.slug = ? AND c.slug = 'payment-race-condition' AND c.published = true
+                WHERE c.slug = ? AND c.published = true
+                  AND EXISTS (SELECT 1 FROM challenge_test t
+                              WHERE t.challenge_id = c.id AND t.visibility = 'PUBLIC')
                 ON CONFLICT (user_id, idempotency_key) DO NOTHING
                 RETURNING id
                 """,

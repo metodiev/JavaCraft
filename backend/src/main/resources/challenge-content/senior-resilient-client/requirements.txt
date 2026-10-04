@@ -1,0 +1,3 @@
+nextDelayMillis returns base * 2^(attempt-1), capped at maxMillis, with no overflow for large attempts.
+Reject attempt < 1, base < 1, or max < base with IllegalArgumentException.
+shouldRetry is true only for transient failures when attempt < maxAttempts and elapsed is strictly less than the deadline.

@@ -126,7 +126,7 @@ public class DockerSandbox implements AutoCloseable {
                 .forEach(container -> docker.removeContainerCmd(container.getId()).withForce(true).exec());
     }
 
-    public RunResult execute(String source, String publicTests) {
+    public RunResult execute(String source, String publicTests, String sourceFileName) {
         if (immutableImageId == null) {
             throw new IllegalStateException("Sandbox runtime has not passed its startup check");
         }
@@ -136,7 +136,8 @@ public class DockerSandbox implements AutoCloseable {
             var created = docker.createContainerCmd(immutableImageId)
                     .withEnv(
                             "JAVACRAFT_SOURCE_B64=" + ExecutionWorkerRepository.encode(source),
-                            "JAVACRAFT_PUBLIC_TESTS_B64=" + ExecutionWorkerRepository.encode(publicTests))
+                            "JAVACRAFT_PUBLIC_TESTS_B64=" + ExecutionWorkerRepository.encode(publicTests),
+                            "JAVACRAFT_SOURCE_FILE=" + sourceFileName)
                     .withUser("10001:10001")
                     .withHostConfig(hostConfig())
                     .withAttachStdout(true)
@@ -178,16 +179,17 @@ public class DockerSandbox implements AutoCloseable {
                 return new RunResult(
                         exitCode.get() == 137 ? "RESOURCE_LIMITED" : "FAILED",
                         elapsed(start),
-                        null,
-                        null,
+                        0,
+                        0,
                         summary,
                         log.truncated());
             }
             boolean allPassed = exitCode.get() == 0 && passed == total;
+            String details = output.replaceAll("(?m)^JAVACRAFT_RESULT .*$", "").strip();
             String summary = allPassed
                     ? "All public tests passed."
                     : passed + " of " + total + " public tests passed."
-                            + (output.isBlank() ? "" : "\n" + safeOutput(output));
+                            + (details.isBlank() ? "" : "\n" + safeOutput(details));
             return new RunResult(
                     allPassed ? "PASSED" : (exitCode.get() == 137 ? "RESOURCE_LIMITED" : "FAILED"),
                     elapsed(start),

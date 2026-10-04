@@ -1,0 +1,3 @@
+Allow at most limit requests per tenant per fixed window; windows are aligned to the Unix epoch (floorDiv of epoch millis by window length).
+Track at most maxTenants tenants: drop entries from older windows first, and refuse a new tenant when the table is still full.
+Reject invalid configuration, null tenant, or null time with IllegalArgumentException. The limiter must be thread-safe.

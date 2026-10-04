@@ -1,0 +1,3 @@
+The constructor rejects a negative capacity with IllegalArgumentException; availableCopies() starts equal to capacity.
+checkout() returns true and reduces availability only when a copy is available; otherwise it returns false.
+returnCopy() returns true and increases availability only while availability is below capacity; otherwise it returns false.

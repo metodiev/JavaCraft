@@ -1,0 +1,3 @@
+mayCutOver is true only when data is in sync, rollback is ready, and health checks pass.
+nextTrafficPercent moves to the next step in 1, 5, 25, 50, 100 that is above the current value, stays at 100, and returns 0 when unhealthy.
+Reject a percentage outside 0..100 with IllegalArgumentException.

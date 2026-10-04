@@ -25,6 +25,7 @@ class ExecutionServiceTest {
         UUID executionId = UUID.randomUUID();
         var expected = new ExecutionRepository.ExecutionView(
                 executionId, "QUEUED", null, null, null, null, false);
+        when(repository.isRunnable("payment-race-condition")).thenReturn(true);
         when(repository.findExistingExecution(learnerId, "0123456789abcdef")).thenReturn(Optional.empty());
         when(repository.hasAvailableWorker()).thenReturn(true);
         when(repository.withinSubmissionLimits(learnerId)).thenReturn(true);
@@ -43,6 +44,7 @@ class ExecutionServiceTest {
     @Test
     void refusesRunsWhenTheIsolatedWorkerIsUnavailable() {
         UUID learnerId = UUID.randomUUID();
+        when(repository.isRunnable("payment-race-condition")).thenReturn(true);
         when(repository.findExistingExecution(learnerId, "0123456789abcdef")).thenReturn(Optional.empty());
         when(repository.hasAvailableWorker()).thenReturn(false);
 
@@ -57,7 +59,7 @@ class ExecutionServiceTest {
     }
 
     @Test
-    void refusesExecutionForChallengesWithoutAnImplementedSandboxAdapter() {
+    void refusesExecutionForChallengesWithoutPublicTests() {
         var failure = assertThrows(
                 ResponseStatusException.class,
                 () -> new ExecutionService(repository).submit(
@@ -71,6 +73,7 @@ class ExecutionServiceTest {
     void rejectsSourceAboveTheSubmissionLimit() {
         UUID learnerId = UUID.randomUUID();
         String source = "x".repeat(32_769);
+        when(repository.isRunnable("payment-race-condition")).thenReturn(true);
 
         var failure = assertThrows(
                 ResponseStatusException.class,

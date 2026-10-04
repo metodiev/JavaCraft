@@ -1,0 +1,4 @@
+Calling execute again with the same key and the same request must not call the action again; return the stored response.
+Reusing a key with a different request throws Main.ConflictException.
+A failed action must not be stored, so a later retry can run it again.
+Concurrent duplicates must run the action once and all receive the same result.

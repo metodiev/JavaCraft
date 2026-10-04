@@ -1,0 +1,3 @@
+firstDelivery returns true the first time an id is seen and false for later duplicates.
+Remember at most capacity ids; evict the oldest id when full.
+Reject capacity below 1 and a null id with IllegalArgumentException; the class must be thread-safe.

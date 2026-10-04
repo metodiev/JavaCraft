@@ -1,0 +1,3 @@
+tryAcquire(limit) atomically takes a slot only while active < limit and returns whether it succeeded; limit below 1 throws IllegalArgumentException.
+release() frees a slot and throws IllegalStateException when nothing is active.
+Under concurrency the active count must never exceed the limit.

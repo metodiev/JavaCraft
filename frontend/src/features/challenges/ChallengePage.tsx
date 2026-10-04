@@ -39,6 +39,7 @@ export function ChallengePage() {
     queryKey: ["execution", executionId],
     queryFn: ({ signal }) => api.execution(executionId ?? "", signal),
     enabled: executionId !== null,
+    refetchIntervalInBackground: true,
     refetchInterval: (query) => {
       const state = query.state.data?.state;
       return state === "QUEUED" || state === "RUNNING" ? 1_000 : false;
@@ -141,13 +142,13 @@ export function ChallengePage() {
               <div className="editor-topbar">
                 <div className="file-tab">
                   <FileCode2 size={14} />
-                  <span>PaymentService.java</span>
+                  <span>{slug === "payment-race-condition" ? "PaymentService.java" : "Main.java"}</span>
                   <span className="unsaved-dot" />
                 </div>
                 <div className="editor-tools">
                   <span>
                     <Shield size={13} />{" "}
-                    {data.runnable ? "gVisor sandbox required" : "Execution adapter coming soon"}
+                    {data.runnable ? "gVisor sandbox required" : "Execution is not enabled for this challenge"}
                   </span>
                   <button disabled title="Editor settings coming soon">
                     <ChevronDown size={14} />
@@ -225,7 +226,9 @@ export function ChallengePage() {
                         <AlertTriangle size={15} />
                       )}
                       <div>
-                        <strong>{execution.data.summary ?? execution.data.state}</strong>
+                        <strong style={{ whiteSpace: "pre-wrap" }}>
+                          {execution.data.summary ?? execution.data.state}
+                        </strong>
                         {execution.data.durationMs !== null && (
                           <p>Completed in {(execution.data.durationMs / 1_000).toFixed(2)}s.</p>
                         )}

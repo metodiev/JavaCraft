@@ -1,0 +1,3 @@
+Admit only when tenantInUse + requested <= tenantLimit AND globalInUse + requested <= globalLimit.
+Sums must not overflow int.
+Throw IllegalArgumentException for negative usage or limits, or requested < 1.

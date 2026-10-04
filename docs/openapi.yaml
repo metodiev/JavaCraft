@@ -271,7 +271,7 @@ paths:
         "429":
           description: Learner submission or global queue limit reached
         "501":
-          description: No isolated execution adapter is available for this challenge
+          description: The challenge has no public tests to run
         "503":
           description: Isolated gVisor worker is unavailable
   /executions/{executionId}:

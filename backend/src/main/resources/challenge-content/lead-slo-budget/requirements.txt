@@ -1,0 +1,2 @@
+The allowed failure ratio is 1 - targetAvailability; remaining budget is 1 - observed/allowed, clamped at 0.
+The target must be strictly between 0 and 1 and the failure ratio within 0..1; NaN is invalid. Throw IllegalArgumentException otherwise.

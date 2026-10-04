@@ -1,0 +1,2 @@
+Throw IllegalArgumentException when attempt < 1, maxAttempts < 1, or remaining is null.
+Retry only transient failures while attempt < maxAttempts and remaining time is positive.

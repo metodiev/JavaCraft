@@ -1,0 +1,3 @@
+Return false when either endpoint is null.
+Return true when the end date is the same day as, or after, the start date.
+Return false when the end date is before the start date.

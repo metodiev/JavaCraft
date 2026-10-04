@@ -1,0 +1,3 @@
+add registers a PENDING message; adding an existing id changes nothing. claim returns the oldest PENDING id and marks it IN_FLIGHT, counting an attempt.
+confirm moves an IN_FLIGHT message to DELIVERED; confirm or fail on a message that is not in flight throws IllegalArgumentException.
+fail with a transient error returns the message to PENDING while attempts < maxAttempts; otherwise it becomes FAILED. status returns null for unknown ids.

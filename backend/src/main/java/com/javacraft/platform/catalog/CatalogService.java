@@ -111,7 +111,9 @@ public class CatalogService {
                 SELECT id, slug, title, level, category, description,
                        starter_repository ->> (
                            SELECT jsonb_object_keys(challenge.starter_repository) LIMIT 1
-                       ) AS starter_code
+                       ) AS starter_code,
+                       EXISTS (SELECT 1 FROM challenge_test t
+                               WHERE t.challenge_id = challenge.id AND t.visibility = 'PUBLIC') AS runnable
                 FROM challenge
                 WHERE slug = ? AND published = true
                 """,
@@ -122,7 +124,8 @@ public class CatalogService {
                         rs.getString("level"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getString("starter_code")),
+                        rs.getString("starter_code"),
+                        rs.getBoolean("runnable")),
                 slug);
         if (challenges.isEmpty()) {
             return Optional.empty();
@@ -156,7 +159,7 @@ public class CatalogService {
                 requirements,
                 base.starterCode(),
                 skills,
-                "payment-race-condition".equals(base.slug())));
+                base.runnable()));
     }
 
     public record CatalogResponse(List<TutorialSummary> tutorials, Challenge challenge) {}
@@ -203,5 +206,6 @@ public class CatalogService {
             String level,
             String category,
             String description,
-            String starterCode) {}
+            String starterCode,
+            boolean runnable) {}
 }

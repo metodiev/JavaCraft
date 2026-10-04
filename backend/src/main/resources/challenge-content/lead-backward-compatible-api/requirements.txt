@@ -1,0 +1,2 @@
+displayName joins trimmed given and family names with one space, omitting missing parts, and returns "Anonymous" if both are missing or blank.
+resolveName prefers the new fields when either is present, falls back to the trimmed legacy name, and otherwise returns "Anonymous".

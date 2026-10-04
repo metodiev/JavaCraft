@@ -1,0 +1,2 @@
+Accept only when depth < maxDepth AND the oldest message age < maxAgeMillis.
+Throw IllegalArgumentException for negative depth or age, or maxDepth / maxAgeMillis below 1.

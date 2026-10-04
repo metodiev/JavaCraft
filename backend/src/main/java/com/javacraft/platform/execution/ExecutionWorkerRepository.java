@@ -36,13 +36,17 @@ public class ExecutionWorkerRepository {
                         )
                           AND s.id = e.submission_id
                           AND c.id = s.challenge_id
-                        RETURNING e.id, c.slug, s.source_bundle, c.id AS challenge_id
+                        RETURNING e.id, c.slug, s.source_bundle, c.id AS challenge_id,
+                                  (SELECT k FROM jsonb_object_keys(c.starter_repository) AS k LIMIT 1) AS source_file
                         """,
                         (rs, rowNum) -> new ExecutionJob(
                                 rs.getObject("id", UUID.class),
                                 rs.getString("slug"),
                                 new String(rs.getBytes("source_bundle"), StandardCharsets.UTF_8),
-                                rs.getObject("challenge_id", UUID.class)))
+                                rs.getObject("challenge_id", UUID.class),
+                                rs.getString("source_file") == null
+                                        ? "PaymentService.java"
+                                        : rs.getString("source_file")))
                 .stream()
                 .findFirst());
     }
@@ -137,5 +141,6 @@ public class ExecutionWorkerRepository {
         return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
     }
 
-    public record ExecutionJob(UUID id, String challengeSlug, String source, UUID challengeId) {}
+    public record ExecutionJob(
+            UUID id, String challengeSlug, String source, UUID challengeId, String sourceFileName) {}
 }

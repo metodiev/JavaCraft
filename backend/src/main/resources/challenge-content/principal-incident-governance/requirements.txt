@@ -1,0 +1,2 @@
+Validate first: negative users or duration, or thresholds below 1, throw IllegalArgumentException.
+Escalate when there is an integrity risk, affected users reach the user threshold, or the duration reaches the duration threshold.

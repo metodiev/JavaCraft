@@ -1,0 +1,2 @@
+Storage is allowed only when the region is present and exactly matches an entry of a non-empty allowed set.
+A missing region, a blank region, or a missing/empty policy fails closed.

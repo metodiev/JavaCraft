@@ -1,0 +1,3 @@
+Workers = ceil(requestsPerSecond * secondsPerRequest / targetUtilization).
+Utilization must be strictly between 0 and 1; load values must be finite and non-negative.
+Throw IllegalArgumentException when the result does not fit in an int.

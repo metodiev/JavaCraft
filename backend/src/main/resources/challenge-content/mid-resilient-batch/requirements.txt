@@ -1,0 +1,3 @@
+Process every item in order; a RuntimeException from the handler marks only that item as failed.
+Return succeeded and failed lists that preserve input order.
+Throw IllegalArgumentException for a null list or a null element before processing anything.

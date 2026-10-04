@@ -1,0 +1,2 @@
+sameSnapshot is true only for a non-empty list whose versions are all non-null and equal.
+consistentRead returns the values in order only when every read has the same version; otherwise (or for empty input) Optional.empty().

@@ -1,0 +1,3 @@
+CLOSED allows calls, OPEN blocks calls, HALF_OPEN allows calls only while probesInFlight < maxProbes; a null state fails closed.
+CLOSED moves to OPEN when a call fails and consecutiveFailures has reached the threshold.
+HALF_OPEN success closes the breaker and HALF_OPEN failure reopens it.

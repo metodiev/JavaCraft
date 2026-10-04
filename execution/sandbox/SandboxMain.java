@@ -19,7 +19,15 @@ public final class SandboxMain {
     public static void main(String[] args) throws Exception {
         String source = decodeRequired("JAVACRAFT_SOURCE_B64");
         String tests = decodeRequired("JAVACRAFT_PUBLIC_TESTS_B64");
-        Path sourceFile = WORKSPACE.resolve("PaymentService.java");
+        String fileName = System.getenv().getOrDefault("JAVACRAFT_SOURCE_FILE", "PaymentService.java");
+        if (!fileName.matches("[A-Za-z][A-Za-z0-9]*\\.java")) {
+            throw new IllegalArgumentException("Invalid source file name");
+        }
+        if (tests.contains("class PublicTests")) {
+            runHarness(fileName, source, tests);
+            return;
+        }
+        Path sourceFile = WORKSPACE.resolve(fileName);
         Path classes = WORKSPACE.resolve("classes");
         Files.createDirectories(classes);
         Files.writeString(sourceFile, source, StandardCharsets.UTF_8);
@@ -52,6 +60,67 @@ public final class SandboxMain {
         if (passed != cases.size()) {
             System.exit(1);
         }
+    }
+
+    private static void runHarness(String fileName, String source, String tests) throws Exception {
+        Path classes = WORKSPACE.resolve("classes");
+        Files.createDirectories(classes);
+        Path sourceFile = WORKSPACE.resolve(fileName);
+        Path testFile = WORKSPACE.resolve("PublicTests.java");
+        Files.writeString(sourceFile, source, StandardCharsets.UTF_8);
+        Files.writeString(testFile, tests, StandardCharsets.UTF_8);
+        var compiler = ToolProvider.getSystemJavaCompiler();
+        if (compiler == null) {
+            throw new IllegalStateException("Java compiler is unavailable");
+        }
+        int compileResult = compiler.run(null, System.out, System.err, "-proc:none", "-d", classes.toString(),
+                sourceFile.toString(), testFile.toString());
+        if (compileResult != 0) {
+            System.out.println("JAVACRAFT_RESULT 0 0");
+            System.out.flush();
+            Runtime.getRuntime().halt(1);
+        }
+        var loader = new java.net.URLClassLoader(new java.net.URL[] {classes.toUri().toURL()},
+                ClassLoader.getPlatformClassLoader());
+        @SuppressWarnings("unchecked")
+        var cases = (java.util.Map<String, java.util.concurrent.Callable<Boolean>>) loader.loadClass("PublicTests")
+                .getMethod("tests").invoke(null);
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(8);
+        int passed = 0;
+        for (var entry : cases.entrySet()) {
+            long remaining = deadline - System.nanoTime();
+            if (runCase(entry.getValue(), Math.min(remaining, TimeUnit.SECONDS.toNanos(2)))) {
+                passed++;
+            } else {
+                System.out.println("FAIL " + entry.getKey());
+            }
+        }
+        System.out.println("JAVACRAFT_RESULT " + passed + " " + cases.size());
+        System.out.flush();
+        Runtime.getRuntime().halt(passed == cases.size() ? 0 : 1);
+    }
+
+    private static boolean runCase(java.util.concurrent.Callable<Boolean> test, long timeoutNanos) {
+        if (timeoutNanos <= 0) {
+            return false;
+        }
+        var outcome = new java.util.concurrent.atomic.AtomicReference<Boolean>(false);
+        Thread thread = new Thread(() -> {
+            try {
+                outcome.set(Boolean.TRUE.equals(test.call()));
+            } catch (Throwable ex) {
+                outcome.set(false);
+            }
+        }, "javacraft-test");
+        thread.setDaemon(true);
+        thread.start();
+        try {
+            thread.join(TimeUnit.NANOSECONDS.toMillis(timeoutNanos));
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+        return !thread.isAlive() && outcome.get();
     }
 
     private static boolean runTest(TestCase test, Path classes) throws Exception {

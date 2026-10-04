@@ -17,7 +17,7 @@ public class ExecutionService {
     @Transactional
     public ExecutionRepository.ExecutionView submit(
             UUID learnerId, String slug, String source, String idempotencyKey) {
-        if (!"payment-race-condition".equals(slug)) {
+        if (!repository.isRunnable(slug)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_IMPLEMENTED, "Java execution is not yet available for this challenge");
         }

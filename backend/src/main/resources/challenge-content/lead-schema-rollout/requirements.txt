@@ -1,0 +1,2 @@
+Removal is allowed only in the CONTRACT phase with zero old writers, a complete backfill, and every reader switched.
+A null phase or a negative writer count must fail closed (return false).

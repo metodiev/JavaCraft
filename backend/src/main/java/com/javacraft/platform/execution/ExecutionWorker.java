@@ -49,12 +49,9 @@ public class ExecutionWorker {
     private void run(ExecutionWorkerRepository.ExecutionJob job) {
         long startedAt = System.nanoTime();
         try {
-            if (!"payment-race-condition".equals(job.challengeSlug())) {
-                throw new IllegalStateException("No sandbox test adapter exists for this challenge");
-            }
             String testPlan = repository.publicTestPlan(job.challengeId())
                     .orElseThrow(() -> new IllegalStateException("Public challenge tests are not configured"));
-            var result = sandbox.execute(job.source(), testPlan);
+            var result = sandbox.execute(job.source(), testPlan, job.sourceFileName());
             repository.complete(
                     job.id(),
                     result.state(),

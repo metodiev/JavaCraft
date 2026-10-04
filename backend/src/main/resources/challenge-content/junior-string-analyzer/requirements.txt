@@ -1,0 +1,3 @@
+Return zero for null or blank input.
+Words are separated by one or more whitespace characters; repeated whitespace never adds words.
+Punctuation attached to a word and non-ASCII letters must not change the count.

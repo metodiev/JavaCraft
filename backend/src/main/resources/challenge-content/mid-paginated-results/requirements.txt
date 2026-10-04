@@ -1,0 +1,2 @@
+Throw IllegalArgumentException for a null request, a negative page, or a size outside 1..100.
+Return page * size as a long; multiplication must not overflow.

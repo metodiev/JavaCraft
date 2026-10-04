@@ -116,13 +116,14 @@ Each job receives an ephemeral workspace and container with:
 - one disposable `runsc` container per job; the sandbox image is resolved to an immutable
   image ID when the worker starts.
 
-This slice executes only public tests for the payment race-condition challenge. No hidden
-test payload is sent to the sandbox, and hidden-test grading remains disabled. The
-catalog includes challenges for Junior, Mid, Senior, Lead, and Principal levels, but the
-current challenge harness is specific to that single-file Java challenge. Other challenge
-pages are instructional only until their isolated test adapters are implemented and
-verified; the API rejects runs for unsupported challenges. Expand the execution harness
-only with tests that preserve the test/code separation and secrecy requirements.
+This slice executes only public tests, for every challenge that has a PUBLIC test row. No
+hidden test payload is sent to the sandbox, and hidden-test grading remains disabled. Each
+runnable challenge ships a `PublicTests` class returning named boolean checks; the sandbox
+compiles it with the learner's file, runs each check with a timeout, and reports
+`JAVACRAFT_RESULT passed total`. Because learner code shares the JVM with this harness, a
+public-test result can be spoofed by the learner; it is practice feedback, never a grade.
+Expand the execution harness only with tests that preserve the test/code separation and
+secrecy requirements.
 
 The execution Compose profile is opt-in and fails closed unless the Docker daemon reports
 the `runsc` runtime and the sandbox image is present. The default local profile does not

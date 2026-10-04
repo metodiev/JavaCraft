@@ -1,0 +1,3 @@
+Retire only when at least noticeDays full days have passed since the announcement AND adoption of the replacement is at least the required fraction.
+An announcement dated after today can never retire.
+Reject nulls, negative notice, and adoption values that are NaN or outside 0..1 with IllegalArgumentException.

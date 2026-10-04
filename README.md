@@ -6,8 +6,8 @@ JavaCraft is an engineering simulator for learning to build production Java syst
 The repository is being built in incremental, runnable slices. It currently provides
 the product architecture, a React learning workspace, a Spring Boot API, learner
 registration/login, PostgreSQL-backed learning progress, and an opt-in gVisor worker
-for public tests on the payment race-condition challenge. The catalog includes 19
-tutorials and 15 challenges across Junior, Mid, Senior, Lead, and Principal levels.
+for public tests on every challenge. The catalog includes 34
+tutorials and 40 challenges across Junior, Mid, Senior, Lead, and Principal levels.
 Hidden-test grading and submission scoring remain disabled.
 
 ## Run locally
@@ -64,10 +64,11 @@ ENABLE_EXECUTION_WORKER=true \
 The worker verifies that Docker advertises `runsc`, checks the applied container limits,
 and runs a filesystem/network isolation probe before publishing its heartbeat. Requests
 return `503` until those checks pass; it never falls back to `runc`. The challenge editor
-currently runs public tests only for the Payment Race Condition challenge. Other catalog
-challenges are available to study but their execution adapter is not implemented yet;
-the API rejects attempts to run them. Hidden-test execution, grading, and the Submit
-action remain disabled.
+runs the public tests of every challenge. Challenge content (starter, requirements and
+`PublicTests.java`) lives in `backend/src/main/resources/challenge-content/<slug>/` and is
+loaded by a repeatable Flyway migration; `scripts/verify-challenges.sh` checks locally that
+each reference solution passes and each starter fails. Hidden-test execution, grading, and
+the Submit action remain disabled.
 
 This repository is not yet ready to expose publicly as-is. Before a public deployment,
 replace the development database credentials, require HTTPS and secure cookies, restrict

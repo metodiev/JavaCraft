@@ -1,0 +1,4 @@
+The constructor throws IllegalArgumentException when capacity is below 1.
+offer returns false and stores nothing when the queue is full.
+poll returns items in FIFO order and Optional.empty() when empty.
+Both operations must be safe under concurrent use; capacity must never be exceeded.

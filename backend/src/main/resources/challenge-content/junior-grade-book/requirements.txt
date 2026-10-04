@@ -1,0 +1,3 @@
+Return OptionalDouble.empty() for a null or empty list.
+Throw IllegalArgumentException for any null score or a score outside 0 through 100 inclusive.
+Return the arithmetic mean as a double; do not truncate with integer division.

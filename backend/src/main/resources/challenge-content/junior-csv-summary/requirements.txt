@@ -1,0 +1,3 @@
+Split the row on commas, trim every field, and preserve field order. Quoted fields are out of scope.
+Throw IllegalArgumentException for a null or blank row.
+Throw IllegalArgumentException when any field is empty after trimming, including leading and trailing commas.

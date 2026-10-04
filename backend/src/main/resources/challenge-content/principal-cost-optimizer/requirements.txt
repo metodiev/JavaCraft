@@ -1,0 +1,3 @@
+costPerSuccess is totalCost / successes, and positive infinity when there are no successes.
+cheaperOption compares cost per successful outcome and returns "A", "B", or "TIE".
+Reject negative or non-finite costs and negative success counts with IllegalArgumentException.
