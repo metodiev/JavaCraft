@@ -52,12 +52,28 @@ class CatalogControllerTest {
                         "Description",
                         List.of(),
                         "starter",
-                        List.of("Concurrency"))));
+                        List.of("Concurrency"),
+                        true)));
 
         mockMvc.perform(get("/api/v1/catalog"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.challenge.slug").value("payment-race-condition"))
                 .andExpect(jsonPath("$.challenge.hiddenTests").doesNotExist());
+    }
+
+    @Test
+    void challengeListIncludesPublishedSummaries() throws Exception {
+        when(catalogService.listChallenges()).thenReturn(List.of(new CatalogService.ChallengeSummary(
+                "junior-temperature-converter",
+                "Build a Temperature Converter",
+                "Convert temperature values.",
+                "Junior",
+                "Java Fundamentals")));
+
+        mockMvc.perform(get("/api/v1/challenges"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].level").value("Junior"))
+                .andExpect(jsonPath("$[0].category").value("Java Fundamentals"));
     }
 
     @Test

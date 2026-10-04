@@ -25,7 +25,14 @@ public class ProgressRepository {
                     AND p.learning_path_id = lp.id
                     AND p.tutorial_id = t.id
                 WHERE lp.published = true AND t.published = true
-                ORDER BY lpt.sort_order
+                ORDER BY CASE lp.slug
+                    WHEN 'junior-java-developer' THEN 1
+                    WHEN 'mid-java-engineer' THEN 2
+                    WHEN 'senior-java-engineer' THEN 3
+                    WHEN 'lead-java-engineer' THEN 4
+                    WHEN 'principal-java-engineer' THEN 5
+                    ELSE 6
+                END, lpt.sort_order
                 """,
                 (rs, rowNum) -> new TutorialProgress(
                         rs.getString("slug"),
@@ -52,9 +59,9 @@ public class ProgressRepository {
     public PathProgress findPathProgress(UUID userId) {
         return jdbc.queryForObject(
                 """
-                SELECT lp.title,
-                       count(t.id)::integer AS total_count,
-                       count(*) FILTER (WHERE p.status = 'COMPLETED')::integer AS completed_count
+                SELECT 'JavaCraft Engineering Tracks' AS title,
+                       count(DISTINCT t.id)::integer AS total_count,
+                       count(DISTINCT t.id) FILTER (WHERE p.status = 'COMPLETED')::integer AS completed_count
                 FROM learning_path lp
                 JOIN learning_path_tutorial lpt ON lpt.learning_path_id = lp.id
                 JOIN tutorial t ON t.id = lpt.tutorial_id
@@ -62,8 +69,7 @@ public class ProgressRepository {
                     ON p.user_id = ?
                     AND p.learning_path_id = lp.id
                     AND p.tutorial_id = t.id
-                WHERE lp.slug = 'junior-java-developer' AND lp.published = true
-                GROUP BY lp.id
+                WHERE lp.published = true
                 """,
                 (rs, rowNum) -> new PathProgress(
                         rs.getString("title"),
@@ -80,8 +86,7 @@ public class ProgressRepository {
                 FROM learning_path lp
                 JOIN learning_path_tutorial lpt ON lpt.learning_path_id = lp.id
                 JOIN tutorial t ON t.id = lpt.tutorial_id
-                WHERE lp.slug = 'junior-java-developer'
-                  AND lp.published = true
+                WHERE lp.published = true
                   AND t.slug = ?
                   AND t.published = true
                 ON CONFLICT (user_id, learning_path_id, tutorial_id)

@@ -22,12 +22,14 @@ const navigation = [
   { to: "/", label: "Overview", icon: LayoutDashboard, end: true },
   { to: "/learning-path", label: "Learning path", icon: Boxes },
   { to: "/tutorials", label: "Tutorials", icon: BookOpen },
+  { to: "/challenges", label: "Challenges", icon: TerminalSquare },
 ];
 
 const pageTitles: Record<string, string> = {
   "/": "Overview",
   "/learning-path": "Learning path",
   "/tutorials": "Tutorials",
+  "/challenges": "Challenges",
 };
 
 export function AppShell() {
@@ -73,14 +75,6 @@ export function AppShell() {
               {label === "Learning path" && <span className="nav-count">01</span>}
             </NavLink>
           ))}
-          <NavLink
-            to="/challenges/payment-race-condition"
-            className={({ isActive }) => `nav-item${isActive ? " active" : ""}`}
-          >
-            <TerminalSquare size={17} />
-            <span>Challenges</span>
-            <span className="nav-dot" />
-          </NavLink>
         </nav>
 
         <div className="nav-caption nav-caption-spaced">YOUR WORK</div>

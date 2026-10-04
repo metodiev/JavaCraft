@@ -33,7 +33,7 @@ export function TutorialPage() {
             <ArrowLeft size={14} /> All tutorials
           </Link>
           <div className="eyebrow">
-            <span className="eyebrow-line" /> JAVA FUNDAMENTALS{" "}
+            <span className="eyebrow-line" /> {data.level.toUpperCase()}{" "}
             <span className="eyebrow-divider">/</span> TUTORIAL
           </div>
           <h1>
@@ -82,8 +82,8 @@ export function TutorialPage() {
               <div className="engineering-note">
                 <strong>Engineering note</strong>
                 <span>
-                  Choose data structures based on their guarantees and failure modes—not
-                  only the happy-path speed.
+                  Start with the behavior your callers need, then choose the smallest design
+                  that makes that behavior safe and clear.
                 </span>
               </div>
             </article>
@@ -98,7 +98,7 @@ export function TutorialPage() {
                 {updateProgress.isPending ? "Saving…" : "Save as in progress"}
               </button>
             )}
-            <Link className="primary-button" to="/challenges/payment-race-condition">
+            <Link className="primary-button" to="/challenges">
               Apply it in a challenge <ArrowRight size={15} />
             </Link>
           </div>

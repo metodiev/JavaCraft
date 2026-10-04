@@ -40,6 +40,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TutorialSummary"
+  /challenges:
+    get:
+      tags: [Catalog]
+      summary: List published challenge summaries
+      operationId: listChallenges
+      responses:
+        "200":
+          description: Published challenges ordered by level and title
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChallengeSummary"
   /tutorials/{slug}:
     get:
       tags: [Catalog]
@@ -256,6 +270,8 @@ paths:
           description: Source exceeds the configured size limit
         "429":
           description: Learner submission or global queue limit reached
+        "501":
+          description: No isolated execution adapter is available for this challenge
         "503":
           description: Isolated gVisor worker is unavailable
   /executions/{executionId}:
@@ -343,25 +359,29 @@ components:
           $ref: "#/components/schemas/Challenge"
     TutorialSummary:
       type: object
-      required: [slug, title, description, durationMinutes]
+      required: [slug, title, description, level, durationMinutes]
       properties:
         slug:
           type: string
         title:
           type: string
         description:
+          type: string
+        level:
           type: string
         durationMinutes:
           type: integer
     Tutorial:
       type: object
-      required: [slug, title, description, durationMinutes, sections]
+      required: [slug, title, description, level, durationMinutes, sections]
       properties:
         slug:
           type: string
         title:
           type: string
         description:
+          type: string
+        level:
           type: string
         durationMinutes:
           type: integer
@@ -377,9 +397,24 @@ components:
                 type: string
               exampleCode:
                 type: string
+    ChallengeSummary:
+      type: object
+      required: [slug, title, description, level, category]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        level:
+          type: string
+          enum: [Junior, Mid, Senior, Lead, Principal]
+        category:
+          type: string
     Challenge:
       type: object
-      required: [slug, title, level, category, description, requirements, starterCode]
+      required: [slug, title, level, category, description, requirements, starterCode, runnable]
       properties:
         slug:
           type: string
@@ -401,6 +436,8 @@ components:
           type: array
           items:
             type: string
+        runnable:
+          type: boolean
     RegisterRequest:
       type: object
       required: [email, password, displayName]

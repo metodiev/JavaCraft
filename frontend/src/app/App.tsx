@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
 import { AuthPage } from "../features/identity/AuthPage";
+import { ChallengesPage } from "../features/challenges/ChallengesPage";
 import { ChallengePage } from "../features/challenges/ChallengePage";
 import { DashboardPage } from "../features/dashboard/DashboardPage";
 import { LearningPathPage } from "../features/learning/LearningPathPage";
@@ -42,6 +43,7 @@ export function App() {
                 <Route path="learning-path" element={<LearningPathPage />} />
                 <Route path="tutorials" element={<TutorialsPage />} />
                 <Route path="tutorials/:slug" element={<TutorialPage />} />
+                <Route path="challenges" element={<ChallengesPage />} />
                 <Route path="challenges/:slug" element={<ChallengePage />} />
               </Route>
             </Route>

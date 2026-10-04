@@ -1159,6 +1159,72 @@ p {
   margin-top: 15px;
 }
 
+.catalog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.catalog-filters label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid #30352e;
+  border-radius: 5px;
+  background: #171916;
+  color: #a3aa9d;
+}
+
+.catalog-filters input,
+.catalog-filters select {
+  min-width: 118px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #d4d9ce;
+  font: inherit;
+  font-size: 10px;
+}
+
+.catalog-filters input::placeholder {
+  color: #73796f;
+}
+
+.catalog-filters select option {
+  background: #171916;
+}
+
+.catalog-filters .catalog-search input {
+  min-width: 190px;
+}
+
+.catalog-result-count {
+  margin: 11px 0 0;
+  color: #81877d;
+  font-size: 9px;
+}
+
+.catalog-empty {
+  margin-top: 16px;
+  padding: 20px;
+  color: #9ba195;
+  font-size: 11px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
 .path-overview {
   display: flex;
   align-items: center;

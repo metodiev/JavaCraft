@@ -118,8 +118,11 @@ Each job receives an ephemeral workspace and container with:
 
 This slice executes only public tests for the payment race-condition challenge. No hidden
 test payload is sent to the sandbox, and hidden-test grading remains disabled. The
-current challenge harness is specific to that single-file Java challenge; expand it only
-with tests that preserve the test/code separation and secrecy requirements.
+catalog includes challenges for Junior, Mid, Senior, Lead, and Principal levels, but the
+current challenge harness is specific to that single-file Java challenge. Other challenge
+pages are instructional only until their isolated test adapters are implemented and
+verified; the API rejects runs for unsupported challenges. Expand the execution harness
+only with tests that preserve the test/code separation and secrecy requirements.
 
 The execution Compose profile is opt-in and fails closed unless the Docker daemon reports
 the `runsc` runtime and the sandbox image is present. The default local profile does not

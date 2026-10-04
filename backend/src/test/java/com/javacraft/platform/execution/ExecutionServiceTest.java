@@ -57,6 +57,17 @@ class ExecutionServiceTest {
     }
 
     @Test
+    void refusesExecutionForChallengesWithoutAnImplementedSandboxAdapter() {
+        var failure = assertThrows(
+                ResponseStatusException.class,
+                () -> new ExecutionService(repository).submit(
+                        UUID.randomUUID(), "junior-word-frequency", "class Main {}", "0123456789abcdef"));
+
+        assertEquals(501, failure.getStatusCode().value());
+        verify(repository, never()).hasAvailableWorker();
+    }
+
+    @Test
     void rejectsSourceAboveTheSubmissionLimit() {
         UUID learnerId = UUID.randomUUID();
         String source = "x".repeat(32_769);

@@ -17,6 +17,10 @@ public class ExecutionService {
     @Transactional
     public ExecutionRepository.ExecutionView submit(
             UUID learnerId, String slug, String source, String idempotencyKey) {
+        if (!"payment-race-condition".equals(slug)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_IMPLEMENTED, "Java execution is not yet available for this challenge");
+        }
         if (source.getBytes(java.nio.charset.StandardCharsets.UTF_8).length > 32_768) {
             throw new ResponseStatusException(HttpStatus.PAYLOAD_TOO_LARGE, "Challenge source exceeds 32 KiB");
         }

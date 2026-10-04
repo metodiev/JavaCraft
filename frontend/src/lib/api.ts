@@ -2,6 +2,7 @@ export interface TutorialSummary {
   slug: string;
   title: string;
   description: string;
+  level: string;
   durationMinutes: number;
 }
 
@@ -18,6 +19,15 @@ export interface Challenge {
   requirements: string[];
   starterCode: string;
   skills: string[];
+  runnable: boolean;
+}
+
+export interface ChallengeSummary {
+  slug: string;
+  title: string;
+  description: string;
+  level: string;
+  category: string;
 }
 
 export interface Catalog {
@@ -126,6 +136,7 @@ async function request<T>(
 export const api = {
   catalog: (signal?: AbortSignal) => request<Catalog>("/catalog", { signal }),
   tutorials: (signal?: AbortSignal) => request<TutorialSummary[]>("/tutorials", { signal }),
+  challenges: (signal?: AbortSignal) => request<ChallengeSummary[]>("/challenges", { signal }),
   tutorial: (slug: string, signal?: AbortSignal) =>
     request<Tutorial>(`/tutorials/${encodeURIComponent(slug)}`, { signal }),
   challenge: (slug: string, signal?: AbortSignal) =>

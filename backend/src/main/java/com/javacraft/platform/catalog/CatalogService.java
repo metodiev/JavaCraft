@@ -23,22 +23,53 @@ public class CatalogService {
     public List<TutorialSummary> listTutorials() {
         return jdbc.query(
                 """
-                SELECT slug, title, description, duration_minutes
+                SELECT slug, title, description, level, duration_minutes
                 FROM tutorial
                 WHERE published = true
-                ORDER BY title
+                ORDER BY CASE level
+                    WHEN 'Junior' THEN 1
+                    WHEN 'Mid' THEN 2
+                    WHEN 'Senior' THEN 3
+                    WHEN 'Lead' THEN 4
+                    WHEN 'Principal' THEN 5
+                    ELSE 6
+                END, title
                 """,
                 (rs, rowNum) -> new TutorialSummary(
                         rs.getString("slug"),
                         rs.getString("title"),
                         rs.getString("description"),
+                        rs.getString("level"),
                         rs.getInt("duration_minutes")));
+    }
+
+    public List<ChallengeSummary> listChallenges() {
+        return jdbc.query(
+                """
+                SELECT slug, title, description, level, category
+                FROM challenge
+                WHERE published = true
+                ORDER BY CASE level
+                    WHEN 'Junior' THEN 1
+                    WHEN 'Mid' THEN 2
+                    WHEN 'Senior' THEN 3
+                    WHEN 'Lead' THEN 4
+                    WHEN 'Principal' THEN 5
+                    ELSE 6
+                END, title
+                """,
+                (rs, rowNum) -> new ChallengeSummary(
+                        rs.getString("slug"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("level"),
+                        rs.getString("category")));
     }
 
     public Optional<Tutorial> findTutorial(String slug) {
         List<TutorialSummary> summaries = jdbc.query(
                 """
-                SELECT slug, title, description, duration_minutes
+                SELECT slug, title, description, level, duration_minutes
                 FROM tutorial
                 WHERE slug = ? AND published = true
                 """,
@@ -46,6 +77,7 @@ public class CatalogService {
                         rs.getString("slug"),
                         rs.getString("title"),
                         rs.getString("description"),
+                        rs.getString("level"),
                         rs.getInt("duration_minutes")),
                 slug);
         if (summaries.isEmpty()) {
@@ -68,6 +100,7 @@ public class CatalogService {
                 summary.slug(),
                 summary.title(),
                 summary.description(),
+                summary.level(),
                 summary.durationMinutes(),
                 sections));
     }
@@ -76,7 +109,9 @@ public class CatalogService {
         List<ChallengeBase> challenges = jdbc.query(
                 """
                 SELECT id, slug, title, level, category, description,
-                       starter_repository ->> 'PaymentService.java' AS starter_code
+                       starter_repository ->> (
+                           SELECT jsonb_object_keys(challenge.starter_repository) LIMIT 1
+                       ) AS starter_code
                 FROM challenge
                 WHERE slug = ? AND published = true
                 """,
@@ -120,7 +155,8 @@ public class CatalogService {
                 base.description(),
                 requirements,
                 base.starterCode(),
-                skills));
+                skills,
+                "payment-race-condition".equals(base.slug())));
     }
 
     public record CatalogResponse(List<TutorialSummary> tutorials, Challenge challenge) {}
@@ -129,12 +165,21 @@ public class CatalogService {
             String slug,
             String title,
             String description,
+            String level,
             int durationMinutes) {}
+
+    public record ChallengeSummary(
+            String slug,
+            String title,
+            String description,
+            String level,
+            String category) {}
 
     public record Tutorial(
             String slug,
             String title,
             String description,
+            String level,
             int durationMinutes,
             List<TutorialSection> sections) {}
 
@@ -148,7 +193,8 @@ public class CatalogService {
             String description,
             List<String> requirements,
             String starterCode,
-            List<String> skills) {}
+            List<String> skills,
+            boolean runnable) {}
 
     private record ChallengeBase(
             java.util.UUID id,

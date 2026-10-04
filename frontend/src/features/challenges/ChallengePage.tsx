@@ -129,7 +129,11 @@ export function ChallengePage() {
                 </div>
                 <div className="hidden-tests-note">
                   <LockKeyhole size={13} />
-                  <span>Only public tests are enabled. Hidden-test grading is not available yet.</span>
+                  <span>
+                    {data.runnable
+                      ? "Only public tests are enabled. Hidden-test grading is not available yet."
+                      : "Challenge instructions are ready. Java execution is not enabled for this challenge yet."}
+                  </span>
                 </div>
               </div>
             </aside>
@@ -142,7 +146,8 @@ export function ChallengePage() {
                 </div>
                 <div className="editor-tools">
                   <span>
-                    <Shield size={13} /> gVisor sandbox required
+                    <Shield size={13} />{" "}
+                    {data.runnable ? "gVisor sandbox required" : "Execution adapter coming soon"}
                   </span>
                   <button disabled title="Editor settings coming soon">
                     <ChevronDown size={14} />
@@ -251,9 +256,11 @@ export function ChallengePage() {
                   <button
                     className="run-button"
                     onClick={() => run.mutate()}
-                    disabled={isRunning}
+                    disabled={isRunning || !data.runnable}
+                    title={data.runnable ? undefined : "Execution adapter coming soon"}
                   >
-                    <Play size={13} fill="currentColor" /> {isRunning ? "Running…" : "Run public tests"}
+                    <Play size={13} fill="currentColor" />{" "}
+                    {isRunning ? "Running…" : data.runnable ? "Run public tests" : "Execution coming soon"}
                   </button>
                   <button
                     className="submit-button"
