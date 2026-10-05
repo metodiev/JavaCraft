@@ -4,12 +4,20 @@ export interface TutorialSummary {
   description: string;
   level: string;
   durationMinutes: number;
+  categorySlug: string | null;
+  categoryName: string | null;
+}
+
+export interface TutorialCategory {
+  slug: string;
+  name: string;
+  description: string;
+  tutorialCount: number;
 }
 
 export interface Tutorial extends TutorialSummary {
   sections: Array<{ title: string; body: string; exampleCode: string }>;
 }
-
 export interface Challenge {
   slug: string;
   title: string;
@@ -136,6 +144,8 @@ async function request<T>(
 export const api = {
   catalog: (signal?: AbortSignal) => request<Catalog>("/catalog", { signal }),
   tutorials: (signal?: AbortSignal) => request<TutorialSummary[]>("/tutorials", { signal }),
+  tutorialCategories: (signal?: AbortSignal) =>
+    request<TutorialCategory[]>("/tutorial-categories", { signal }),
   challenges: (signal?: AbortSignal) => request<ChallengeSummary[]>("/challenges", { signal }),
   tutorial: (slug: string, signal?: AbortSignal) =>
     request<Tutorial>(`/tutorials/${encodeURIComponent(slug)}`, { signal }),

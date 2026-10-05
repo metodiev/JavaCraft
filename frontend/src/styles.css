@@ -1207,6 +1207,69 @@ p {
   font-size: 9px;
 }
 
+.catalog-section {
+  margin-top: 34px;
+}
+
+.catalog-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid #262b24;
+}
+
+.catalog-section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.catalog-section-title svg {
+  color: #9dc06a;
+}
+
+.catalog-section-title h2 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.catalog-section-count {
+  padding: 1px 7px;
+  border: 1px solid #30352e;
+  border-radius: 999px;
+  background: #171916;
+  color: #81877d;
+  font-size: 9px;
+}
+
+.catalog-section-header p {
+  margin: 0;
+  max-width: 72ch;
+  color: #81877d;
+  font-size: 10px;
+}
+
+.catalog-section .tutorial-grid {
+  margin-top: 14px;
+}
+
+.tutorial-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 3px 9px;
+  border: 1px solid #30352e;
+  border-radius: 999px;
+  background: #171916;
+  color: #9dc06a;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .catalog-empty {
   margin-top: 16px;
   padding: 20px;

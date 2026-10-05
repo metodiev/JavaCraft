@@ -23,24 +23,47 @@ public class CatalogService {
     public List<TutorialSummary> listTutorials() {
         return jdbc.query(
                 """
-                SELECT slug, title, description, level, duration_minutes
-                FROM tutorial
-                WHERE published = true
-                ORDER BY CASE level
-                    WHEN 'Junior' THEN 1
-                    WHEN 'Mid' THEN 2
-                    WHEN 'Senior' THEN 3
-                    WHEN 'Lead' THEN 4
-                    WHEN 'Principal' THEN 5
-                    ELSE 6
-                END, title
+                SELECT t.slug, t.title, t.description, t.level, t.duration_minutes,
+                       c.slug AS category_slug, c.name AS category_name,
+                       COALESCE(c.sort_order, 999) AS category_sort
+                FROM tutorial t
+                LEFT JOIN tutorial_category c ON c.id = t.category_id
+                WHERE t.published = true
+                ORDER BY COALESCE(c.sort_order, 999), c.name,
+                    CASE t.level
+                        WHEN 'Junior' THEN 1
+                        WHEN 'Mid' THEN 2
+                        WHEN 'Senior' THEN 3
+                        WHEN 'Lead' THEN 4
+                        WHEN 'Principal' THEN 5
+                        ELSE 6
+                    END, t.title
                 """,
                 (rs, rowNum) -> new TutorialSummary(
                         rs.getString("slug"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("level"),
-                        rs.getInt("duration_minutes")));
+                        rs.getInt("duration_minutes"),
+                        rs.getString("category_slug"),
+                        rs.getString("category_name")));
+    }
+
+    public List<TutorialCategory> listCategories() {
+        return jdbc.query(
+                """
+                SELECT c.slug, c.name, c.description, count(t.id) AS tutorial_count
+                FROM tutorial_category c
+                LEFT JOIN tutorial t ON t.category_id = c.id AND t.published = true
+                GROUP BY c.id, c.slug, c.name, c.description, c.sort_order
+                HAVING count(t.id) > 0
+                ORDER BY c.sort_order
+                """,
+                (rs, rowNum) -> new TutorialCategory(
+                        rs.getString("slug"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("tutorial_count")));
     }
 
     public List<ChallengeSummary> listChallenges() {
@@ -69,16 +92,20 @@ public class CatalogService {
     public Optional<Tutorial> findTutorial(String slug) {
         List<TutorialSummary> summaries = jdbc.query(
                 """
-                SELECT slug, title, description, level, duration_minutes
-                FROM tutorial
-                WHERE slug = ? AND published = true
+                SELECT t.slug, t.title, t.description, t.level, t.duration_minutes,
+                       c.slug AS category_slug, c.name AS category_name
+                FROM tutorial t
+                LEFT JOIN tutorial_category c ON c.id = t.category_id
+                WHERE t.slug = ? AND t.published = true
                 """,
                 (rs, rowNum) -> new TutorialSummary(
                         rs.getString("slug"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("level"),
-                        rs.getInt("duration_minutes")),
+                        rs.getInt("duration_minutes"),
+                        rs.getString("category_slug"),
+                        rs.getString("category_name")),
                 slug);
         if (summaries.isEmpty()) {
             return Optional.empty();
@@ -102,6 +129,8 @@ public class CatalogService {
                 summary.description(),
                 summary.level(),
                 summary.durationMinutes(),
+                summary.categorySlug(),
+                summary.categoryName(),
                 sections));
     }
 
@@ -169,7 +198,15 @@ public class CatalogService {
             String title,
             String description,
             String level,
-            int durationMinutes) {}
+            int durationMinutes,
+            String categorySlug,
+            String categoryName) {}
+
+    public record TutorialCategory(
+            String slug,
+            String name,
+            String description,
+            int tutorialCount) {}
 
     public record ChallengeSummary(
             String slug,
@@ -184,6 +221,8 @@ public class CatalogService {
             String description,
             String level,
             int durationMinutes,
+            String categorySlug,
+            String categoryName,
             List<TutorialSection> sections) {}
 
     public record TutorialSection(String title, String body, String exampleCode) {}

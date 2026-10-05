@@ -77,6 +77,58 @@ class CatalogControllerTest {
     }
 
     @Test
+    void tutorialListExposesItsSection() throws Exception {
+        when(catalogService.listTutorials()).thenReturn(List.of(new CatalogService.TutorialSummary(
+                "maven-dependency-scopes",
+                "Maven Dependency Scopes",
+                "Scope tells Maven where a dependency belongs in the build.",
+                "Junior",
+                24,
+                "build-engineering",
+                "Build Engineering")));
+
+        mockMvc.perform(get("/api/v1/tutorials"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].slug").value("maven-dependency-scopes"))
+                .andExpect(jsonPath("$[0].categorySlug").value("build-engineering"))
+                .andExpect(jsonPath("$[0].categoryName").value("Build Engineering"));
+    }
+
+    @Test
+    void tutorialCategoriesExposeCountsForBrowsing() throws Exception {
+        when(catalogService.listCategories()).thenReturn(List.of(new CatalogService.TutorialCategory(
+                "build-engineering",
+                "Build Engineering",
+                "Maven and Gradle: lifecycles, dependencies, multi-module builds, and reproducibility.",
+                31)));
+
+        mockMvc.perform(get("/api/v1/tutorial-categories"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].slug").value("build-engineering"))
+                .andExpect(jsonPath("$[0].name").value("Build Engineering"))
+                .andExpect(jsonPath("$[0].tutorialCount").value(31));
+    }
+
+    @Test
+    void tutorialDetailIncludesItsSection() throws Exception {
+        when(catalogService.findTutorial("gradle-kotlin-dsl")).thenReturn(Optional.of(
+                new CatalogService.Tutorial(
+                        "gradle-kotlin-dsl",
+                        "Gradle Kotlin DSL Essentials",
+                        "Compare the Kotlin and Groovy dialects.",
+                        "Junior",
+                        26,
+                        "build-engineering",
+                        "Build Engineering",
+                        List.of(new CatalogService.TutorialSection("Kotlin DSL versus Groovy DSL", "Body", "Code")))));
+
+        mockMvc.perform(get("/api/v1/tutorials/gradle-kotlin-dsl"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.categorySlug").value("build-engineering"))
+                .andExpect(jsonPath("$.categoryName").value("Build Engineering"));
+    }
+
+    @Test
     void unknownTutorialReturnsNotFound() throws Exception {
         when(catalogService.findTutorial("does-not-exist")).thenReturn(Optional.empty());
         mockMvc.perform(get("/api/v1/tutorials/does-not-exist"))

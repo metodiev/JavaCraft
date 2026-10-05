@@ -27,6 +27,11 @@ public class CatalogController {
         return catalog.listTutorials();
     }
 
+    @GetMapping("/tutorial-categories")
+    public List<CatalogService.TutorialCategory> tutorialCategories() {
+        return catalog.listCategories();
+    }
+
     @GetMapping("/challenges")
     public List<CatalogService.ChallengeSummary> challenges() {
         return catalog.listChallenges();

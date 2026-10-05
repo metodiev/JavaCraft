@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3 } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Layers } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { QueryState } from "../../components/QueryState";
 import { api } from "../../lib/api";
@@ -40,6 +40,11 @@ export function TutorialPage() {
             {data.title.split(" ").slice(0, -1).join(" ")}{" "}
             <span>{data.title.split(" ").at(-1)}.</span>
           </h1>
+          {data.categoryName && (
+            <div className="tutorial-section-tag">
+              <Layers size={13} /> {data.categoryName}
+            </div>
+          )}
           <p className="page-subtitle">{data.description}</p>
           <div className="lesson-meta">
             <span>

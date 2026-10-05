@@ -8,13 +8,16 @@ the product architecture, a React learning workspace, a Spring Boot API, learner
 registration/login, PostgreSQL-backed learning progress, and a gVisor worker that is
 enabled automatically on hosts where an isolated sandbox can run, for public tests on
 every challenge. The catalog includes 467 tutorials and 40 challenges across Junior,
-Mid, Senior, Lead, and Principal levels. The tutorial library spans the full production
-Java stack: the JDK toolchain and JVM internals, Maven and Gradle build engineering,
-the Spring ecosystem (Framework 6 and 7, Spring Boot 4), SQL and PostgreSQL,
-JPA/Hibernate, Kafka and messaging, containers and Kubernetes, cloud delivery, security
-engineering, concurrency, reactive programming, testing and observability,
-domain-driven design, performance tuning, and engineering craft. Hidden-test grading
-and submission scoring remain disabled.
+Mid, Senior, Lead, and Principal levels. Tutorials are grouped into 28 subject
+sections so the library stays browsable: Java Core, JDK and Toolchain, JVM Internals,
+Concurrency, Build Engineering (Maven and Gradle), Spring Framework, Spring Data and
+Security, Databases and SQL, JPA and Hibernate, Messaging and Events, Enterprise
+Integration, API Design, HTTP and Networking, Microservices, Architecture,
+Domain-Driven Design, Testing, Quality and Static Analysis, Observability,
+Performance and Caching, Reactive Programming, Containers and Kubernetes, Cloud and
+Delivery, Security, Data Formats, Algorithms and Data Structures, Refactoring and
+Legacy Code, and Engineering Practice. The Spring coverage tracks Framework 6 and 7
+with Spring Boot 4. Hidden-test grading and submission scoring remain disabled.
 
 ## Run locally
 

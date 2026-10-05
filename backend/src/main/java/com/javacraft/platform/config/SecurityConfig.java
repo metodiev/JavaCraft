@@ -40,7 +40,8 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/catalog", "/api/v1/tutorials/**", "/api/v1/challenges/**")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/catalog", "/api/v1/tutorials/**",
+                                "/api/v1/tutorial-categories", "/api/v1/challenges/**")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/auth/csrf").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register", "/api/v1/auth/login")
