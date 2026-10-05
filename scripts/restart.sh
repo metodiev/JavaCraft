@@ -3,13 +3,20 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COMPOSE_FILE="$PROJECT_ROOT/docker-compose.yml"
+# shellcheck source=lib.sh
+. "$PROJECT_ROOT/scripts/lib.sh"
 
-if [ "${ENABLE_EXECUTION_WORKER:-false}" = "true" ]; then
-  docker compose -f "$COMPOSE_FILE" --profile execution down
-  docker compose -f "$COMPOSE_FILE" --profile execution up --build -d
+jc_require_docker
+jc_detect_compose
+jc_resolve_worker
+
+# Tear down every profile first so an earlier worker session cannot keep the network.
+"${COMPOSE[@]}" -f "$COMPOSE_FILE" --profile execution down
+
+if [ "$JC_WORKER" = "1" ]; then
+  "${COMPOSE[@]}" -f "$COMPOSE_FILE" --profile execution up --build -d
 else
-  docker compose -f "$COMPOSE_FILE" down
-  docker compose -f "$COMPOSE_FILE" up --build -d
+  "${COMPOSE[@]}" -f "$COMPOSE_FILE" up --build -d
 fi
 
 printf '\nJavaCraft is restarting.\n'

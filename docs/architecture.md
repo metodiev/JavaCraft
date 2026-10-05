@@ -125,10 +125,13 @@ public-test result can be spoofed by the learner; it is practice feedback, never
 Expand the execution harness only with tests that preserve the test/code separation and
 secrecy requirements.
 
-The execution Compose profile is opt-in and fails closed unless the Docker daemon reports
-the `runsc` runtime and the sandbox image is present. The default local profile does not
-start an execution worker. Never replace it with `runc`, compiler execution in the API,
-or browser-side evaluation of user code.
+The execution Compose profile fails closed unless the Docker daemon reports the `runsc`
+runtime and the sandbox image is present. `scripts/start.sh` and `scripts/start.ps1`
+(Windows PowerShell 5.1+) enable the worker automatically on hosts where a gVisor sandbox
+can be provided (installing `runsc` inside the Colima VM on first use), keep it off
+elsewhere, and honor `ENABLE_EXECUTION_WORKER=true|false` as an explicit override. Never
+replace gVisor with `runc`, compiler execution in the API, or browser-side evaluation of
+user code.
 
 ## Authentication and authorization
 
@@ -153,7 +156,7 @@ feature components so the challenge workspace remains navigable and testable.
    are reachable; schema/API architecture is documented; no arbitrary code runs.
 2. **Identity and durable learning:** registration/login, protected profile, database
    catalog, learning path, progress, and submission-history APIs with integration tests.
-3. **Sandboxed execution:** the opt-in worker runs public challenge tests on gVisor with
+3. **Sandboxed execution:** the isolated worker runs public challenge tests on gVisor with
    bounded resources and polling. Hidden-test grading, worker-runtime verification on the
    dedicated Linux deployment, and broader language/challenge support remain gated.
 4. **Engineering feedback:** scoring, evidence-backed skills, review/hints, and progression.
