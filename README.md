@@ -56,8 +56,10 @@ volume.
 `start` also enables challenge execution automatically whenever the Docker host can provide
 the gVisor sandbox:
 
-- **Colima (macOS):** the first start installs `runsc` inside the VM (one-time, idempotent)
-  and derives the worker's socket and group ID automatically.
+- **Colima (macOS):** the first start installs `runsc` inside the VM and registers it with
+  the VM's Docker daemon; later starts re-apply the registration whenever it is missing
+  (Colima rewrites the daemon configuration on every VM boot), and derive the worker's
+  socket and group ID automatically.
 - **Linux with Docker Engine:** the worker starts automatically once the host advertises
   the `runsc` runtime.
 - **Docker Desktop (macOS and Windows) and other hosts without gVisor:** challenges stay
@@ -86,9 +88,10 @@ $env:EXECUTION_DOCKER_GID = "1001"
 For a local development smoke test on macOS, Colima can provide the Linux Docker daemon.
 `./scripts/start.sh` installs `runsc` inside the Colima VM automatically using the
 [official gVisor installation instructions](https://gvisor.dev/docs/user_guide/install/),
-and derives the worker's socket and group ID from the VM. Set `EXECUTION_DOCKER_SOCKET`
-and `EXECUTION_DOCKER_GID` explicitly only to override that detection, or install gVisor
-manually first when the automatic setup cannot reach the internet.
+registers the runtime with the VM's Docker daemon, and derives the worker's socket and
+group ID from the VM. Set `EXECUTION_DOCKER_SOCKET` and `EXECUTION_DOCKER_GID` explicitly
+only to override that detection, or install gVisor manually first when the automatic setup
+cannot reach the internet.
 
 This Colima setup is for single-user development and smoke testing only; do not expose it
 to public submissions or use it as a shared production runner.

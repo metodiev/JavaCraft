@@ -13,13 +13,18 @@ function Write-JcError {
 function Invoke-JcNative {
     param(
         [Parameter(Mandatory)][string]$Command,
-        [Parameter(Mandatory)][string[]]$Arguments
+        [Parameter(Mandatory)][string[]]$Arguments,
+        [string]$InputText
     )
     $stderrFile = [System.IO.Path]::GetTempFileName()
     try {
         # Preference changes are scoped to this function.
         $ErrorActionPreference = 'Continue'
-        $stdout = & $Command @Arguments 2> $stderrFile
+        if ($InputText) {
+            $stdout = $InputText | & $Command @Arguments 2> $stderrFile
+        } else {
+            $stdout = & $Command @Arguments 2> $stderrFile
+        }
         $exitCode = $LASTEXITCODE
         $joined = ($stdout | Out-String).Trim()
         return [pscustomobject]@{
@@ -171,16 +176,50 @@ function Install-JcColimaRunsc {
     Invoke-JcNative 'colima' @('ssh', '--', 'sudo', 'systemctl', 'reload', 'docker') | Out-Null
 }
 
-function Test-JcColimaRunscReady {
-    if (-not (Test-JcDaemonReportsRunsc)) { return $false }
+function Test-JcColimaRunscInstalled {
     $probe = Invoke-JcNative 'colima' @('ssh', '--', 'sh', '-c', 'command -v runsc >/dev/null 2>&1')
     return ($probe.ExitCode -eq 0)
 }
 
+# Register the gVisor runtime with the VM's Docker daemon and reload it. Colima
+# recreates /etc/docker/daemon.json from its own configuration whenever the VM
+# boots, so the registration must be re-applied whenever it is missing.
+function Register-JcColimaRunsc {
+    $mergeScript = @'
+import json
+path = "/etc/docker/daemon.json"
+try:
+    with open(path) as handle:
+        config = json.load(handle)
+except FileNotFoundError:
+    config = {}
+config.setdefault("runtimes", {})["runsc"] = {"path": "/usr/bin/runsc"}
+with open(path, "w") as handle:
+    json.dump(config, handle, indent=2)
+'@
+    $merge = Invoke-JcNative 'colima' @('ssh', '--', 'sudo', 'python3', '-') -InputText $mergeScript
+    if ($merge.ExitCode -ne 0) { return $false }
+    $reload = Invoke-JcNative 'colima' @('ssh', '--', 'sudo', 'systemctl', 'reload', 'docker')
+    return ($reload.ExitCode -eq 0)
+}
+
+function Test-JcColimaRunscReady {
+    if (-not (Test-JcDaemonReportsRunsc)) { return $false }
+    return (Test-JcColimaRunscInstalled)
+}
+
+# Install gVisor when missing, keep its Docker registration current, and wait
+# until the VM reports it as ready.
 function Ensure-JcColimaRunsc {
     if (-not (Test-JcColimaRunscReady)) {
-        Write-Host 'JavaCraft: installing the gVisor sandbox runtime (runsc) in the Colima VM, one time only...'
-        Install-JcColimaRunsc
+        if (-not (Test-JcColimaRunscInstalled)) {
+            Write-Host 'JavaCraft: installing the gVisor sandbox runtime (runsc) in the Colima VM, one time only...'
+            Install-JcColimaRunsc
+        }
+        if (-not (Test-JcDaemonReportsRunsc)) {
+            Write-Host 'JavaCraft: registering the gVisor runtime with the Docker daemon in the Colima VM...'
+            Register-JcColimaRunsc | Out-Null
+        }
     }
     for ($attempt = 0; $attempt -lt 20; $attempt++) {
         if (Test-JcColimaRunscReady) { return $true }

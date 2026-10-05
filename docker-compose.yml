@@ -67,7 +67,9 @@ services:
         condition: service_healthy
       sandbox-image:
         condition: service_completed_successfully
-    restart: "on-failure:5"
+    # Survive host/VM restarts and transient database races; the worker re-verifies
+    # the gVisor runtime and the sandbox image on every start before it heartbeats.
+    restart: unless-stopped
 
 volumes:
   postgres-data:

@@ -128,10 +128,11 @@ secrecy requirements.
 The execution Compose profile fails closed unless the Docker daemon reports the `runsc`
 runtime and the sandbox image is present. `scripts/start.sh` and `scripts/start.ps1`
 (Windows PowerShell 5.1+) enable the worker automatically on hosts where a gVisor sandbox
-can be provided (installing `runsc` inside the Colima VM on first use), keep it off
-elsewhere, and honor `ENABLE_EXECUTION_WORKER=true|false` as an explicit override. Never
-replace gVisor with `runc`, compiler execution in the API, or browser-side evaluation of
-user code.
+can be provided (installing `runsc` inside the Colima VM, registering it with the VM's
+Docker daemon, and re-applying that registration whenever the VM has discarded it), keep
+it off elsewhere, and honor `ENABLE_EXECUTION_WORKER=true|false` as an explicit override.
+Never replace gVisor with `runc`, compiler execution in the API, or browser-side evaluation
+of user code.
 
 ## Authentication and authorization
 

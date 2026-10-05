@@ -84,16 +84,48 @@ jc_provision_colima_runsc() {
     && colima ssh -- sudo systemctl reload docker
 }
 
-# Install gVisor when missing and wait until the VM reports it as ready.
-jc_colima_runsc_ready() {
-  jc_daemon_reports_runsc \
-    && colima ssh -- sh -c 'command -v runsc >/dev/null 2>&1' 2>/dev/null
+# True when the runsc binary is installed inside the Colima VM.
+jc_colima_runsc_installed() {
+  colima ssh -- sh -c 'command -v runsc >/dev/null 2>&1' 2>/dev/null
 }
 
+# Register the gVisor runtime with the VM's Docker daemon and reload it. Colima
+# recreates /etc/docker/daemon.json from its own configuration whenever the VM
+# boots, so the registration must be re-applied whenever it is missing.
+jc_register_colima_runsc() {
+  colima ssh -- sudo python3 - <<'PY' || return 1
+import json
+path = "/etc/docker/daemon.json"
+try:
+    with open(path) as handle:
+        config = json.load(handle)
+except FileNotFoundError:
+    config = {}
+config.setdefault("runtimes", {})["runsc"] = {"path": "/usr/bin/runsc"}
+with open(path, "w") as handle:
+    json.dump(config, handle, indent=2)
+PY
+  colima ssh -- sudo systemctl reload docker
+}
+
+# Ready when the daemon advertises runsc and the binary exists in the VM.
+jc_colima_runsc_ready() {
+  jc_daemon_reports_runsc \
+    && jc_colima_runsc_installed
+}
+
+# Install gVisor when missing, keep its Docker registration current, and wait
+# until the VM reports it as ready.
 jc_ensure_colima_runsc() {
   if ! jc_colima_runsc_ready; then
-    printf 'JavaCraft: installing the gVisor sandbox runtime (runsc) in the Colima VM, one time only...\n'
-    jc_provision_colima_runsc || true
+    if ! jc_colima_runsc_installed; then
+      printf 'JavaCraft: installing the gVisor sandbox runtime (runsc) in the Colima VM, one time only...\n'
+      jc_provision_colima_runsc || true
+    fi
+    if ! jc_daemon_reports_runsc; then
+      printf 'JavaCraft: registering the gVisor runtime with the Docker daemon in the Colima VM...\n'
+      jc_register_colima_runsc || true
+    fi
   fi
   local attempt=0
   while [ "$attempt" -lt 20 ]; do
