@@ -1,0 +1,4 @@
+Return the repository methods the aggregate actually needs, chosen from findById, save and findByOwner.
+needsLookupById adds findById, needsSave adds save and needsQueryByOwner adds findByOwner.
+List the methods in the fixed order findById, save, findByOwner and return an empty list when nothing is needed.
+Repository contracts use domain language only: never SQL words such as select, insert, update or delete.

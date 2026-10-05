@@ -1,0 +1,3 @@
+The reserve percentage of the capacity is held back before the remainder is divided evenly between the dependencies.
+Each dependency receives floor(usable / dependencies) permits and always at least one permit.
+dependencyCapacity and dependencies must be positive and reservePercent must be 0..99; otherwise throw IllegalArgumentException.

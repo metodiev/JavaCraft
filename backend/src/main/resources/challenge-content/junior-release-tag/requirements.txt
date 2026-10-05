@@ -1,0 +1,3 @@
+Accept an optional v prefix followed by exactly three dot-separated numeric components, optionally followed by +build metadata.
+Return a map with key version holding the numeric version and key build holding metadata or an empty string.
+Reject malformed tags, pre-release suffixes, and empty build metadata by returning an empty map.

@@ -1,0 +1,4 @@
+Every new service includes the core components "spring-boot-starter-web", "spring-boot-starter-actuator" and "structured logging with a correlation id", in that order.
+An API service adds "spring-boot-starter-validation" and "RFC 9457 problem details error contract" after the core components, in that order.
+A service that writes data adds "spring-boot-starter-data-jpa" and "database migrations managed by flyway or liquibase" after the API components.
+A production service adds "spring-boot-starter-security", "micrometer metrics with alert thresholds" and "liveness and readiness health probes" last, in that order.

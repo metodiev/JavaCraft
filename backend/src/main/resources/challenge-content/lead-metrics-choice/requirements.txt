@@ -1,0 +1,4 @@
+When deliveryFocused is true return "lead time for change" and then "deployment frequency"; when both flags are false return an empty list.
+When reliabilityFocused is true return "change failure rate" and then "time to restore service".
+Return both groups, delivery first, without duplicates.
+Never return vanity metrics such as lines of code, story points or hours worked.

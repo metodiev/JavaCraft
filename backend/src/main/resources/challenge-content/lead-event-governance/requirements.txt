@@ -1,0 +1,5 @@
+Always start with these rules in order: "name events in past tense with a stable envelope", "every topic has an accountable owning team", "run the registry compatibility check in CI".
+When publiclyConsumed, append "enumerate external consumers before changing the schema" after the base rules.
+When regulated, append "classify payloads and enforce the retention policy" after any external-consumer rule.
+Always end with "announce deprecations with a supported lifetime".
+Return a list of plain rule strings in exactly this documented order.

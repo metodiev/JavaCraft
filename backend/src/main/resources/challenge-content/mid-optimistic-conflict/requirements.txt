@@ -1,0 +1,4 @@
+action returns "RETRY" only when exceptionType names an optimistic-lock conflict, replaysSafe is true, and attempts is still below maxAttempts.
+A conflict is an exception whose type contains OptimisticLockingFailure or StaleObjectState (case-sensitive, so StaleStateException is not one).
+The retry decision uses the attempts already made: when attempts is greater than or equal to maxAttempts there is nothing left to try, so it returns "SURFACE".
+A non-conflict exception type, a null type, or an unsafe replay always returns "SURFACE".

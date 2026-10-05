@@ -1,0 +1,4 @@
+Production always uses a managed secret store; never source control.
+A short-lived credential outside production uses workload identity so nothing long-lived is stored.
+Local development uses environment variables, taking priority over the short-lived rule.
+Any other non-production deployment reads mounted files.

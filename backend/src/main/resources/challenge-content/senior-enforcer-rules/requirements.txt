@@ -1,0 +1,4 @@
+violations evaluates the enforcer rules and reports every breach, sorted naturally.
+The bannedDependencies rule holds a comma separated list of coordinates, and each one present in the comma separated dependencies value is reported as banned-dependency <coordinate>, trimmed, with blanks skipped and never reported twice.
+The requireJavaVersion rule reports wrong-java-version expected <required> but found <found> when the actual javaVersion differs, treating a build that reports none as unknown.
+A null or empty rules map yields an empty report, absent rules are not evaluated, and a null actual map is treated as a build that reports nothing.

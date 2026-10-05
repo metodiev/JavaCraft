@@ -1,0 +1,4 @@
+Action per area: idle is recoverable at 95 percent, logging 60, egress 50, storage 40, compute 35, and any other area 20.
+Order actions by recoverable spend, the largest first; break ties by the higher recoverable percentage, then by area name alphabetically.
+Ignore areas whose spend is null, zero, or negative.
+Action text is shut down idle environments, reduce log retention and volume, compress and cache cross-region traffic, apply storage lifecycle policies, right-size compute instances, or investigate <area> spend.

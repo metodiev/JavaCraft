@@ -1,0 +1,4 @@
+100 to 199 is INFORMATIONAL, 200 to 299 is SUCCESS, 300 to 399 is REDIRECT.
+400 to 499 is CLIENT_ERROR and 500 to 599 is SERVER_ERROR.
+Any other number, including negatives and values above 599, is UNKNOWN.
+The class name is the only thing returned: classify(404) is CLIENT_ERROR, not a reason phrase.

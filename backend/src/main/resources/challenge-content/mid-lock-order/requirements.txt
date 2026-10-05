@@ -1,0 +1,4 @@
+Return the table names in ascending lexicographic order so every transaction acquires locks in the same sequence.
+The result must be identical for any input permutation, which is what makes deadlocks impossible.
+Reject a null list or a null table name with IllegalArgumentException, and never modify the input list.
+An empty list is allowed and returns an empty list.

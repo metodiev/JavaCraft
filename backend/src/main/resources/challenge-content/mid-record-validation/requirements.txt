@@ -1,0 +1,4 @@
+A Range is valid only when low is less than or equal to high.
+Both the canonical constructor and the static factory reject an invalid range with IllegalArgumentException.
+contains is inclusive of both bounds.
+A range whose bounds are equal is valid and contains exactly that value.

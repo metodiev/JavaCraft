@@ -1,0 +1,6 @@
+Audit a benchmark configuration map and report every problem found, in the documented order.
+Report "missing warmup" when warmupIterations is absent or is not a positive number.
+Report "no forks" when forks is absent or below 2.
+Report "dead code elimination" when blackhole is absent or not "true".
+Report "no baseline" when baseline is absent or not "true".
+A null or empty configuration reports every problem, and values are compared ignoring case.

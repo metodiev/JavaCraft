@@ -1,0 +1,4 @@
+A non-blank inbound header of at most 64 characters is trimmed and preserved as the correlation id.
+A null, blank or longer-than-64-characters inbound header is replaced by generator.get().
+The generator is only invoked when a new id is required, and a null generator throws IllegalArgumentException.
+A blank generated id throws IllegalStateException.

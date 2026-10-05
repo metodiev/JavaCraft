@@ -1,0 +1,4 @@
+Report, in this fixed order: use a multi-stage build when multiStage is false and build tools are present in the runtime image.
+Report use a JRE base image when the base image name contains jdk or says openjdk without jre.
+Report use a slim base image when the base image is not slim, alpine, or distroless.
+Never repeat a measure; a null base image still reports boolean-driven findings.

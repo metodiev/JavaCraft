@@ -1,0 +1,5 @@
+Flag a protocol by adding "deprecated protocol: NAME" when the name is SSLv3, TLSv1, TLSv1.0 or TLSv1.1 (ignoring case).
+Flag a cipher suite by adding "weak cipher suite: NAME" when its upper-cased name contains _RC4_, _3DES_, _DES_, _NULL_ or EXPORT.
+Append "hostname verification disabled" and "certificate chain verification disabled" when the respective flag is false.
+Sort the findings alphabetically.
+Throw IllegalArgumentException when protocol or cipherSuite is null.

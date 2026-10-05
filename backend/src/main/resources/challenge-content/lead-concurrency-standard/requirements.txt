@@ -1,0 +1,4 @@
+mandatoryControls(publicApi, sharedPool, hasTimeouts) returns the controls a team must adopt, in the fixed order timeouts, bounded-queues, bulkheads, rate-limiting.
+bounded-queues is always mandatory.
+timeouts is added when hasTimeouts is false, bulkheads when sharedPool is true, and rate-limiting when publicApi is true.
+Each control appears at most once.

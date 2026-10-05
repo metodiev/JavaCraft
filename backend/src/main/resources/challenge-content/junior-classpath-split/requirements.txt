@@ -1,0 +1,4 @@
+Return an empty list for a null or empty path.
+Split on the semicolon when the windows flag is true, otherwise split on the colon.
+Drop empty entries, including entries created by leading, trailing or repeated separators.
+Preserve the order of the remaining entries and do not otherwise trim or modify them.

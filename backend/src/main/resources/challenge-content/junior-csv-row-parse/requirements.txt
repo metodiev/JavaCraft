@@ -1,0 +1,5 @@
+Split the row on commas; a field that starts with a double quote is quoted and may contain commas.
+Inside a quoted field two double quotes decode to one literal quote; everything else is taken literally.
+Empty fields are preserved, fields are not trimmed, and a double quote only starts a quoted field at the start of that field.
+An unterminated quoted field, or any text after a closing quote other than a comma, throws IllegalArgumentException.
+A null row throws IllegalArgumentException.

@@ -1,0 +1,6 @@
+Turn every input string into one parameterised test case row of the form {name, input, expected}.
+The name is the trimmed input, except that an empty input is named "empty" and a blank input is named "blank".
+The expected value is the length of the trimmed input.
+Rows keep the order of the input list, and the result is never empty when inputs are given.
+A null or empty input list returns an empty list.
+The expected value is always a non-null Integer.

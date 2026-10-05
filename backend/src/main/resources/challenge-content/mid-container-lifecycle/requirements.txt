@@ -1,0 +1,5 @@
+Pick a test container lifecycle from the values a test suite already knows.
+Return "PER_TEST" when tests need mutable state, because every test then needs a fresh container.
+Return "PER_CLASS" for a shared container when the suite has at least 3 tests and startup takes at least 10 seconds.
+Return "PER_CLASS" for a shared container when the suite has at least 5 tests and startup takes at least 2 seconds.
+Otherwise return "PER_METHOD", the default single container instance that shares nothing.

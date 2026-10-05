@@ -1,0 +1,4 @@
+Treat a null security context as unsafe and report all three checks: runAsNonRoot, privileged, readOnlyRootFilesystem.
+Report runAsNonRoot when runAsNonRoot is not true and runAsUser is missing, zero, or negative.
+Report privileged unless privileged is exactly false, and readOnlyRootFilesystem unless it is exactly true.
+Report violations in the fixed order runAsNonRoot, privileged, readOnlyRootFilesystem, never repeating one.

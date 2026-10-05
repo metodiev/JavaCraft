@@ -1,0 +1,5 @@
+describe strips a query prefix (findBy, readBy, getBy, queryBy, searchBy, streamBy, countBy, existsBy, deleteBy) and splits the remainder into criteria on And and Or boundaries, keeping those connector keywords in the description.
+Each criterion renders as "property OPERATOR": the property keeps its spelling except that the first letter is lower-cased, and the operator is upper-cased with underscores.
+Supported suffixes are GreaterThan, LessThan, GreaterThanEqual, LessThanEqual, Like, Containing, StartingWith, EndingWith, IsNull and IsNotNull; a criterion with no suffix is EQUALS.
+Criteria render in declaration order joined by " AND " or " OR "; And and Or are case-sensitive keywords only when followed by an upper-case letter.
+A null, blank or prefix-less method name, an empty criterion, a criterion made only of a keyword, or a leading/dangling connector is rejected with IllegalArgumentException.

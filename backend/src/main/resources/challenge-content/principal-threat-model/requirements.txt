@@ -1,0 +1,5 @@
+Recognise the six STRIDE categories spoofing, tampering, repudiation, information disclosure, denial of service and elevation of privilege, matched case-insensitively after trimming.
+Spoofing returns "authenticate every principal before it acts", tampering returns "verify integrity of data in transit and at rest" and repudiation returns "record tamper-evident audit logs of privileged actions".
+Information disclosure returns "encrypt sensitive data and enforce least privilege access", denial of service returns "apply rate limits, quotas and timeouts" and elevation of privilege returns "authorise every request against least privilege roles".
+Return each mitigation at most once in risk order: elevation of privilege, information disclosure, spoofing, tampering, denial of service, repudiation.
+Ignore unrecognised entries; a null or empty list returns an empty list.

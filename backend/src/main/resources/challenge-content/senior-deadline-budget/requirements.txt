@@ -1,0 +1,4 @@
+remainingMillis(deadlineNanos, nowNanos, hops) converts the time left until the deadline into whole milliseconds.
+Each hop consumes a reserve of 10 milliseconds, so the result is (deadlineNanos - nowNanos) / 1_000_000 minus 10 * hops.
+A deadline equal to or earlier than now returns zero, and the result is never negative.
+A deadline of Long.MAX_VALUE means no deadline is set and returns zero; negative hops count as zero.

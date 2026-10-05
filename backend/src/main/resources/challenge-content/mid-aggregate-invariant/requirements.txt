@@ -1,0 +1,5 @@
+The aggregate may hold at most maxItems items and can never drop below zero.
+A request is allowed only when requested is at least 1 and currentItems + requested stays within maxItems.
+A request of zero or less is always rejected.
+A current count below zero or above maxItems is a corrupt aggregate and every request is rejected.
+A negative maxItems leaves no capacity, so every request is rejected.

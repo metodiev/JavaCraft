@@ -1,0 +1,4 @@
+Entries prefixed secret: are secrets; the prefix is stripped and the remaining name is the output key.
+Later layers win for plain keys, and a secret always beats a plain value for the same name even if the secret came earlier.
+A later secret beats an earlier secret.
+Skip null layers and null keys; a null layer list returns an empty map.

@@ -1,0 +1,5 @@
+admit(permits, waiting, maxQueue) returns how many waiting callers can be admitted right now.
+A caller needs one permit, so no more than permits callers are admitted.
+No more than maxQueue callers are admitted, even when more permits and waiters are available.
+Negative permits, waiting, or maxQueue values throw IllegalArgumentException.
+The result is never negative.

@@ -1,0 +1,4 @@
+Return true when the allocated bytes are less than or equal to the budget plus the tolerance fraction of the budget, so a tolerance of 0.1 permits 10 percent overshoot.
+Treat a tolerance of 1.0 as allowing up to double the budget.
+Reject any negative allocated bytes, budget or tolerance by returning false.
+A zero budget accepts only an allocation of zero when the tolerance is zero.

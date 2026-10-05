@@ -17,6 +17,7 @@ export interface TutorialCategory {
 
 export interface Tutorial extends TutorialSummary {
   sections: Array<{ title: string; body: string; exampleCode: string }>;
+  challenges: ChallengeSummary[];
 }
 export interface Challenge {
   slug: string;

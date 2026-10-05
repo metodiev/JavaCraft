@@ -1270,6 +1270,81 @@ p {
   text-transform: uppercase;
 }
 
+.tutorial-practice {
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid #262b24;
+}
+
+.tutorial-practice-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.tutorial-practice-header svg {
+  color: #9dc06a;
+}
+
+.tutorial-practice-header h2 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.tutorial-practice > p {
+  margin: 7px 0 0;
+  max-width: 72ch;
+  color: #81877d;
+  font-size: 10px;
+}
+
+.tutorial-practice-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.tutorial-practice-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 15px;
+  transition: border-color 150ms, transform 150ms;
+}
+
+.tutorial-practice-item:hover {
+  border-color: #4a5a3a;
+  transform: translateY(-1px);
+}
+
+.tutorial-practice-item > svg {
+  flex-shrink: 0;
+  color: #81877d;
+}
+
+.tutorial-practice-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tutorial-practice-item-main h3 {
+  margin: 0;
+  font-size: 12px;
+}
+
+.tutorial-practice-item-main p {
+  margin: 0;
+  color: #81877d;
+  font-size: 10px;
+}
+
+.tutorial-actions-footer {
+  margin-top: 22px;
+}
+
 .catalog-empty {
   margin-top: 16px;
   padding: 20px;

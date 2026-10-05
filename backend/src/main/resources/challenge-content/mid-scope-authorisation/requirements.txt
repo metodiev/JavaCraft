@@ -1,0 +1,5 @@
+authorised returns true when the granted set contains the scope value "admin", because the admin scope grants every scope.
+It also returns true when adminBypass is true, even if granted is null or empty.
+Otherwise it returns true only when granted contains required as an exact, case-sensitive scope value.
+A null, blank or whitespace-containing required value is never authorised without an admin scope or bypass.
+A null or empty granted set is denied when there is no admin scope and no bypass.

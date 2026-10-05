@@ -1,0 +1,4 @@
+A breaking api change uses BLUE_GREEN so both versions can run side by side during cutover.
+A release with fewer than three replicas also uses BLUE_GREEN, since there is no spare capacity for a canary.
+A schema change with at least three replicas uses CANARY so the new version is sampled and can be rolled back quickly.
+Everything else uses ROLLING; throw IllegalArgumentException when replicas is below one.

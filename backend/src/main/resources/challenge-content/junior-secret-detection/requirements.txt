@@ -1,0 +1,6 @@
+A line is a finding when it assigns a value to one of the keys password, token, apiKey (or api_key) or secret, matched case-insensitively.
+The key must be followed by = or : and then a non-empty value; an empty value or an empty string literal is not a finding.
+Values taken from the environment, such as System.getenv(...), are not findings.
+Lines whose first non-space characters are // or # are comments and are never findings.
+Return "line <n>: <key>" for each finding, using the 1-based line number and the canonical key name, where api_key becomes apiKey.
+A null list or a null line yields no finding for that position.

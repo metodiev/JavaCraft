@@ -1,0 +1,4 @@
+declared holds every symbol defined in the codebase, referenced holds every symbol used somewhere and entryPoints holds symbols reachable from outside the analysis.
+Report every declared symbol that appears in neither referenced nor entryPoints, sorted alphabetically.
+Detection is NOT transitive: a symbol is dead only when nothing references it directly, so a symbol referenced by another dead symbol is still reported as reachable.
+A null declared or referenced set means nothing is reported, and references to symbols that were never declared are ignored.

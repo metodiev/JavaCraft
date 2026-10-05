@@ -1,0 +1,5 @@
+Use the exact strings Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Credentials and Vary as header names.
+When allowedOrigins contains the request origin, echo that origin back; when it contains "*", allow any origin; otherwise return an empty list.
+Never return a wildcard allow origin together with credentials: that combination is an empty list.
+Every allowed response carries the requested method and Vary: Origin, except wildcard responses which must not vary.
+Throw IllegalArgumentException for a null or blank origin, a null method or a null allow list.

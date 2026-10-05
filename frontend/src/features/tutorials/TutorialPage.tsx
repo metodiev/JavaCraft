@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Layers } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Check, ClipboardCheck, Clock3, Layers } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { QueryState } from "../../components/QueryState";
 import { api } from "../../lib/api";
@@ -103,10 +103,42 @@ export function TutorialPage() {
                 {updateProgress.isPending ? "Saving…" : "Save as in progress"}
               </button>
             )}
-            <Link className="primary-button" to="/challenges">
-              Apply it in a challenge <ArrowRight size={15} />
-            </Link>
           </div>
+          {data.challenges.length > 0 ? (
+            <section className="tutorial-practice">
+              <div className="tutorial-practice-header">
+                <ClipboardCheck size={15} />
+                <h2>Practise this lesson</h2>
+                <span className="catalog-section-count">{data.challenges.length}</span>
+              </div>
+              <p>
+                Runnable challenges that exercise the same ideas. Each one compiles and runs in
+                the sandbox against public tests.
+              </p>
+              <div className="tutorial-practice-list">
+                {data.challenges.map((challenge) => (
+                  <Link
+                    className="tutorial-practice-item panel"
+                    to={`/challenges/${challenge.slug}`}
+                    key={challenge.slug}
+                  >
+                    <div className="tutorial-practice-item-main">
+                      <span className="status-chip">{challenge.level}</span>
+                      <h3>{challenge.title}</h3>
+                      <p>{challenge.description}</p>
+                    </div>
+                    <ArrowRight size={15} />
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : (
+            <div className="tutorial-actions tutorial-actions-footer">
+              <Link className="primary-button" to="/challenges">
+                Browse all challenges <ArrowRight size={15} />
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </QueryState>

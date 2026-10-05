@@ -1,0 +1,4 @@
+A heap of zero or less returns "Serial".
+For a heap of at least 16 GB return "ZGC" when the p99 pause target is at most 100 ms, otherwise "G1".
+For a heap below 16 GB return "G1" when the p99 pause target is at most 200 ms, otherwise "Parallel".
+A throughput critical workload never uses "ZGC" and falls back to "G1" for large heaps with a tight pause target.

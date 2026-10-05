@@ -1,0 +1,4 @@
+An empty or null required list is always permitted.
+A null or empty granted set permits nothing unless required is also empty.
+requireAll true demands every required scope; requireAll false demands at least one.
+Scopes match exactly and case-sensitively; there is no wildcard expansion.

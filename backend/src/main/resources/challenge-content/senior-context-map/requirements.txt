@@ -1,0 +1,6 @@
+The pattern is derived from three facts: whether the upstream team controls the model, whether the downstream team adopts the upstream model, and whether a translation layer exists.
+A translation layer without downstream adoption returns ANTICORRUPTION_LAYER.
+Otherwise, an upstream controlled model that the downstream adopts returns CONFORMIST.
+Otherwise, when none of the three facts holds, return SHARED_KERNEL.
+Every remaining combination returns CUSTOMER_SUPPLIER.
+Return exactly one of SHARED_KERNEL, CONFORMIST, ANTICORRUPTION_LAYER or CUSTOMER_SUPPLIER.

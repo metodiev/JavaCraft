@@ -1,0 +1,4 @@
+compensate returns the completed steps as compensation actions in reverse completion order.
+The failed step is never compensated, and steps whose name starts with "audit-" are irreversible and skipped.
+Each distinct step is compensated once, at its latest completed position.
+A null completed list, null entries or a list that filters down to nothing yields an empty list.

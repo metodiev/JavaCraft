@@ -1,0 +1,4 @@
+The active key version returns "encrypt and decrypt" because only the active key may encrypt.
+The retainVersions most recent older versions return "decrypt only" so older data can still be read, counting back from the active version.
+Keys older than that window return "retired" and must never be used.
+A keyVersion ahead of activeVersion, a version below 1 or a retainVersions below 1 throws IllegalArgumentException.

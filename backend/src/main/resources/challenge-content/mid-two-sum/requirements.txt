@@ -1,0 +1,4 @@
+Return the indices of the first pair of values that add up to the target, smaller index first.
+The first pair is the one with the smallest second index, and among those the smallest first index; an element may not be used twice.
+Return an empty array when no pair exists, and for null or arrays shorter than two.
+Handle negative and large values without integer overflow.

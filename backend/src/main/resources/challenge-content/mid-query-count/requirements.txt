@@ -1,0 +1,5 @@
+Total queries are 1 (the parent query) plus the child queries needed for all parents.
+Unbatched, the child cost is parents * childQueriesPerParent, modelling the N+1 problem.
+Batched, the child cost is ceil(parents * childQueriesPerParent / batchSize).
+Throw IllegalArgumentException when parents is negative, or when childQueriesPerParent or batchSize is below 1.
+Zero parents is allowed and costs only the single parent query.

@@ -1,0 +1,5 @@
+Exactly-once processing commits offsets inside the transaction: return "TRANSACTIONAL".
+Exactly-once outranks at-least-once when both are requested.
+Otherwise at-least-once commits synchronously at the end of each batch when batchProcessing is true: return "SYNC_AT_BATCH_BOUNDARY".
+Otherwise at-least-once commits synchronously after each record: return "SYNC_PER_RECORD".
+When neither guarantee is requested, keep auto commit: return "AUTO_COMMIT".

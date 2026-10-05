@@ -1,0 +1,5 @@
+Report unsafe query building patterns found in the SQL template text.
+A + character anywhere in the text means the query is assembled by string concatenation.
+An ORDER BY clause followed before ; or the next ORDER BY by any of ? ' " ( + % or $ is unsafe interpolation.
+The markers -- or /* anywhere in the text are comment injection markers.
+Return each kind at most once, ordered by where it first appears; a null or blank input has no violations.

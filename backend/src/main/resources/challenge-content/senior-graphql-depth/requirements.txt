@@ -1,0 +1,5 @@
+Return the maximum nesting depth of { selection sets in the query.
+Braces inside double quoted strings, triple quoted block strings and # comments are ignored.
+Backslash escapes inside a string do not end it.
+Return 0 when the query has no braces at all.
+Return -1 for null, blank or unbalanced input, including a string that is never closed.

@@ -1,0 +1,3 @@
+Map "cpu" to parallel, "blocking" to boundedElastic, "legacy" to elastic, "single" to single, and "immediate" to immediate.
+Matching is case-insensitive and ignores surrounding whitespace.
+Throw IllegalArgumentException for a null or unknown workload.

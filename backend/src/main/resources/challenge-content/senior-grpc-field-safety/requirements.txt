@@ -1,0 +1,4 @@
+Protobuf field numbers 19000 to 19999 inclusive are reserved for the implementation.
+The largest valid field number is 536870911; numbers above it are unsafe, and so are numbers below 1.
+Return the unsafe numbers sorted ascending and without duplicates.
+Throw IllegalArgumentException for a null list or a null element.

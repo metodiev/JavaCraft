@@ -1,0 +1,4 @@
+GET, HEAD, OPTIONS and TRACE are safe methods and always pass, even without tokens.
+Every other method, including an unknown or null method, is state changing and requires a session token and a request token that are equal and not blank.
+Compare the tokens without early exit, for example with MessageDigest.isEqual.
+Method names are compared case-insensitively.

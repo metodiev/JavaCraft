@@ -1,0 +1,4 @@
+ServerConfig is immutable and only a Builder can create it.
+Building without a host, or with a port that is zero or negative, throws IllegalStateException.
+Builder.tag appends tags in order and build stores a defensive copy of them.
+The tags returned by the config are an unmodifiable list that defaults to empty.

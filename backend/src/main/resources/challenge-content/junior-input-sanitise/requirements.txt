@@ -1,0 +1,4 @@
+Return an empty string for a null input.
+Treat any run of whitespace or control characters (Character.isWhitespace or Character.isISOControl) as a single space.
+Remove leading and trailing spaces so the result never starts or ends with a space and never contains two spaces in a row.
+Keep every other character exactly as it is.

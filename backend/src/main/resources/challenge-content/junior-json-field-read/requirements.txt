@@ -1,0 +1,4 @@
+Resolve a dot-separated path into a JSON object and return the string value it points at as an Optional.
+Only string values are returned: numbers, booleans, null, arrays and objects all yield Optional.empty().
+A missing key, a path that traverses a non-object, or malformed JSON yields Optional.empty().
+A null or empty json or path yields Optional.empty(); standard JSON string escapes are decoded.

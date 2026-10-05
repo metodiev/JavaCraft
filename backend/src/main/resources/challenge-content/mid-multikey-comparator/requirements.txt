@@ -1,0 +1,3 @@
+Order text by increasing length and break equal lengths with natural ordering.
+Place null entries after every non-null entry, and treat two nulls as equal.
+The comparator must stay consistent so sorting the same list twice gives the same result.

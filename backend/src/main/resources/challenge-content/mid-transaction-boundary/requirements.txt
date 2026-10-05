@@ -1,0 +1,4 @@
+Mark a step as transactional only when it both reads and writes persistent state, because only such a read-modify-write unit must be atomic.
+A step reads persistent state when it contains "read", "load" or "select", and writes when it contains "write", "insert", "update" or "delete", ignoring case.
+Return the marked steps in their original order and unmodified; a step that only reads, only writes, or does neither is left out.
+Ignore blank and null steps, and return an empty list for a null step list instead of null.

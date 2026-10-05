@@ -1,0 +1,5 @@
+Each path is an arrow-separated chain of groupId:artifactId:version coordinates, and the candidate version is the version of the last coordinate.
+The version from the path with the fewest coordinates wins, which is Maven's nearest-wins rule.
+When two paths have the same length, the one declared first wins.
+An empty or null list yields an empty string.
+A coordinate without exactly three non-empty colon-separated segments, or a blank path, is rejected with IllegalArgumentException.

@@ -1,0 +1,3 @@
+Map the outcome "created" to 201, "missing" to 404, "conflict" to 409, "invalid" to 422 and "unexpected" to 500.
+Trim the outcome and ignore case when matching.
+Return 500 for a null or unrecognized outcome, because an unknown failure must not be reported as success.

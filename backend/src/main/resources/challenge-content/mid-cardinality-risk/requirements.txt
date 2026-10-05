@@ -1,0 +1,4 @@
+cardinality(tagSizes) returns the product of the tag cardinalities; an empty list is a single series, so its cardinality is 1.
+A tag size of zero makes the product zero; null tags or negative sizes throw IllegalArgumentException.
+Guard against overflow: clamp the product at Long.MAX_VALUE instead of wrapping around.
+risky(tagSizes) returns true when the cardinality exceeds the documented limit of 10000 active series.

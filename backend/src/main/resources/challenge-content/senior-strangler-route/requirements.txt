@@ -1,0 +1,4 @@
+The user bucket is Math.floorMod(userId.hashCode(), 100) so routing is sticky for every user.
+A user moves to the new implementation when the bucket is below rolloutPercent, otherwise it stays on legacy while legacy is healthy.
+When the legacy implementation is unhealthy its share fails over to the new implementation.
+rolloutPercent must be 0..100 and userId must be non-blank; otherwise throw IllegalArgumentException.

@@ -1,0 +1,4 @@
+Map "Java heap space" to HEAP, "Metaspace" to METASPACE, "GC overhead limit exceeded" to GC_OVERHEAD, "Direct buffer memory" to DIRECT, and "Map failed" to MAP.
+Map "unable to create new native thread", "Cannot reserve" and "Out of swap space?" to NATIVE.
+Return UNKNOWN for a null, blank or unrecognised message.
+Matching is case insensitive and looks for the keyword inside the message.

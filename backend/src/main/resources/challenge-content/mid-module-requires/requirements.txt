@@ -1,0 +1,5 @@
+Return a list that always contains java.base first, whatever the input.
+Map java.sql and javax.sql to java.sql, java.awt and javax.swing to java.desktop, java.util.logging to java.logging, javax.xml and org.w3c.dom to java.xml, java.lang.management and javax.management to java.management, java.net.http to java.net.http, and everything else to java.base.
+Match a package against a known package when it equals it or starts with it followed by a dot.
+After java.base, list every other required module once, in alphabetical order.
+A null list, null elements or an empty list are allowed and still return java.base.

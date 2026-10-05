@@ -1,0 +1,5 @@
+Normalise each line by trimming surrounding space, lower casing it and dropping blank or null lines entirely; only the remaining lines take part in comparison.
+Compare every window of minimumLines consecutive remaining lines with every later window of the same size, and mark a window as duplicated when the normalised lines are equal.
+Report one region per run of consecutive duplicated window starts, using the 1-based line numbers of the first and last source lines covered by the run, such as "1-4"; a blank line inside the region is included in its range.
+Report each region once, and sort the regions by their start line.
+Return an empty list for a null list, a minimumLines below 1, or a listing with no duplicated window.

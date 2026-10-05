@@ -1,0 +1,4 @@
+Return a strong ETag: a double quote, the lowercase hex SHA-256 digest, and a closing double quote.
+Digest the body bytes followed by the ASCII digits of version; a null body counts as empty.
+The same body and version always produce the same ETag, and a different version always produces a different ETag.
+An empty body still produces a quoted 64-character digest.

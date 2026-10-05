@@ -1,0 +1,3 @@
+The memory limit is the heap plus 25 percent overhead headroom, rounded up to a whole mebibyte, suffixed Mi.
+The CPU request is the core count multiplied by one thousand millicores, suffixed m.
+Return exactly the keys memory and cpu, and throw IllegalArgumentException when heapMb or cores is below one.

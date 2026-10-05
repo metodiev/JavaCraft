@@ -1,0 +1,4 @@
+A usable partition key is either a time column (created_at, ordered_at) or a tenant column (tenant_id, account_id).
+Return the eligible candidate with the highest cardinality from the map; on a tie return the one appearing first in the list.
+Return null when no candidate is eligible, when the list is null or empty, or when a candidate has no cardinality entry.
+Verify tenant and time columns before cardinality; a high-cardinality column that is neither is not eligible.

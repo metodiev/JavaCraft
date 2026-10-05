@@ -1,0 +1,5 @@
+configurationFor maps a dependency usage to the Gradle configuration that should declare it.
+Usage tokens are matched exactly and must be one of: api, internal, runtime, test.
+An api usage returns api when the module publishes a library and implementation otherwise, since an unpublished module has no consumer that could compile against the leaked dependency.
+An internal usage returns implementation, a runtime usage returns runtimeOnly and a test usage returns testImplementation, whatever the publishing flag says.
+A null or unknown usage, including a configuration name or a differently cased token, is rejected with IllegalArgumentException.

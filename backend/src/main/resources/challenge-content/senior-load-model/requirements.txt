@@ -1,0 +1,5 @@
+Choose the load test model from how the traffic is generated.
+A bounded user pool, where maxConcurrency is 2 or more, always means "CLOSED".
+An arrival rate that is not positive or not below 100 requests per second is unusable, so the model is "CLOSED".
+With maxConcurrency at 0 and constant traffic the model is "OPEN"; without constant traffic it is "CLOSED".
+With maxConcurrency at 1 a single pacing user keeps the model "OPEN" whatever the traffic pattern.

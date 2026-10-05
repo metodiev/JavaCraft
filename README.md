@@ -7,7 +7,7 @@ The repository is being built in incremental, runnable slices. It currently prov
 the product architecture, a React learning workspace, a Spring Boot API, learner
 registration/login, PostgreSQL-backed learning progress, and a gVisor worker that is
 enabled automatically on hosts where an isolated sandbox can run, for public tests on
-every challenge. The catalog includes 467 tutorials and 40 challenges across Junior,
+every challenge. The catalog includes 467 tutorials and 336 challenges across Junior,
 Mid, Senior, Lead, and Principal levels. Tutorials are grouped into 28 subject
 sections so the library stays browsable: Java Core, JDK and Toolchain, JVM Internals,
 Concurrency, Build Engineering (Maven and Gradle), Spring Framework, Spring Data and
@@ -17,7 +17,9 @@ Domain-Driven Design, Testing, Quality and Static Analysis, Observability,
 Performance and Caching, Reactive Programming, Containers and Kubernetes, Cloud and
 Delivery, Security, Data Formats, Algorithms and Data Structures, Refactoring and
 Legacy Code, and Engineering Practice. The Spring coverage tracks Framework 6 and 7
-with Spring Boot 4. Hidden-test grading and submission scoring remain disabled.
+with Spring Boot 4. Most lessons link to the runnable challenges that practise them,
+so a tutorial page lists its challenges directly. Hidden-test grading and submission
+scoring remain disabled.
 
 ## Run locally
 

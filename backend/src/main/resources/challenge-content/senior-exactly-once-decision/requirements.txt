@@ -1,0 +1,4 @@
+Cross-system writes cannot be covered by Kafka transactions, so any such pipeline returns "OUTBOX" (transactional outbox), and this wins over every other flag.
+Otherwise an idempotent consumer makes replay harmless, so return "IDEMPOTENT_CONSUMER" even when a transactional sink exists: do not pay for transactions by default.
+Otherwise a transactional Kafka-to-Kafka sink returns "TRANSACTIONS" (read-process-write with sendOffsetsToTransaction).
+Otherwise nothing makes duplicates safe yet: return "AT_LEAST_ONCE".

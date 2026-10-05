@@ -1,0 +1,4 @@
+Return PRIMARY whenever readYourWrites is true, because a replica may not yet show the caller's own write.
+Return PRIMARY whenever maxLagMillis is 0, since no lag at all is tolerated.
+Otherwise return REPLICA when lagMillis is less than or equal to maxLagMillis, and PRIMARY when the lag exceeds it.
+Throw IllegalArgumentException when either lag argument is negative.

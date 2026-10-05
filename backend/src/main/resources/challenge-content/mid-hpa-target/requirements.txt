@@ -1,0 +1,4 @@
+Choose QUEUE_DEPTH for a queue consumer, because backlog is the most direct signal.
+Otherwise choose P95_LATENCY for a latency sensitive service.
+Otherwise choose CPU_UTILIZATION for a cpu bound service.
+Otherwise choose REQUESTS_PER_SECOND; check in the order queue, latency, cpu, throughput.

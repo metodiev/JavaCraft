@@ -1,0 +1,5 @@
+Split the query on "&" and each pair on its first "="; ignore blank pairs and blank keys.
+Decode keys and values with URL decoding: "+" becomes a space and "%XX" becomes the byte it names.
+Keys are trimmed after decoding; a parameter without "=" maps to the empty string.
+When a key repeats, the last value wins.
+Treat a null or blank query as an empty map.

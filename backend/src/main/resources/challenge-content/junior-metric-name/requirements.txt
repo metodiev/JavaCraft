@@ -1,0 +1,5 @@
+A valid meter name is lowercase and dot-separated with non-empty segments, for example orders.placed.
+Report "uppercase" for any A-Z, "space" for any whitespace and "other-character" for anything outside a-z, 0-9, dot and whitespace.
+Report "empty-segment" when the name starts or ends with a dot or contains two consecutive dots.
+Return the labels in the order uppercase, space, other-character, empty-segment, and an empty list when the name is valid.
+Throw IllegalArgumentException for a null or blank name.

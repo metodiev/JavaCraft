@@ -1,0 +1,4 @@
+violations checks, in this order: "too short" when the password is shorter than minLength, "no upper" when it has no upper-case letter, "no lower" when it has no lower-case letter, "no digit" when it has no digit, and "no symbol" when it has none of ! @ # $ % ^ & *.
+The returned list contains one message per broken rule in that order and is empty when the password satisfies every rule.
+A null password fails every rule, so it returns all five messages in order.
+A password exactly at minLength is long enough; shorter passwords are too short.

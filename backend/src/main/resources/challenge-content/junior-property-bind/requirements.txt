@@ -1,0 +1,4 @@
+Read the port from the exact key "app.port" and fall back when the key is absent or its value is not a valid port.
+Accept the relaxed environment variable name "APP_PORT" as well, and prefer the exact key "app.port" when both are present, even when the exact value is invalid.
+A valid port is a trimmed integer between 1 and 65535 inclusive; blank, non-numeric or out of range values fall back.
+Treat a null environment map as an empty environment.

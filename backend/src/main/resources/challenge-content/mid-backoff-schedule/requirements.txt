@@ -1,0 +1,5 @@
+backoffMillis(attempts, base, cap) returns attempts delays where the first delay is base and every later delay doubles the previous one.
+Every delay is clamped to cap, including the first when cap is smaller than base.
+Doubling must saturate at cap instead of overflowing.
+attempts at or below zero returns an empty list.
+A base or cap that is not positive throws IllegalArgumentException.

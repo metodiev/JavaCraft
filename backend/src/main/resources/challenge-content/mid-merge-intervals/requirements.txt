@@ -1,0 +1,4 @@
+Merge all overlapping or touching intervals and return them sorted by start.
+Intervals that merely touch at an endpoint, such as [1,4] and [4,5], count as overlapping and must be combined.
+Handle unsorted input, nested intervals and duplicates; the input list must not be modified.
+Return an empty list for null or empty input.

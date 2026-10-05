@@ -1,0 +1,4 @@
+migrationSteps(usesSynchronizedBlocks, poolsBoundedAtDb, reliesOnThreadLocalCaches) returns an ordered migration plan for moving a service to virtual threads.
+The plan always starts with confirm-java21-runtime, always contains switch-to-virtual-executors, and always ends with load-test.
+remove-pinning is inserted when usesSynchronizedBlocks is true, bound-db-connections when poolsBoundedAtDb is false, and scope-threadlocals when reliesOnThreadLocalCaches is true.
+Conditional steps appear in the order remove-pinning, bound-db-connections, scope-threadlocals and no step is repeated.

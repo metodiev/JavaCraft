@@ -1,0 +1,3 @@
+Always set X-Content-Type-Options to nosniff, X-Frame-Options to DENY, Referrer-Policy to no-referrer and Content-Security-Policy to default-src 'self'.
+Send Strict-Transport-Security with the value max-age=31536000; includeSubDomains only when httpsOnly is true, because HSTS must never be sent over plain HTTP.
+The returned map contains exactly those headers and nothing else.

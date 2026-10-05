@@ -1,0 +1,6 @@
+Interpret the outcome of a mutation testing run from its killed, survived and no-coverage mutant counts.
+Report the mutation score as "score N%", where N is killed divided by all mutants rounded half up to the nearest whole percent and reported as 0 percent when there are no mutants.
+Report "weakest: NO_COVERAGE" when there are no mutants at all or when more mutants were never covered than survived.
+Otherwise report "strong" when the score is at least 80 percent.
+Otherwise report "weakest: SURVIVED".
+The report always contains exactly the score line followed by the category line.

@@ -1,0 +1,3 @@
+An additive migration such as ADD COLUMN, CREATE TABLE, or CREATE INDEX keeps the old application version working.
+Flag any statement containing DROP, TRUNCATE, or RENAME, case-insensitively, because it breaks the old version.
+Return the offending statements in input order, skipping null or blank entries; a null list returns an empty list.

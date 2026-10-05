@@ -1,0 +1,5 @@
+Return the sorted violation codes for a class requested during deserialisation.
+"native-serialization" flags any class in the java.io namespace, even when that package is allowlisted.
+"dangerous-gadget" flags known gadget classes such as javax.naming.InitialContext and com.sun.rowset.JdbcRowSetImpl, even inside an allowed package.
+"package-not-allowed" flags a class whose package is not the allowlist entry itself or one of its subpackages; the default package is never allowed.
+An empty list means the class is safe to resolve, and a null class name throws IllegalArgumentException.

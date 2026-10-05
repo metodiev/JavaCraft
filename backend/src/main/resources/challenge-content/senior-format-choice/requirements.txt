@@ -1,0 +1,4 @@
+Return JSON when browserClient is true, because browsers speak JSON natively.
+Otherwise return JSON when humanReadable is true, because operators and support can inspect the payloads.
+Otherwise return JSON when highVolume is false, because compression and tooling cost are not justified at low volume.
+For high-volume internal traffic return AVRO when schemaEvolution is true, because a schema registry resolves writer and reader differences; otherwise return PROTOBUF.

@@ -1,0 +1,5 @@
+Every event is "<TYPE> <amount>", exactly two whitespace separated parts, with TYPE compared case-insensitively as CREDIT or DEBIT and an integer amount of zero or more.
+Events apply in order to the starting balance: CREDIT adds the amount and DEBIT subtracts it.
+When a debit would leave the balance below zero, throw an IllegalStateException with the message "balance cannot go negative".
+A null list replays nothing, and null or blank entries are ignored.
+An event with an unknown type, a negative amount or a non-integer amount throws an IllegalArgumentException.

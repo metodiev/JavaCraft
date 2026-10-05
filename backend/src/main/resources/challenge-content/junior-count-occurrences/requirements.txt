@@ -1,0 +1,4 @@
+Return how many entries in the list equal the target.
+A null target matches nothing, even when the list contains null entries.
+Skip null entries in the list rather than throwing; return zero for a null list.
+Comparison is case-sensitive.

@@ -1,0 +1,4 @@
+valueOr(future, fallback) returns the completed value when the future completed normally with a non-null value.
+A null future, an incomplete future, or a future that completed exceptionally or was cancelled yields the fallback.
+A completed value of null also yields the fallback.
+The method must never block waiting for the future to complete.

@@ -1,0 +1,4 @@
+violations compares the consumer-required fields with the provider's provided fields and lists "missing:<field>" or "type:<field>" for each problem.
+A required field that is absent or null in provided counts as missing, and a provided value that differs counts as a type mismatch.
+Extra provided fields are allowed and field names are case sensitive.
+The violation list is sorted alphabetically; a null provided map means nothing is available and a null required map means no violations.

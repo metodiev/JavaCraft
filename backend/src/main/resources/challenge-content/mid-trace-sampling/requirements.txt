@@ -1,0 +1,4 @@
+Sample everything at low volume: return ALWAYS_ON when requestsPerSecond is at most 10.
+Above that rate, return TAIL_BASED when errorsMatter, because tail sampling can keep every error after seeing the outcome.
+Otherwise return PROBABILISTIC, scaling the volume down with a head sampling ratio.
+Throw IllegalArgumentException when requestsPerSecond is negative, NaN or infinite.

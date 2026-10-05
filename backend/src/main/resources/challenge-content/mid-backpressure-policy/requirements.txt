@@ -1,0 +1,4 @@
+Return BUFFER when mustBeLossless is true, regardless of the other flags.
+Otherwise return ERROR when canDrop is false, because no drop policy is acceptable.
+Otherwise return DROP_OLDEST for a slow consumer and DROP_LATEST for a fast one.
+The result is always one of BUFFER, DROP_OLDEST, DROP_LATEST or ERROR.

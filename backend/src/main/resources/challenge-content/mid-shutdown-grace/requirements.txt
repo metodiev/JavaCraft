@@ -1,0 +1,3 @@
+The needed grace is longestRequestSeconds plus drainSeconds.
+Return the smaller of the needed grace and terminationGraceSeconds, so the value always fits the pod termination budget.
+Throw IllegalArgumentException when any argument is negative, when terminationGraceSeconds is not positive, or when the sum overflows an int.

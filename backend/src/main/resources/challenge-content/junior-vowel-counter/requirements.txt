@@ -1,0 +1,3 @@
+Count both lowercase and uppercase vowels (a, e, i, o, u).
+Other letters, digits and punctuation are not vowels.
+Return zero for null or blank input.

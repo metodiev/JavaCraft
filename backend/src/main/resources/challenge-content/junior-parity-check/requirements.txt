@@ -1,0 +1,4 @@
+Report every key whose deployed value differs from the local value, missing keys included.
+Parity is symmetric: a key present in only one side is also a difference.
+Sort the reported keys alphabetically and never repeat one.
+Treat a null map as empty, so only the other side's keys are reported.

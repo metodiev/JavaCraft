@@ -1,0 +1,4 @@
+Compare only letters and digits, ignoring case, spaces and punctuation.
+Return true when the cleaned text reads the same forwards and backwards.
+Return false for null or blank input.
+A single letter or digit is a palindrome.

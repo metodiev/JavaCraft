@@ -1,0 +1,5 @@
+BACKWARD means the new reader can read all old data: after contains every field of before, and adding fields is the typical case.
+FORWARD means the old reader can read new data: before contains every field of after, which is what removing fields produces.
+When both directions hold the sets are equal and the result is FULL; when neither holds the result is BREAKING.
+A field listed in required must appear in both before and after, otherwise the change is BREAKING.
+A null set counts as empty, and a null field name inside any set throws IllegalArgumentException.

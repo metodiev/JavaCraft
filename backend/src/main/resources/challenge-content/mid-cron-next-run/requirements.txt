@@ -1,0 +1,3 @@
+Accept a five-field cron: minute, hour, day of month, month and day of week, each either "*" or a plain number (minute 0-59, hour 0-23, day of month 1-31, month 1-12, day of week 0-6 with 0 = Sunday).
+Return the first fire time strictly after the given time, as LocalDateTime.toString() such as 2026-10-06T09:30; all five fields must match the fire time.
+Throw IllegalArgumentException for a malformed cron (wrong field count, non-numeric value, value outside its range), for a null cron or after time, and for a cron that can never fire such as day 31 of February.

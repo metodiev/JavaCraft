@@ -1,0 +1,5 @@
+Money is a record with a long cents amount and a String currency.
+The compact constructor normalises the currency to upper case using Locale.ROOT, and a null currency becomes an empty string.
+Record equality and hashCode are value based, so two Money values with the same normalised fields are equal.
+sameValue(Money other) returns true when both fields match and false when other is null.
+Negative amounts are allowed and compare like any other value.

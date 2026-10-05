@@ -1,0 +1,4 @@
+Choose QUEUE_BACKLOG for a service whose work arrives on a queue, because backlog is the most direct signal.
+Otherwise choose REQUEST_LATENCY for a latency sensitive service, because it reflects the user experience.
+Otherwise choose CPU_UTILIZATION for a cpu bound service.
+Otherwise choose CONCURRENCY; check in the order queue, latency, cpu, concurrency.

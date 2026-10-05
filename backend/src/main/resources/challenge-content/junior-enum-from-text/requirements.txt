@@ -1,0 +1,3 @@
+Match the enum constant name without regard to case and ignore surrounding whitespace.
+Unknown, null or blank text returns Priority.NORMAL instead of throwing.
+Valid names are LOW, NORMAL and HIGH.

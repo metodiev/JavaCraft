@@ -1,0 +1,5 @@
+substitute replaces every ${name} token whose name is a key of properties with the matching value.
+Token names are matched exactly and case-sensitively.
+A token whose name is unknown, empty, or unterminated is left untouched, including its braces.
+Substituted values are inserted literally and never rescanned for further tokens.
+A null template or null properties map is rejected with IllegalArgumentException.

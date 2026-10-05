@@ -1,0 +1,4 @@
+batchSize estimates how many rows fit in memoryBudgetKb kibibytes when each row is rowWidthBytes wide.
+The estimate divides the budget in bytes (memoryBudgetKb * 1024) by rowWidthBytes using integer arithmetic, then clamps the result into the range 1..1000 inclusive.
+A rowWidthBytes of zero or less, or a memoryBudgetKb of zero or less, produces the minimum batch of 1 rather than dividing by zero or going negative.
+The maximum is 1000 even when the budget allows many more rows, because larger batches delay flushing and risk memory pressure.

@@ -1,0 +1,4 @@
+Return the largest sum of any contiguous window of exactly the requested size.
+Solve it in a single pass using O(1) extra space, not by re-summing every window.
+Return zero when the window is not positive, larger than the array, or the input is null or empty.
+Negative values are allowed and the window must always contain exactly that many elements.

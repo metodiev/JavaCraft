@@ -1,0 +1,5 @@
+parse splits a Maven coordinate on colons into groupId, artifactId, and version in that order.
+A coordinate with fewer than three segments leaves the missing parts as empty strings.
+Every segment is trimmed and must contain at least one non-whitespace character.
+A coordinate with more than three segments is rejected with IllegalArgumentException.
+A null or blank coordinate is rejected with IllegalArgumentException.

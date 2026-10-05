@@ -1,0 +1,5 @@
+Return a map with exactly the members type, title, status, detail and instance.
+type is "about:blank", status is an Integer, and instance defaults to "" when null.
+title is the standard reason phrase for the common codes (400, 401, 403, 404, 409, 422, 429, 500, 503), otherwise Client Error for unlisted 4xx and Server Error for unlisted 5xx.
+A null detail falls back to the title.
+Throw IllegalArgumentException for a status outside 400..599.

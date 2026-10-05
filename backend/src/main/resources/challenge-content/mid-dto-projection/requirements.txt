@@ -1,0 +1,5 @@
+projection returns a new map holding only the requested fields that exist in the entity, preserving the order of the requested field list.
+Fields absent from the entity or mapped to null are skipped silently instead of being copied.
+A requested "password" field is never copied, even when the entity has a non-null value, and the entity map passed in must not be modified.
+A null or empty requestedFields list, or a null entity, returns an empty map rather than throwing.
+Repeating a field in the request keeps a single entry in its first position.

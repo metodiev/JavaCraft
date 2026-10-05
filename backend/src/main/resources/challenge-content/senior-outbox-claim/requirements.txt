@@ -1,0 +1,3 @@
+claim returns true when the row has no owner, the lease is expired, or the caller already owns the row.
+A lease whose leaseExpiresAt is less than or equal to now is expired; a later lease owned by another worker is refused.
+A null or blank workerId can never claim, but a worker may claim a row it already owns even while its lease is live.

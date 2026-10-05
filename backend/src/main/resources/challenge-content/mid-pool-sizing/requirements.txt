@@ -1,0 +1,4 @@
+Size the pool with ceil(databaseCores * (1 + waitBudgetMillis / serviceTimeMillis)), since more waiting allows more concurrent connections.
+Never return less than 2 connections, so the service can still overlap work.
+Cap the pool at eight times databaseCores, because more connections than that only move the queue into the database.
+databaseCores must be at least 1, serviceTimeMillis must be positive and finite, and waitBudgetMillis must be finite and not negative; otherwise throw IllegalArgumentException.

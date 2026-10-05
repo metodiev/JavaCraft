@@ -1,0 +1,3 @@
+datasourceFor returns "isolated:" + tenantId for tenants whose tier is REGULATED and "pooled" for everyone else.
+Tiers are matched after trimming and ignoring case, and unknown or missing tiers use the pooled datasource.
+A null or blank tenant id throws IllegalArgumentException; a null tier map behaves like an empty map.

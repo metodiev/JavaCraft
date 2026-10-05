@@ -1,0 +1,4 @@
+Return the completed steps in reverse completion order.
+Skip any step whose name starts with "query:" ignoring case, because read-only steps need no compensation.
+Skip null and blank entries, and keep repeated steps as separate compensations.
+Null or empty input returns an empty list.

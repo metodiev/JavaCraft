@@ -1,0 +1,5 @@
+executionOrder returns the tasks Gradle would run for the requested task, in dependency-first order.
+Dependencies are visited in the order they are listed, and each task appears once.
+A dependency without an entry in the map is treated as a leaf task that runs first, and a missing or empty dependency list means the task runs alone.
+Null tasks, null entries and null lists are ignored, so a null graph simply has no dependencies.
+When the graph contains a cycle anywhere, the result is an empty list rather than a partial order.

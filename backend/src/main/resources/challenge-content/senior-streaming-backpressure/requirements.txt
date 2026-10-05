@@ -1,0 +1,3 @@
+Return the demand actually requested: the smaller of consumerDemand and the remaining capacity limit - buffered.
+A demand of zero or less, or a full or overfull buffer, results in 0; the result is never negative.
+Throw IllegalArgumentException for a negative buffered count or a negative limit.

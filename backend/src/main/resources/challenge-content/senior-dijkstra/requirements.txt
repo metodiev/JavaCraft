@@ -1,0 +1,4 @@
+Compute the shortest distance from the source to every reachable node using only non-negative edge weights.
+The result includes the source itself with distance zero and omits nodes that cannot be reached.
+Skip edges that are null or have a non-positive weight; tolerate cycles.
+Return an empty map when the graph or source is null, the graph is empty, or the source node is absent.

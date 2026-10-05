@@ -1,0 +1,6 @@
+Apply the documented static analysis quality gate rules to a list of severities.
+A "critical" or "vulnerability" finding anywhere in the list fails the gate with "FAIL".
+Blockers fail with "FAIL" only when their count is greater than blockerThreshold, otherwise they warn.
+"minor" and "info" findings warn, and an empty list passes with "PASS".
+An unrecognised severity, a null list or a null entry is malformed and warns with "WARN" unless a failing rule above already applies.
+Severities are matched ignoring case and surrounding whitespace.

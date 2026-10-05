@@ -1,0 +1,5 @@
+budget(target, totalRequests, failedRequests) reports allowedFraction = 1 - target plus the consumed and remaining parts of the error budget.
+The allowed failure count is floor(totalRequests * allowedFraction); consumedFraction is failedRequests divided by that count, clamped to at most 1.
+consumedFraction reaches exactly 1 when the failures use the whole budget, and any failure in a zero-failure budget is already exhausted.
+remainingFraction is 1 - consumedFraction and exhausted is true when consumedFraction reaches 1.
+target must be strictly between 0 and 1, totalRequests must not be negative, and failedRequests must be within 0..totalRequests; otherwise throw IllegalArgumentException.

@@ -1,0 +1,3 @@
+Count the values that are greater than the threshold, or greater than or equal to it when inclusive is true.
+Treat a null list as an empty list and return 0.
+Handle negative values and repeated values without special cases.

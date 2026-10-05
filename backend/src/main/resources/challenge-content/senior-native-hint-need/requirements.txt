@@ -1,0 +1,4 @@
+Map each pattern to the unified reachability metadata file it requires: "reflection:" to reflect-config.json, "resource:" to resource-config.json and "proxy:" to proxy-config.json.
+Return the distinct metadata files in the documented order reflect-config.json, resource-config.json, proxy-config.json.
+Match the prefix ignoring case and surrounding whitespace, and ignore unrecognized or blank patterns.
+Registering reflection for a type already implies constructors, methods and fields, so a member category suffix does not add another entry, and pattern lists may be null or contain nulls without returning null.

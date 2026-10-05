@@ -1,0 +1,5 @@
+auditEntry returns a map with exactly the four keys actor, action, target and outcome in that order.
+A null or blank input value is recorded as "unknown" and other values are trimmed.
+A value is replaced by "[redacted]" when it mentions password, secret or token (case-insensitive) or contains a run of 12 or more consecutive digits.
+The outcome is lower-cased when it is one of success, failure or denied, and is "unknown" otherwise.
+The entry must never contain the raw sensitive value in any field.

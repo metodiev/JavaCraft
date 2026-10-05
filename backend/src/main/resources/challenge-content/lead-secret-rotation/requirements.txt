@@ -1,0 +1,4 @@
+Always create the new secret version first and revoke the old version last, only after verifying consumers.
+When the store supports dual write, keep both versions valid during the overlap; otherwise update all consumers before activating the new version.
+Roll the new version out in batches when there is more than one consumer, otherwise roll it out to the single consumer.
+Throw IllegalArgumentException when consumers is below one; every sequence has exactly five unique steps.

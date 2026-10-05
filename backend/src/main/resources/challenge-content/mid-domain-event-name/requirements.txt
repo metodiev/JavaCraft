@@ -1,0 +1,5 @@
+Build the event name from the aggregate part and the action part, both split on any run of non-alphanumeric characters.
+Each part is converted to PascalCase: every word is lower cased and its first letter is upper cased, so order_item becomes OrderItem.
+The action is then turned into the past tense: an action already ending in "ed" is kept, one ending in "e" takes a "d", one ending in a consonant plus "y" changes "y" to "ied", and everything else takes "ed".
+A null or blank part contributes nothing, so the event name is the one non-empty part, and both parts empty give "".
+For example the aggregate order and the action place produce OrderPlaced.

@@ -1,0 +1,4 @@
+Return "<column> <operator> ?" for an allowlisted column and operator, where ? is the bound parameter placeholder.
+Allow only the columns id, email, status and created_at, and only the operators =, <>, <, <=, > and >=.
+Throw IllegalArgumentException for a column or operator that is not allowlisted, for a parameter index below 1, or for null arguments.
+Never interpolate a value into the returned SQL text; only a placeholder may follow the operator.

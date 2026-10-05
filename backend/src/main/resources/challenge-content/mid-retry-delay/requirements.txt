@@ -1,0 +1,4 @@
+Return initial multiplied by multiplier raised to attempt-1, truncated to a whole number of milliseconds.
+Treat an attempt below 1 as the first attempt, so the returned delay is the initial delay.
+Cap the result at max, so the delay never exceeds it.
+Never overflow or return a negative value, no matter how large the attempt is.

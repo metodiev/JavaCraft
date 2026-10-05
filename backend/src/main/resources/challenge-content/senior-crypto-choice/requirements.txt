@@ -1,0 +1,4 @@
+Map password-storage to hashing, which means a salted, slow password hash such as Argon2 or bcrypt.
+Map data-at-rest to symmetric encryption, which means an authenticated mode such as AES-GCM.
+Map message-integrity to MAC, such as HMAC-SHA-256, and session-key to key exchange, such as X25519 or ECDH.
+Any other purpose, including null and different casing, throws IllegalArgumentException.

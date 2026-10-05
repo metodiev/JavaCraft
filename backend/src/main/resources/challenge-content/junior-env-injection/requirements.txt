@@ -1,0 +1,4 @@
+Convert every configuration key to its environment variable form: upper case with dots and dashes replaced by underscores.
+Copy values unchanged and skip entries whose key is null.
+A null or empty config returns an empty map.
+The map is keyed only by the converted name; the original key is not emitted.

@@ -1,0 +1,4 @@
+Reassemble records separated by a single newline character across chunk boundaries, returning them in order.
+A trailing record without a final newline is emitted, while empty lines are skipped and never returned.
+No single record may exceed maxChunkBytes: a longer record throws IllegalArgumentException, as does a limit below 1.
+A null chunk list, a null chunk element, or a null element in the list throws IllegalArgumentException.

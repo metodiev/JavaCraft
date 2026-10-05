@@ -1,0 +1,6 @@
+Choose the assertion method that expresses a requested check and return its AssertJ method name.
+"equality" maps to "isEqualTo" and "null" maps to "isNull".
+"not-null" maps to "isNotNull" and "exception" maps to "isInstanceOf".
+"collection-size" maps to "hasSize" and "collection-empty" maps to "isEmpty".
+Any other check, including null, maps to "unknown".
+Check names are matched ignoring case.

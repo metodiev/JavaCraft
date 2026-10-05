@@ -1,0 +1,4 @@
+Partition values with the key true for values greater than or equal to the threshold and false for the rest.
+Return a summary statistics object for each group so callers can read count, sum, min, max and average.
+Ignore null entries, and produce two empty groups for an empty or null list.
+The result must always contain both keys.

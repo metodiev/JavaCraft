@@ -1,0 +1,4 @@
+recommendations reports the actions the documented thresholds require, in the canonical order scale-out, consolidate, optimise-latency, reduce-spend.
+utilisation above 0.80 needs scale-out and below 0.30 needs consolidate; a p99 above 300 ms needs optimise-latency; a budget utilisation of 1.0 or more needs reduce-spend.
+Thresholds are exclusive when compared: exactly 0.80, 0.30 or 300 ms triggers nothing, while 1.0 budget utilisation is already exhausted.
+Measurements must be finite and non-negative; otherwise throw IllegalArgumentException.

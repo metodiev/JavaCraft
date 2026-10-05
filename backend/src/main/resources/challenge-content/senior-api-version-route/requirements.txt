@@ -1,0 +1,4 @@
+Choose the highest supported version that is not above the requested version, which is what Spring 7 does when several candidate mappings are at or below the request.
+Compare versions component by component as numbers, so 1.10 is newer than 1.9 and 2 is the same version as 2.0.
+Fall back to the baseline when the request is null or blank, when the supported list is null or empty, or when no supported version is at or below the request.
+Trim surrounding whitespace and return the matching version exactly as it appears in the supported list; never return null.

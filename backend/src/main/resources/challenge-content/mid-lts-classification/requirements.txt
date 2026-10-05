@@ -1,0 +1,3 @@
+Return true for 8 and 11, the LTS releases before the two-year cadence.
+From 17 onwards an LTS release appears every four feature versions, so 17, 21, 25 and 29 are LTS.
+Return false for every other version, including 9, 10, 12, 18, 22 and 23.

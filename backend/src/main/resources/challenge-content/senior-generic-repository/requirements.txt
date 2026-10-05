@@ -1,0 +1,4 @@
+save stores an entity under its identifier and replaces any previous value for the same id.
+findById returns the stored entity in an Optional and never null.
+delete removes the entity and returns true only when something was actually removed.
+A repository never exposes entities saved to a different repository instance.

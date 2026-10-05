@@ -1,0 +1,4 @@
+A method is worth extracting when it mixes two or more distinct responsibilities, when it is longer than twenty lines, or when it uses eight or more local variables.
+A method of six lines or fewer is never extracted, even when the responsibility count, the length or the variable count signal extraction.
+When the method has seven or more lines, any one of the three signals is enough on its own: two or more responsibilities, more than twenty lines, or eight or more used variables.
+Otherwise a single responsibility, twenty lines or fewer and seven used variables or fewer leave the method in place.

@@ -1,0 +1,4 @@
+Always order the base practices: require automated tests to pass before merge, deploy only through a reviewed pipeline, release progressively with automatic rollback, then observe release health before increasing traffic.
+When more than one service is owned, add define a service owner for each service after the base practices.
+When regulated, add retain an auditable release record then sign build artifacts, after any ownership practice.
+Never repeat a practice; throw IllegalArgumentException when servicesOwned is below one.

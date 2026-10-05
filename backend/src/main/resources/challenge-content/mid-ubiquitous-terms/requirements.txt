@@ -1,0 +1,6 @@
+codeNames maps each concept to the term used in the code, and glossary maps the same concept to the agreed ubiquitous-language term.
+Two terms match when they are equal after trimming surrounding spaces and ignoring case, so 'Order Total' and ' order total ' match.
+Report "concept: code uses 'X' but glossary says 'Y'" for every concept whose terms do not match, showing the trimmed names with their original case.
+Concepts missing from the glossary and entries with a null concept key are ignored.
+A null name is treated as an empty string.
+Sort the report by concept.

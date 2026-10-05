@@ -1,0 +1,4 @@
+Format the result as "count=<n>, total=<sum>, worst=<max>" where <n> is the number of pauses, <sum> their total and <max> the worst pause.
+A null or empty list reports "count=0, total=0, worst=0".
+Sum the totals in a long so large lists do not overflow.
+Null elements inside the list are treated as a pause of 0 milliseconds.

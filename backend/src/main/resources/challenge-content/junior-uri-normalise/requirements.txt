@@ -1,0 +1,5 @@
+Collapse runs of slashes into one and always return a path that starts with a single slash.
+Remove "." segments and resolve ".." by popping the previous segment; ".." at the root is ignored rather than escaping.
+Remove the trailing slash unless the path is "/".
+Keep the query string (from the first ?) and the fragment (from the first #) unchanged.
+Treat null or blank input as the root path.

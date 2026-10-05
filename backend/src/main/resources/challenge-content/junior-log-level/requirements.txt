@@ -1,0 +1,5 @@
+Map the event category "expected-failure" to WARN, because a handled failure needs attention but not a page.
+Map "unexpected-failure" to ERROR, because a human must act on it.
+Map "routine-detail" to DEBUG and "lifecycle" to INFO.
+Accept the category case-insensitively and ignore surrounding whitespace.
+Throw IllegalArgumentException for a null, blank or unknown category.

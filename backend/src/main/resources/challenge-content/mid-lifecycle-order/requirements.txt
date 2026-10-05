@@ -1,0 +1,3 @@
+phasesUpTo returns the default Maven lifecycle phases from validate through the requested phase inclusive, in their documented order.
+The documented order is validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy.
+The requested phase is matched exactly, so an unknown, empty, null or differently cased name yields an empty list.

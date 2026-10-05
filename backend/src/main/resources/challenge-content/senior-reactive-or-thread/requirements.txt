@@ -1,0 +1,4 @@
+Return "reactive" when the source is a stream, because cancellation and flow control are part of the contract.
+Otherwise return "reactive" only for an I/O-bound call with a fanOut of at least 1000 when the team already knows Reactor.
+Otherwise return "virtual-threads": request-response I/O gains little from reactive types, and CPU-bound or unfamiliar teams should stay imperative.
+Throw IllegalArgumentException for a negative fanOut.

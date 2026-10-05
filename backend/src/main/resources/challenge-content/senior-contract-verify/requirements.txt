@@ -1,0 +1,6 @@
+Compare a consumer contract with the payload actually received from the provider.
+For each contract key missing from the payload, report "missing: <key>".
+For each key whose value type does not match the contract, report "type: <key> expected <contractType> but was <actualType>".
+The accepted type names are number, string, boolean, object and array, and a number accepts any integral or floating-point value.
+A missing key is reported only as missing, extra payload keys are allowed, and the report contains no duplicates.
+Sort the report alphabetically, and return an empty list when either map is null or empty.

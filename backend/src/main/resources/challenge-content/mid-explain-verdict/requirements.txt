@@ -1,0 +1,5 @@
+When sequentialScan is false return INDEX_SCAN, whatever the row counts are.
+For a sequential scan returning fewer than 1000 scanned rows, return SMALL_TABLE.
+A sequential scan returning at least half of the scanned rows is a deliberate FULL_SCAN.
+A selective sequential scan (under half returned) is MISSING_INDEX when no index exists, otherwise STALE_STATISTICS.
+Throw IllegalArgumentException for negative counts or when rowsReturned exceeds rowsScanned.

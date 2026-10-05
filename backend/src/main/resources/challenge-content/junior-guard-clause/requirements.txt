@@ -1,0 +1,3 @@
+Return the maximum depth of any if statement in the listing, where the depth of an if is one plus the number of enclosing blocks that are still open when the if is reached.
+A line whose first non-space character is } closes the innermost open block before the rest of the line is read, so an else if continuation of a closed block is measured at the outer depth.
+A null or blank line is skipped, and a null list or a listing without if statements has depth zero.

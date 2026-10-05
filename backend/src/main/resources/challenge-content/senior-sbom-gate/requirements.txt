@@ -1,0 +1,5 @@
+Return FAIL when any finding is marked reachable and its severity is greater than or equal to the severityThreshold.
+Return WARN when there are findings but none is a reachable finding at or above the threshold, and PASS when there are no findings at all.
+Severity is read from the severity key as a number; a missing or non-numeric severity counts as 0.
+Only Boolean.TRUE under the reachable key counts as reachable.
+The severityThreshold must be between 1 and 10 inclusive, otherwise IllegalArgumentException.

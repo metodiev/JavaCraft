@@ -1,0 +1,3 @@
+Return a new map whose first entry is the discriminator "type" mapped to the given type, followed by every body entry in order.
+The input body must not be mutated, and the discriminator must survive a copy of the returned envelope.
+A body that already contains a "type" key, a null type or a null body throws IllegalArgumentException.

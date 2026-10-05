@@ -1,0 +1,4 @@
+Return 201 for create, 200 for read, 204 for delete and 202 for accept.
+Match actions case-insensitively and ignore surrounding spaces.
+Throw IllegalArgumentException for a null, blank or unrecognised action.
+Only success status codes are returned.

@@ -1,0 +1,3 @@
+Outcome is a sealed interface whose only permitted implementations are the records Ok(String value) and Failed(String reason).
+describe returns "ok: " plus the value for Ok, and "failed: " plus the reason for Failed.
+A null or blank value or reason is rendered as (none), and a null outcome gives "unknown outcome".

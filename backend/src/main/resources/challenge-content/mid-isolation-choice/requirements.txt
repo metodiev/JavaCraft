@@ -1,0 +1,4 @@
+Return READ COMMITTED for scenarios that only need to exclude dirty reads: dirty-read and read-only-report.
+Return REPEATABLE READ for non-repeatable-read and lost-update.
+Return SERIALIZABLE for phantom-read and write-skew.
+Throw IllegalArgumentException for a null or unknown scenario instead of guessing.

@@ -1,0 +1,4 @@
+Classify a statement containing CONCURRENTLY, or any statement run against a small table, as SAFE.
+On a large table, classify ADD COLUMN with DEFAULT, ALTER COLUMN TYPE and SET NOT NULL as REQUIRES_BACKFILL.
+On a large table, classify CREATE INDEX without CONCURRENTLY as REQUIRES_LOCK.
+Match case-insensitively after trimming, and throw IllegalArgumentException for a null or blank statement.

@@ -1,0 +1,5 @@
+encode returns the base64url (no padding) form of the UTF-8 text sortKey + "|" + id.
+decode reverses encode and splits the decoded text on the first "|".
+decode tolerates standard base64 padding and the standard base64 alphabet.
+Null arguments to encode throw IllegalArgumentException.
+decode returns an empty array for null, blank, non-base64 or separator-free input instead of throwing.

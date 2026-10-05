@@ -1,0 +1,5 @@
+alert returns a definition map containing sli, budget, fastWindowSeconds, slowWindowSeconds, burnRateFactor and condition.
+budget is 1 - target, and the window seconds are the minute arguments multiplied by 60.
+burnRateFactor follows the documented tiers: 14.4 when slowWindowMinutes is at most 60, 6.0 when at most 360, and 1.0 otherwise.
+condition is "burnRate > <factor> over <fast>m and <slow>m", requiring both the short and the long window to breach.
+The sli must not be blank, target must be strictly between 0 and 1, and 0 < fast < slow windows; otherwise throw IllegalArgumentException.

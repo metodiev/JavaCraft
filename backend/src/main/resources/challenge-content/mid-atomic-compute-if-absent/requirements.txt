@@ -1,0 +1,4 @@
+computeOnce(cache, key, loader) returns the value already mapped to key, or loads and stores one when the key is absent.
+A single call to computeIfAbsent must perform the lookup and the store so the loader runs at most once per key.
+When the loader returns null nothing is cached and a later call loads again.
+A null cache, key, or loader throws IllegalArgumentException.

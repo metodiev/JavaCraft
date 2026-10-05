@@ -1,0 +1,6 @@
+Judge a test name by whether it states a condition and an expected outcome.
+A condition word is one of: when, given, if.
+An expectation word is one of: then, should, returns, throws.
+Report "missing-condition" when no condition word appears and "missing-expectation" when no expectation word appears, in that order.
+Names are split into words at non-letter characters and camel-case boundaries and matched case-insensitively.
+A null or blank name reports both problems, and a name containing both parts reports none.

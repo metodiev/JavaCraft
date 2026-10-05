@@ -1,0 +1,3 @@
+scopeFor maps the usage compile-only to compile, runtime-only to runtime, test-only to test, and provided-by-container to provided.
+The usage string is trimmed before matching and compared exactly and case-sensitively.
+Any other value, including an empty string, an unknown usage, or null, throws IllegalArgumentException.

@@ -1,0 +1,4 @@
+chooseThreadType(ioBound, longCpuBound, usesThreadLocalHeavily, tasksPerSecond) returns "platform" or "virtual".
+longCpuBound or usesThreadLocalHeavily always selects "platform".
+Otherwise "virtual" is selected only when ioBound is true and tasksPerSecond is at least 1000.
+Every other combination selects "platform".

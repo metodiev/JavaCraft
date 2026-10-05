@@ -1,0 +1,3 @@
+readValid(stampBefore, stampAfter, writeObserved) reports whether an optimistic read can be trusted.
+The read is valid only when stampBefore equals stampAfter and writeObserved is false.
+Any stamp difference or an observed write makes the read invalid.

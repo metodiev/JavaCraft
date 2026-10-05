@@ -1,0 +1,4 @@
+sourceDateEpoch renders the reproducible build timestamp written into archive entries, always in ISO-8601 UTC.
+A null value returns the fixed reproducible fallback 1980-01-01T00:00:00Z, so a build that supplies nothing still gets a constant stamp.
+A supplied value renders as yyyy-MM-ddTHH:mm:ss followed by a literal Z in UTC, so the Unix epoch renders as 1970-01-01T00:00:00Z and 1700000000 as 2023-11-14T22:13:20Z.
+Valid timestamps are never clamped, and a value the formatter cannot represent is rejected with IllegalArgumentException.

@@ -1,0 +1,4 @@
+Return 0 when the observed time is at least the target time, because the code is already warm.
+Otherwise estimate the remaining invocations as the missing time divided by the step, rounded up to a whole number of steps.
+Treat a step of zero or less as one invocation.
+Never return more than 1,000,000 invocations and never return a negative number.

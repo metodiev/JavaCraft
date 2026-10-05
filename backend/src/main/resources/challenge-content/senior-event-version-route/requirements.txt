@@ -1,0 +1,4 @@
+A handler is named "v" + version, for example "v3".
+Return the exact handler when supportedVersions contains the event version.
+Otherwise return the highest supported version strictly below the event version, skipping null entries.
+Return null when no supported version is compatible: an empty or null list, an event version below one, or a version older than every handler.

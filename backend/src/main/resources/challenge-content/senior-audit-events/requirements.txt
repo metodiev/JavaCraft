@@ -1,0 +1,4 @@
+Every audit entry must have a non-blank actor, action, target and timestamp; report "missing <field>" for each absent or blank field.
+Report the missing fields in the order actor, action, target, timestamp.
+An entry must never carry secret material; when any key is password, token, secret, apiKey, api_key or credential, matched case-insensitively, report "secret material must not be logged".
+The secret finding always comes after the missing-field findings; a complete entry returns an empty list.

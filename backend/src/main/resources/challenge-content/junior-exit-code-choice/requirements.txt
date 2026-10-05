@@ -1,0 +1,3 @@
+Return 0 when the operation succeeded, ignoring the retryable flag.
+Return 75 when the operation failed and the failure is retryable, following the EX_TEMPFAIL convention.
+Return 1 when the operation failed and the failure is permanent.

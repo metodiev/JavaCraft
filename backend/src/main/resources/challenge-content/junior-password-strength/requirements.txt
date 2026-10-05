@@ -1,0 +1,5 @@
+A null password or one shorter than 8 characters is WEAK.
+Character classes are lowercase, uppercase, digit and symbol, where a symbol is any character that is neither a letter nor a digit.
+12 or more characters with at least 3 classes is STRONG.
+10 or more characters with at least 2 classes is GOOD; everything else that is not WEAK is FAIR.
+Return exactly one of WEAK, FAIR, GOOD or STRONG.

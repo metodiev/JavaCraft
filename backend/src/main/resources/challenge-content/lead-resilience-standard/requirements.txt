@@ -1,0 +1,3 @@
+New services must adopt these resilience patterns: remote calls need timeout, circuit-breaker and bulkhead; data writes need an idempotency-key; user-facing surfaces need graceful-degradation.
+The result lists only the patterns required by the flags, in the canonical order timeout, circuit-breaker, bulkhead, idempotency-key, graceful-degradation.
+An internal service that does none of these has an empty standard.

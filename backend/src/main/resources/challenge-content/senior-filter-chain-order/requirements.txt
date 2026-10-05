@@ -1,0 +1,5 @@
+Return the documented Spring Security filter order as the fifteen names DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, DefaultLoginPageGeneratingFilter, BasicAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter.
+The security context holder filter runs before the header writer, because the context must be available before anything else reads it.
+Cors runs before csrf, csrf before logout, logout before form login, and every authentication filter before authorization.
+ExceptionTranslationFilter runs after AnonymousAuthenticationFilter but before AuthorizationFilter, because it translates the access denied exception that filter raises.
+Return the same list for every call; never return null.

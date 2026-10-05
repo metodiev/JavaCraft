@@ -1,0 +1,3 @@
+Return the largest value using the natural comparison of T.
+Ignore null entries and return an empty Optional for an empty, null or all-null list.
+An empty Optional is also the result when no value can be compared.

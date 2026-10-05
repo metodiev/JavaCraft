@@ -1,0 +1,4 @@
+Merge both maps into one result whose value is the sum of the matching entries.
+Keys that appear in only one map are kept with their existing value.
+A null map is treated as an empty map and the result is never null.
+Neither input map may be modified.

@@ -1,0 +1,5 @@
+Return a path that starts with a single leading slash.
+Join the base and the segments with single slashes, removing any leading or trailing slashes from each part.
+Ignore blank or null segments.
+Encode every space inside a segment as %20.
+Return "/" when there is no base and no usable segment.

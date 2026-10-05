@@ -1,0 +1,5 @@
+Report findings in the order ownership, service count, platform team.
+When clearOwnership is false report "ownership is unclear: assign one accountable team per service".
+When servicesPerTeam is below 1 report "<n> services per team is invalid: a team must own at least one service"; when it is above 10 report "<n> services per team is too many: split the team or merge the services".
+When platformTeamExists is false report "no platform team: create one to own shared build, deploy and observability tooling".
+A topology with no findings returns exactly "topology is healthy: ownership is clear and services are sized well".

@@ -1,0 +1,4 @@
+A dependency-resolution instruction is a RUN instruction mentioning dependency or go-offline, ignoring case.
+A source copy is a COPY or ADD instruction whose source operand is . or begins with src.
+Each dependency-resolution instruction after the first source copy moves to just before that copy, keeping relative order.
+Other instructions keep their relative order, the input list is never modified, and null or empty input gives an empty list.

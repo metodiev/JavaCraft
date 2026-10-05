@@ -1,0 +1,4 @@
+Return STARTUP when the purpose contains startup or boot, case-insensitively.
+Return READINESS when the purpose contains readiness, ready, or traffic.
+Return LIVENESS when the purpose contains liveness, alive, restart, or deadlock.
+Return NONE for null, blank, or unrecognised purposes; check STARTUP first, then READINESS, then LIVENESS.

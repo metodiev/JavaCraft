@@ -1,0 +1,6 @@
+compare returns a negative number, zero, or a positive number when left is lower, equal, or higher than right.
+Versions are dot-separated numeric components, and a missing component counts as zero, so 1.2 equals 1.2.0.
+A qualifier after the first hyphen is compared separately from the numeric components, and a qualifier never overrides a numeric difference.
+When the numeric components are equal, a version with a qualifier sorts before the same version without one, so 1.0-beta is older than 1.0.
+When both versions carry a qualifier, the qualifiers are compared lexically, so 1.0-alpha is older than 1.0-beta.
+Null, blank, or non-numeric versions are rejected with IllegalArgumentException.

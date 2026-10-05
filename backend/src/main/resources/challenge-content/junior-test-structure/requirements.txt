@@ -1,0 +1,6 @@
+Classify every line of an Arrange-Act-Assert test as SETUP, EXERCISE, VERIFY or NOISE, one label per line and in order.
+A line starting with "given", "prepare" or "arrange" is SETUP.
+A line starting with "when", "call" or "invoke" is EXERCISE.
+A line starting with "assert", "verify", "expect" or "then" is VERIFY.
+Any other line, including a blank line or a comment, is NOISE.
+Matching ignores leading whitespace and letter case, and a null list returns an empty list.

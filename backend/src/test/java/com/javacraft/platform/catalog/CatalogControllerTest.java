@@ -120,12 +120,38 @@ class CatalogControllerTest {
                         26,
                         "build-engineering",
                         "Build Engineering",
-                        List.of(new CatalogService.TutorialSection("Kotlin DSL versus Groovy DSL", "Body", "Code")))));
+                        List.of(new CatalogService.TutorialSection("Kotlin DSL versus Groovy DSL", "Body", "Code")),
+                        List.of())));
 
         mockMvc.perform(get("/api/v1/tutorials/gradle-kotlin-dsl"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categorySlug").value("build-engineering"))
                 .andExpect(jsonPath("$.categoryName").value("Build Engineering"));
+    }
+
+    @Test
+    void tutorialDetailListsTheChallengesThatPractiseIt() throws Exception {
+        when(catalogService.findTutorial("maven-dependency-scopes")).thenReturn(Optional.of(
+                new CatalogService.Tutorial(
+                        "maven-dependency-scopes",
+                        "Maven Dependency Scopes",
+                        "Scope tells Maven where a dependency belongs in the build.",
+                        "Junior",
+                        24,
+                        "build-engineering",
+                        "Build Engineering",
+                        List.of(),
+                        List.of(new CatalogService.ChallengeSummary(
+                                "junior-scope-choice",
+                                "Choose a Dependency Scope",
+                                "Map usage to the correct Maven scope.",
+                                "Junior",
+                                "Build Engineering")))));
+
+        mockMvc.perform(get("/api/v1/tutorials/maven-dependency-scopes"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.challenges[0].slug").value("junior-scope-choice"))
+                .andExpect(jsonPath("$.challenges[0].level").value("Junior"));
     }
 
     @Test

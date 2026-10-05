@@ -1,0 +1,4 @@
+Join the allowlisted column names with ", " and append " ASC" or " DESC" after each column, based on descending.
+Allow only the columns id, email, status, created_at and score.
+Throw IllegalArgumentException for a null or empty column list, for any unknown column, or for a null column entry.
+Do not copy user text verbatim into the clause; every column must pass the allowlist check.

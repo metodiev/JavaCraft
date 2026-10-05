@@ -1,0 +1,4 @@
+hasCycle(waitingFor) reports whether the wait-for graph contains a cycle.
+Each key is a waiting thread and each value lists the threads it waits for; a thread waiting on itself is a cycle.
+Targets that are not keys in the map are leaves and end the walk without a cycle.
+A null map, an empty map, or an empty list for a key means no cycle; null entries inside a list are ignored.

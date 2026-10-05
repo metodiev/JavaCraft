@@ -1,0 +1,4 @@
+toAccessor converts a Gradle version catalog alias into the typed accessor a build script uses.
+The alias is trimmed, then every dash and underscore becomes a dot, and the result is prefixed with libs.
+Existing dots are kept, so commons.io becomes libs.commons.io and spring-boot_starter-web becomes libs.spring.boot.starter.web.
+A null or blank alias, an alias with an empty segment from a leading, trailing, doubled or mixed separator, or any upper-case letter is rejected with IllegalArgumentException.

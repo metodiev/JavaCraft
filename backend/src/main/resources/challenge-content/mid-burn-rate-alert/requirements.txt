@@ -1,0 +1,4 @@
+The burn rate for one window is errorBudgetConsumedFraction divided by timeWindowFraction.
+The alert fires only when the burn rate strictly exceeds factor.
+The consumed fraction may exceed 1 when the budget is overspent, but it must be finite and not negative.
+timeWindowFraction must be in (0, 1] and factor must be positive and finite; otherwise throw IllegalArgumentException.

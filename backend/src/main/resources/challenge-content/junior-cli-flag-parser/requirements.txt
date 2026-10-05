@@ -1,0 +1,5 @@
+Return an empty map for a null or empty argument array.
+Parse each token of the form --key=value into a key/value entry, splitting on the first =.
+Parse each token of the form --flag into an entry with the value "true".
+Ignore tokens that do not start with --, the bare token --, and tokens with an empty key.
+When the same key appears more than once, the last value wins.

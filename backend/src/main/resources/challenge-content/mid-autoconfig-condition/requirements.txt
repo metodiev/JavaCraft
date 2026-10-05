@@ -1,0 +1,4 @@
+Return "CREATE" only when the required class is present, the enabling property is set and no bean of the same type already exists.
+Return "BACK_OFF" when the required class is missing or the enabling property is disabled, whatever the other flags say.
+Return "SKIP" when the class is present and the property is enabled but the application already defines the bean.
+Evaluate the conditions in the documented order: class availability first, then the property, then the missing-bean condition.

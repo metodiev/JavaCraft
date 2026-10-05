@@ -1,0 +1,4 @@
+Build the condition string "<metric> > <threshold> for <window>", rendering the threshold with Double.toString so 0.05 stays 0.05.
+Alerts target symptoms of user impact; reject cause-based metrics: cpu, memory, heap, disk, thread and gc (matched case-insensitively anywhere in the name).
+Trim the metric and window; throw IllegalArgumentException for a null or blank metric or window.
+Throw IllegalArgumentException for a threshold that is NaN or infinite, or for a cause-based metric.

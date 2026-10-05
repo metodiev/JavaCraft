@@ -1,0 +1,4 @@
+shape chooses the system shape from the deployment and consistency constraints and the number of teams.
+Without independent deployment the answer is MODULAR_MONOLITH; independent deployment with strong consistency required is SERVICES regardless of team count.
+Independent deployment with weak consistency is SERVICES below five teams and EVENT_DRIVEN from five teams up, since asynchronous integration decouples many teams.
+teamCount must be positive; otherwise throw IllegalArgumentException.

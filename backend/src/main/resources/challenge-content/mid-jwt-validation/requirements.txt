@@ -1,0 +1,4 @@
+A missing, blank or "none" alg, matched case-insensitively, is a violation: "alg none is not allowed".
+exp must be a numeric claim; when it is missing or not a number report "exp is required", and when exp is less than or equal to the current time report "token is expired".
+sub must be a non-blank string, otherwise report "sub is required".
+Return the violations in the order alg, exp, sub; a valid token returns an empty list.

@@ -1,0 +1,4 @@
+signals returns the pipeline trace: the operator onErrorResume first, then the signals emitted in order.
+A successful main sequence emits next:main then complete, and the fallback is never subscribed.
+A main failure emits error:main, then next:fallback and complete when a fallback value exists.
+When the fallback is empty the error is replaced by an empty completion: error:main then complete.

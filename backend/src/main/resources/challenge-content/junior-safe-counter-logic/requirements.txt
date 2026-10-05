@@ -1,0 +1,4 @@
+nextValue(current, limit) returns current + 1 when that value does not exceed limit.
+When current + 1 would exceed limit the method returns 0 instead.
+A current value at or above limit returns 0.
+A negative current or a negative limit throws IllegalArgumentException.

@@ -1,0 +1,5 @@
+Decide whether a recorded history of past results proves that a test is flaky.
+A test is flaky when the history contains both a pass and a failure.
+A history with only passes or only failures is not flaky.
+A history with fewer than two results cannot prove flakiness.
+A null entry or a null history means the result cannot be judged and is not flaky.

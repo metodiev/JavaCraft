@@ -1,0 +1,4 @@
+Return an empty string when value is null.
+Escape & as &amp;, < as &lt; and > as &gt; using these named entities.
+Escape the double quote as &quot; and the single quote as &#39;.
+Leave every other character unchanged and escape each character exactly once.

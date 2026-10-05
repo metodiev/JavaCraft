@@ -1,0 +1,4 @@
+Start from the base properties and apply each override map from left to right, so a later profile wins.
+Preserve every base key that no profile overrides, and merge in keys that only a profile defines.
+Treat a null base as empty, and ignore null or empty override entries.
+Never modify the base map or the override maps; return a new map.

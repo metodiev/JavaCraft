@@ -1,0 +1,4 @@
+Return a new list sorted by string length in ascending order.
+The sort must be stable: strings of equal length keep their original relative order.
+Null elements sort after every non-null element, and nulls among themselves keep their original order.
+Return an empty list for null or empty input; never modify the input list.

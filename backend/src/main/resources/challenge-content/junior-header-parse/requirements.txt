@@ -1,0 +1,5 @@
+Split the block into lines on \n and \r\n and ignore blank lines or lines without a colon.
+Take the header name before the first colon and the value after it, trimming both.
+Store names lower-cased; the last value for a repeated name wins.
+Values may contain colons and may be empty; a missing name (line starting with a colon) is a malformed line.
+Treat null input as an empty map.

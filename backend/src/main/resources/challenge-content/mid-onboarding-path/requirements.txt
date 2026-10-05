@@ -1,0 +1,5 @@
+Every new engineer starts with "set up the development environment" and "run the build and the test suite".
+When javaBackground is false insert "work through the Java and framework learning path" after the first two steps.
+Then comes "ship a small change to production".
+When hasProductionAccess is true add "walk through the production runbooks and on-call basics" after shipping.
+The path always ends with "meet the team and agree on a buddy".

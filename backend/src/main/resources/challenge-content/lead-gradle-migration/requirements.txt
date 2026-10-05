@@ -1,0 +1,4 @@
+migrationOrder plans an incremental Maven to Gradle migration by ordering modules so each one is migrated after the modules it depends on.
+The result is leaf-to-root: modules with no remaining Maven dependencies come first, then modules that only depend on already migrated ones, each appearing exactly once.
+Independent modules are emitted in natural sorted order, a module mentioned only as a dependency is still migrated, and null entries and blank module names are ignored.
+A null or empty graph yields an empty order, and a graph containing a cycle cannot be ordered, so the result is empty rather than a partial plan.

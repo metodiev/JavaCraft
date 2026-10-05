@@ -1,0 +1,4 @@
+Keep a share of the error traces: ceil(errors * errorSampleRate), so an errorSampleRate of 1.0 keeps every error.
+Keep a baseline sample of the non-error traces: ceil((traces - errors) * baselineRate).
+The result is the two samples added together, never more than traces.
+traces must not be negative, errors must be within 0..traces, and both rates must be finite and within 0..1; otherwise throw IllegalArgumentException.

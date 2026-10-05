@@ -1,0 +1,5 @@
+A null or blank version is treated as 0.0.0.
+Split a version into major, minor and patch components on dots and underscores; missing components are 0 and non-numeric components are 0.
+A leading 1. is a legacy prefix: 1.8.0_292 denotes 8.0.292 and is newer than 8.0.0.
+Compare the major component first, then the minor, then the patch.
+Return a negative number when the left version is older, zero when both are equal, and a positive number when the left version is newer.

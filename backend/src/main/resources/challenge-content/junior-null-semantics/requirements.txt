@@ -1,0 +1,4 @@
+Return null when either argument is null, mirroring the SQL UNKNOWN result of a NULL comparison.
+Return Boolean.TRUE when both arguments are non-null and equal.
+Return Boolean.FALSE when both arguments are non-null and different.
+Two null values must still return null; NULL = NULL is unknown, never true.

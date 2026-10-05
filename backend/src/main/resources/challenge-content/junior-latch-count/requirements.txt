@@ -1,0 +1,4 @@
+latchCount(workers, alreadyDone) returns how many workers must still complete: workers - alreadyDone.
+An alreadyDone value below zero is treated as zero, so the result never exceeds workers.
+When alreadyDone is at or above workers the result is zero, never negative.
+A negative workers value throws IllegalArgumentException.

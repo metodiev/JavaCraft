@@ -1,0 +1,5 @@
+State flows between CLOSED, OPEN and HALF_OPEN; unknown or null states are rejected with IllegalArgumentException.
+CLOSED keeps normal traffic and moves to OPEN when a call fails and failureRate has reached threshold.
+OPEN ignores call outcomes and stays OPEN until a recovery probe begins.
+HALF_OPEN closes on a successful probe and reopens on a failed probe.
+failureRate must be 0..100 and threshold must be 1..100; both are validated.

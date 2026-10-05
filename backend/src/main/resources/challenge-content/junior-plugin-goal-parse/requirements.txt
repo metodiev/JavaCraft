@@ -1,0 +1,4 @@
+parseGoal splits groupId:artifactId:version:goal into its four segments in that order.
+When only groupId:artifactId:goal is given, the version segment defaults to RELEASE.
+Every segment is trimmed and must be non-empty.
+A goal with two or with more than four segments, a null or blank goal, and any empty segment are rejected with IllegalArgumentException.

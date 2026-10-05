@@ -1,0 +1,4 @@
+Report each attribute that appears only in the actual infrastructure as added <key>.
+Report each attribute that appears only in the desired configuration as removed <key>.
+Report each attribute present in both with different values as changed <key>.
+Return the lines sorted alphabetically; treat a null map as empty, and an empty list when there is no drift.

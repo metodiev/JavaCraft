@@ -1,0 +1,5 @@
+A write to entity id affects the key "<entity>:<id>" and every nested key starting with "<entity>:<id>:".
+It also affects list keys equal to "<entity>-list" and keys starting with "<entity>-list:".
+Return only the affected keys that are present in knownKeys; similar ids such as "<entity>:<id>0" and other entities stay untouched.
+The knownKeys set must not be modified.
+Throw IllegalArgumentException for a null or blank entity or id, or a null knownKeys set.

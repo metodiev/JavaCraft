@@ -1,0 +1,4 @@
+Return the advice callbacks as the strings "<aspect> in" and "<aspect> out", sorted by ascending order value on the way in.
+On the way out the aspects run in reverse order, so the lowest order value enters first and exits last.
+Break ties between equal order values alphabetically by aspect name, so the result never depends on map iteration order.
+Skip null aspect names, and return an empty list for a null or empty aspect map rather than null.

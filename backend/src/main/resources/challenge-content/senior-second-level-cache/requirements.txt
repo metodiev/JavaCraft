@@ -1,0 +1,5 @@
+cacheRegion returns "none" for a null or blank entityName and for any entity that is not read-mostly, because entities that change often should not be in the second-level cache.
+A read-mostly entity that is shared across nodes returns "read-only", the safest concurrent strategy for a cluster.
+A read-mostly entity on a single node returns "read-write" because the read-write strategy needs entity locking that does not work safely in a cluster.
+"transactional" is only ever chosen for the read-mostly single-node case when the caller opts into transaction-scoped caching, so this method never returns it.
+The only possible results are "read-only", "read-write" and "none".

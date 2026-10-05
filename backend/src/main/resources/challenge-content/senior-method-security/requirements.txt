@@ -1,0 +1,4 @@
+permit evaluates a Spring Security expression made of hasRole('X'), hasAuthority('X'), isOwner, parentheses and the ! , && and || operators (the case-insensitive words and, or and not are also accepted).
+hasRole('X') is true when the authorities contain "ROLE_X", while hasAuthority('X') is true only when they contain X exactly; both are case-sensitive and false when authorities is null.
+isOwner is true only when ownerId and callerId are both non-blank and equal.
+! binds tightest, then and, then or, and parentheses override precedence; a null, blank or unrecognised expression is denied without throwing.

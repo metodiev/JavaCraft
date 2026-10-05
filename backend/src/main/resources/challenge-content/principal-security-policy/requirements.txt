@@ -1,0 +1,5 @@
+Every organisation adopts, in this order: assign a security owner for every system, require two-person review for production changes, keep an incident response runbook up to date.
+When regulatedData is true append "classify and retain regulated data under the data policy" and then "encrypt regulated data at rest and in transit".
+When publicApi is true append "authenticate and rate limit every public endpoint".
+When teamCount is 3 or more append "run a quarterly access review"; when it is 10 or more also append "fund a dedicated security engineering function".
+A negative teamCount throws IllegalArgumentException.

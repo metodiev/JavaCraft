@@ -1,0 +1,3 @@
+Format the instant in UTC as ISO-8601 with seconds precision, for example 2024-01-02T03:04:05Z.
+Any sub-second precision is truncated, not rounded, and the trailing Z marks UTC.
+A null instant yields an empty string.

@@ -1,0 +1,5 @@
+Return "enable http/2" when concurrentRequests is at least 100 or headOfLineBlocking is true.
+Otherwise return "avoid server push" when serverPush is true.
+Otherwise return "keep http/1.1".
+Only enable http/2, avoid server push and keep http/1.1 are ever returned.
+Throw IllegalArgumentException for a negative concurrentRequests.

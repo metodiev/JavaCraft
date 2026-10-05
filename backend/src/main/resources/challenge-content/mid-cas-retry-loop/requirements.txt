@@ -1,0 +1,5 @@
+casAttempts(initial, target, observed) models a CAS retry loop and returns how many attempts it takes to observe the target value.
+When initial already equals target the loop makes zero attempts and never calls observed.
+Each attempt calls observed with the previous observed value (or initial on the first attempt) and stops as soon as the returned value equals target.
+An unreachable target stops after at most 1000 attempts and returns 1000.
+A null observed operator throws IllegalArgumentException.

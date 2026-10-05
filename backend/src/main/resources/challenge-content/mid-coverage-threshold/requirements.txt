@@ -1,0 +1,5 @@
+Return the documented minimum line-coverage threshold, as a whole percentage, for a module kind.
+A "service" module must reach 80 percent, a "controller" module 70 percent, and a "utility" module 90 percent.
+Any other module kind, including null, returns the default threshold of 60 percent.
+The module kind is matched ignoring case and surrounding whitespace.
+A threshold is never above 100 percent.

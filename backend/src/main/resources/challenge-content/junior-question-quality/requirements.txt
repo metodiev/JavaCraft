@@ -1,0 +1,4 @@
+A good technical question has context, attempted steps and a minimal reproduction; report each absent part.
+Look for the markers "Context:", "I tried" and "Minimal example:", each matched case-insensitively after trimming, with its content non-blank.
+Report, in order: "missing context", "missing attempted steps", "missing minimal reproduction".
+A null question misses all three parts.

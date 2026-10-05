@@ -1,0 +1,4 @@
+misaligned compares the declared versions with the versions managed by the BOM.
+An artifact is reported when the BOM manages it and the two version strings differ exactly, including whitespace.
+Artifacts that the BOM does not manage are never reported.
+The result is sorted in natural order, and null maps count as empty and report nothing.

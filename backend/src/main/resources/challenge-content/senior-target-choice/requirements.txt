@@ -1,0 +1,4 @@
+User-facing work always targets LATENCY, because a person waits for the response.
+Non-user-facing batch work targets THROUGHPUT when p99BudgetMillis is more than 1000, because the wait is hidden and batching amortises fixed costs.
+Otherwise the work targets LATENCY, because some caller still waits for it.
+p99BudgetMillis must be finite and positive; otherwise throw IllegalArgumentException.

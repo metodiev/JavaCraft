@@ -1,0 +1,3 @@
+directDependencies returns the modules that the given module depends on directly, sorted naturally.
+Repeated entries appear once and null entries are ignored.
+An unknown module, a null module, a null graph, or a module without dependencies yields an empty list.

@@ -1,0 +1,4 @@
+Triage starts from the user-visible symptom, so the first step is always confirm-user-impact, never the loudest alert.
+When recentChange is true, check-recent-changes comes second because most incidents follow a deploy or configuration change.
+Then add the active signals in this fixed order: inspect-errors, inspect-latency, inspect-saturation.
+When no signal is active, add widen-scope before the final step; the last step is always form-hypothesis.

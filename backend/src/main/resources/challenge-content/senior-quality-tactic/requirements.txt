@@ -1,0 +1,6 @@
+tactics returns the documented tactics for the given quality attribute in canonical order.
+availability: heartbeat-monitor, passive-redundancy and graceful-degradation, with active-redundancy replacing passive-redundancy when latencyCritical is true.
+performance: resource-pooling and prioritise-requests, with introduce-concurrency added when latencyCritical is true.
+modifiability: reduce-coupling, increase-cohesion, defer-binding and use-an-intermediary, unchanged by latency.
+security: authenticate-requests, authorise-requests, encrypt-sensitive-data and audit-access, unchanged by latency.
+Attribute names ignore surrounding whitespace and case; an unknown or null attribute throws IllegalArgumentException.

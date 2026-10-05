@@ -1,0 +1,4 @@
+coupling maps each module to the modules it depends on; modules that appear only as a dependency are still part of the graph.
+A module can only be extracted after all of its remaining dependencies, and each extraction removes the module from the graph.
+Among the extractable modules (those whose remaining dependencies are gone), the one with the fewest couplings in the remaining graph is extracted first, where couplings are remaining dependencies plus remaining dependents; ties are broken alphabetically.
+A split order exists only when the dependency graph is acyclic; any cycle, including a self reference, means nothing is separable and the result is empty, as it is for a null or empty map.

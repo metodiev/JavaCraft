@@ -1,0 +1,4 @@
+Always start the plan with "verify Java 17+ and Jakarta EE 11 baselines", because a framework upgrade is also a container and persistence provider upgrade.
+Add "migrate javax.annotation and javax.inject usages to the jakarta packages" when javax annotations are used, then "replace ListenableFuture with CompletableFuture", then "migrate RestTemplate usages to RestClient before the 7.1 deprecation" when those APIs are used.
+Keep that exact order in the returned list, because each later step assumes the earlier ones are done.
+Return a non-null list with no duplicates; a clean codebase still returns the baseline step.

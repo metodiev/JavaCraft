@@ -1,0 +1,5 @@
+selectToolchains binds each needed Java release to a vendor from the installed toolchains.
+Each release maps to the lexicographically highest vendor installed for it, so temurin and zulu at release 17 select zulu.
+Releases are reported in the requested order and a repeated release appears once; an empty or null list of releases yields an empty map.
+A release with no matching installed vendor, whether its entry is missing, empty or null, is absent from the result rather than failing the whole selection.
+A null installed map is handled without failing, and a null release entry is ignored.

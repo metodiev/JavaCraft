@@ -1,0 +1,4 @@
+Return one column order for a composite index: equality columns first, then sort columns, then range columns.
+Preserve the relative order inside each input list and treat null lists as empty.
+Drop duplicate column names and skip null entries, keeping the first occurrence.
+Never modify the input lists.

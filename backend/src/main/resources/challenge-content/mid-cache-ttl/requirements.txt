@@ -1,0 +1,5 @@
+Pick a base TTL per volatility: static 86400 seconds, slow 3600, fast 60 and realtime 1.
+The TTL never exceeds acceptableStalenessSeconds, because exceeding accepted staleness breaks the consistency contract.
+Within that bound, raise the TTL to at least ten times the source latency (ceil(sourceLatencyMillis / 100) seconds), since a TTL shorter than the load cost saves nothing.
+The result is always at least 1 second.
+Staleness must be positive and latency must not be negative; an unknown volatility throws IllegalArgumentException.

@@ -1,0 +1,5 @@
+GET, HEAD, PUT, OPTIONS and TRACE are safe methods; POST, PATCH and DELETE are unsafe.
+A request is retryable when the status is one of 429, 500, 502, 503 and 504 and either the method is safe or an idempotency key is present.
+Success and other client error statuses are never retried.
+Match the method case-insensitively after trimming.
+Throw IllegalArgumentException for a null or unknown method and for a status below 100 or above 599.

@@ -1,0 +1,4 @@
+Treat null lists as empty lists.
+Removing a field is backward compatible only: a new reader can skip it, but an old reader cannot read data that lacks it.
+Adding an optional field with a default is fully compatible; adding a required field without a default is forward compatible only: old readers ignore it, but new readers cannot read old data that lacks it.
+Combining changes: when both directions are broken return "NONE"; otherwise when only backward is broken return "FORWARD", when only forward is broken return "BACKWARD", and when neither is broken return "FULL".

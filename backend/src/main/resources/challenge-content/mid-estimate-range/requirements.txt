@@ -1,0 +1,4 @@
+Return a map with keys best, likely and worst; best is the optimistic estimate and likely is best multiplied by the uncertainty factor.
+The uncertainty factor is clamped into 1.0..5.0 before use and fractional days are rounded up with Math.ceil.
+worst is best plus the difference between likely and best, so the range stays symmetric.
+optimisticDays must be at least 1 and the uncertainty factor must not be below 1.0 (values above 5.0 are clamped); otherwise IllegalArgumentException.

@@ -1,0 +1,5 @@
+Split a suite of tests across the three levels of the test pyramid, keyed "unit", "integration" and "endToEnd".
+Use the percentage split 60/30/10 by default, 70/20/10 when the code is logic heavy, 50/40/10 when it is io heavy, and 60/30/10 when both or neither flag is set.
+Convert each percentage into a count with the largest-remainder method so the counts always sum to the total.
+Break any remaining tie in the order unit, then integration, then endToEnd.
+When the total is not positive every count is zero, and the map always contains all three keys.

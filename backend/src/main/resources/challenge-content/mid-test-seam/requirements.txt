@@ -1,0 +1,5 @@
+A seam is a line that makes a unit hard to test: a direct object creation with new, a static call or a read of the clock.
+Report each seam as "<line>: <kind> <name>" with the 1-based line number, where the kind is "direct constructor" or "static call" and the name is the created class or called method, such as new PaymentClient() giving PaymentClient.
+A clock read reports the kind "clock read" with no name whenever the line mentions System.currentTimeMillis, System.nanoTime, Clock.systemUTC or Instant.now.
+Clock reads take precedence over other seams on the same line, System class calls such as System.out.println are not seams, and string literals are ignored.
+Report seams in line order and include every seam on a line; null or blank lines and a null list have no seams.

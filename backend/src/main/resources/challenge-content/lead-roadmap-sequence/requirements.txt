@@ -1,0 +1,3 @@
+sequence orders the given roadmap items so that every blocker comes before the item it blocks; blockers that are not in the item list are ignored.
+Ready items are emitted alphabetically, and null or duplicate items are ignored so each item appears once.
+Any cycle, including a self dependency, means no valid order exists and the result is an empty list; a null or empty item list is also empty.

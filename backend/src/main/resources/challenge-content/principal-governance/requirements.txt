@@ -1,0 +1,4 @@
+governance picks the API governance model with its rationale from regulation, team count and platform-team availability.
+A regulated organisation without a central platform team needs CENTRAL_REVIEW; with a central platform team it uses PLATFORM_TEAM, where guardrails are automated on the paved road.
+Unregulated organisations use PLATFORM_TEAM when a central platform team exists; otherwise CENTRAL_REVIEW below eight teams and FEDERATED from eight teams up, since central review cannot scale to many teams.
+teamCount must be positive; otherwise throw IllegalArgumentException.

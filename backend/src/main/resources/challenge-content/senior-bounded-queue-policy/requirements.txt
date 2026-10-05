@@ -1,0 +1,4 @@
+rejectionPolicy(latencyBudgetMillis, lossTolerant, queueDepth) returns "shed", "evict-oldest", or "block".
+Return "shed" when lossTolerant is true, or when the latency budget is under 200 milliseconds and the queue depth exceeds 200.
+Otherwise return "evict-oldest" when the queue depth exceeds 200.
+Otherwise return "block".

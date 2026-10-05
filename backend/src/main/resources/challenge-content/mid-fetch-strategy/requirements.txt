@@ -1,0 +1,4 @@
+fetchFor returns "LAZY" whenever the association is not needed every time, no matter whether it is a collection.
+When it is needed every time and is a to-one (collection is false) it returns "EAGER", the default for to-one associations.
+When it is needed every time and is a collection it returns "JOIN FETCH" only if at most 1000 rows are expected, otherwise it returns "LAZY" because join fetching a collection multiplies the result rows.
+The 1000-row threshold is inclusive, and a negative rowsExpected is treated as zero.

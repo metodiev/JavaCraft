@@ -1,0 +1,5 @@
+Each entry of requiredProperties is a profile descriptor "name" or "name:prop1,prop2", where the properties are the ones the profile requires.
+A profile activates when every required property it names is present in present, and the OS condition is satisfied.
+A property requirement prefixed with ! is satisfied when that property is absent instead.
+The OS condition is satisfied when requiredOs is null or blank, which matches any OS, or when requiredOs equals currentOs ignoring case.
+Return the names of the active profiles sorted alphabetically; a null list, blank entries and descriptors without a usable name contribute nothing.

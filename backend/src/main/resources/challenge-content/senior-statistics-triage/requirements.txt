@@ -1,0 +1,5 @@
+findings inspects a map of Hibernate statistics names to values and returns one message per suspicious metric, sorted alphabetically, or an empty list for a null or empty map.
+"slowest query <n>ms" is reported when queryExecutionMaxTime exceeds 1000 milliseconds.
+"statements not reused" is reported when prepareStatementCount is at least 4 times queryExecutionCount, which indicates JDBC statement caching is off.
+"collections eagerly fetched" is reported when collectionFetchCount is at least 90 percent of entityLoadCount, meaning most loads come from eager collections that should be lazy.
+A metric that is absent from the map is ignored, and a ratio test is skipped when its denominator is zero or missing.

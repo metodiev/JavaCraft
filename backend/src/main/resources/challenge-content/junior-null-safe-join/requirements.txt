@@ -1,0 +1,4 @@
+Trim every non-null part before joining and skip parts that are null or blank.
+Join the remaining parts with the separator exactly as given, including an empty separator.
+Return an empty string for a null list or when no part survives the filter.
+Never return null.

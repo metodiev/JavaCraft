@@ -1,0 +1,5 @@
+Build the internal model from the external payload using fieldMap, which maps each external field name to the internal field name.
+Copy only fields whose external name exists in external; unmapped external fields and mappings for missing external fields are dropped.
+Skip any mapping whose external or internal name is null, and any mapping whose internal name is blank.
+When several external fields map to the same internal name, the first mapping in fieldMap iteration order wins.
+A null external payload or a null fieldMap yields an empty map, and null values are carried across as null.

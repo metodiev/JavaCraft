@@ -1,0 +1,5 @@
+Support exactly three promotion steps: junior to mid, mid to senior and senior to staff.
+junior to mid returns, in order: "deliver small features end to end with review", "write tests first and grow debugging confidence", "ask for feedback early and often".
+mid to senior returns: "lead a system change across services", "design for reliability, cost and operability", "mentor a junior engineer through a full feature".
+senior to staff returns: "own a technical direction across teams", "write the design that others implement", "multiply the team through review and mentoring".
+Match the levels case-insensitively after trimming; any other pair, including null, throws IllegalArgumentException.

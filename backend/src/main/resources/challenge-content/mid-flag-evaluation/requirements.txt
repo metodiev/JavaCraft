@@ -1,0 +1,4 @@
+The kill switch wins over everything: when killSwitch is true the flag is disabled for every user.
+Otherwise a user on the allowlist is enabled even at zero percent, and a null user is disabled.
+Otherwise the user is bucketed with Math.floorMod(userId.hashCode(), 100) and enabled when the bucket is below rolloutPercent.
+The evaluation must be deterministic and stable across calls for the same inputs.

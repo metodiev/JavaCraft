@@ -1,0 +1,5 @@
+excluded returns the effective exclusion set: the declared exclusions plus the inherited ones when inheritEnabled is true.
+Inherited exclusions are ignored when inheritEnabled is false.
+Null sets count as empty, and null entries are ignored.
+Exclusion strings are exact literals, so wildcard characters such as * are kept as written.
+The returned set is sorted in natural order.

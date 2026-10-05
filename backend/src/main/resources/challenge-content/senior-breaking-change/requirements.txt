@@ -1,0 +1,6 @@
+Field descriptors are type names such as "int" or "string"; a trailing "!" marks a required field.
+"removed: NAME (TYPE)" is reported for every field in before that is missing from after.
+Numeric ranks are byte, short, int, long, float, double; "narrowed: NAME (OLD -> NEW)" is reported when both descriptors are numeric and the new rank is lower than the old rank.
+A widening between numeric descriptors (new rank at least as high) is compatible and is not reported.
+Any other change to a surviving field is "changed: NAME (OLD -> NEW)", and "new required: NAME (TYPE)" is reported for a field added by after whose descriptor ends with "!".
+Sort the result alphabetically; a null map throws IllegalArgumentException.

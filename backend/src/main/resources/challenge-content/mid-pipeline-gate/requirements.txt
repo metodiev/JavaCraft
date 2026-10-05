@@ -1,0 +1,3 @@
+Always order gates compile, unit tests, then integration tests when they exist, then package, then security scan when required.
+Never include a gate that was not requested.
+Return every requested gate exactly once, cheapest and most critical first.

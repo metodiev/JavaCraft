@@ -1,0 +1,4 @@
+shutdownOrder(resources) returns the shutdown phase names in the fixed order stop-accepting, drain, pools, connections.
+Only the phases present in the input are returned, and duplicates collapse to a single entry.
+Unknown resource names and null entries are ignored.
+A null or empty input returns an empty list.

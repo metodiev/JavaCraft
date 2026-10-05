@@ -1,0 +1,3 @@
+The baseline percentage is ten, reduced to five for a high risk rollout.
+Raise the percentage only as needed so that the population times the percentage covers the minimum sample, rounded up.
+Never return below one or above one hundred; throw IllegalArgumentException when totalUsers or minimumSample is below one.

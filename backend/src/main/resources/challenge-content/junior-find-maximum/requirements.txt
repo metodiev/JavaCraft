@@ -1,0 +1,4 @@
+Return the largest value in the array, or OptionalInt.empty() for null or empty input.
+An array with a single element returns that element.
+Duplicate maximum values must not change the result; negative values and Integer.MIN_VALUE are supported.
+The input array must not be modified.

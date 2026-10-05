@@ -1,0 +1,3 @@
+Iterate the routing map in its own iteration order and return the first channel whose list contains the message type exactly (case sensitive).
+Null keys and null accepted-types lists are skipped while matching, so a null key can never become the returned channel.
+Return "default" when no channel matches, when the message type is null, or when the routing map is null or empty.

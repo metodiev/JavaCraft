@@ -1,0 +1,4 @@
+Treat each map entry as a module and the fully qualified type names it references; a module is known only when it appears as a key in the map.
+A reference is a violation only when it targets a known, different module and its package is neither that module's base package nor its api subpackage; a second package segment starting with an uppercase letter is the type itself, so the type lives in the module base package and is part of the module API.
+Return "<source> -> <target>" for every violation, sorted by source module and then by target type, so the result does not depend on map iteration order.
+Ignore references to unknown modules, names outside the application base package "com.acme.", and null, blank or null-list entries; return an empty list for a null map instead of null.

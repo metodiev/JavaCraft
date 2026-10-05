@@ -1,0 +1,4 @@
+offenders normalises every non-blank, non-null log line by trimming it, collapsing runs of whitespace to a single space and replacing each run of digits with "?"; grouping is case-sensitive.
+The first normalised statement is the parent query, and its number of executions is the parent count P.
+Every other normalised statement is an offender only when it executes more than once and at least P times, because that means one execution per parent row.
+The result is the sorted list of distinct offender statements, or an empty list for a null, empty or single-statement log.

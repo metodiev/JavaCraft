@@ -1,0 +1,4 @@
+parentRows maps a join key to the number of parent rows carrying it; childRows maps the same key to the number of child rows referencing it.
+Model a left join: every parent row survives, and matching child rows multiply it, so a key contributes parentCount * max(1, childCount) rows.
+Return true when the joined row total exceeds the total number of parent rows, meaning the join fans out.
+Treat a null map as empty and ignore non-positive counts.

@@ -1,0 +1,4 @@
+Flatten nested maps into dot-separated keys, joining each path with a period.
+String values are copied verbatim, and booleans and numbers are stringified with String.valueOf.
+Entries whose value is null are skipped, as are empty nested maps.
+Only nested maps and scalar values are supported: a list value throws IllegalArgumentException, as do a null map or a null key.

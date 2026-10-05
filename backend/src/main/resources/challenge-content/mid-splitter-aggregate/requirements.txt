@@ -1,0 +1,4 @@
+Each chunk is a list whose first element is its correlation id, followed by zero or more payload parts.
+Return the payload parts of every chunk whose correlation id equals correlationId, in chunk order; a header-only chunk contributes nothing.
+Chunks for other ids, null chunks, and empty chunks are ignored, and matching is exact and case sensitive.
+A null correlationId or a null/empty chunk list returns an empty list.

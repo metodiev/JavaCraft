@@ -123,6 +123,29 @@ public class CatalogService {
                         rs.getString("body_markdown"),
                         rs.getString("starter_code")),
                 slug);
+        List<ChallengeSummary> challenges = jdbc.query(
+                """
+                SELECT c.slug, c.title, c.description, c.level, c.category
+                FROM tutorial_challenge tc
+                JOIN challenge c ON c.id = tc.challenge_id
+                WHERE tc.tutorial_id = (SELECT id FROM tutorial WHERE slug = ?)
+                  AND c.published = true
+                ORDER BY CASE c.level
+                    WHEN 'Junior' THEN 1
+                    WHEN 'Mid' THEN 2
+                    WHEN 'Senior' THEN 3
+                    WHEN 'Lead' THEN 4
+                    WHEN 'Principal' THEN 5
+                    ELSE 6
+                END, c.title
+                """,
+                (rs, rowNum) -> new ChallengeSummary(
+                        rs.getString("slug"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("level"),
+                        rs.getString("category")),
+                slug);
         return Optional.of(new Tutorial(
                 summary.slug(),
                 summary.title(),
@@ -131,7 +154,8 @@ public class CatalogService {
                 summary.durationMinutes(),
                 summary.categorySlug(),
                 summary.categoryName(),
-                sections));
+                sections,
+                challenges));
     }
 
     public Optional<Challenge> findChallenge(String slug) {
@@ -223,7 +247,8 @@ public class CatalogService {
             int durationMinutes,
             String categorySlug,
             String categoryName,
-            List<TutorialSection> sections) {}
+            List<TutorialSection> sections,
+            List<ChallengeSummary> challenges) {}
 
     public record TutorialSection(String title, String body, String exampleCode) {}
 

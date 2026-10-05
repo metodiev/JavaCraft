@@ -1,0 +1,4 @@
+A file is already imported only when the history contains the same name recorded with the same size.
+The same name with a different size is treated as a new file, and a name with no recorded size is not a duplicate.
+Matching is exact and case sensitive; return false when the name is unknown.
+A null or blank name, a negative size, and a null history throw IllegalArgumentException.

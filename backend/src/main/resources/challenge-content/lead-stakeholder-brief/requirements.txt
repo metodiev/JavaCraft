@@ -1,0 +1,3 @@
+The outline always contains exactly these sections in order: the impact line, "cost and effort", "risks and mitigations", "options considered", "recommendation and next step".
+The first line is "lead with the impact of <decision>" with the decision trimmed and inserted.
+A null, blank or whitespace-only decision throws IllegalArgumentException.

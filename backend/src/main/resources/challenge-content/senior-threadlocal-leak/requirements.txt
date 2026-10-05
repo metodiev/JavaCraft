@@ -1,0 +1,4 @@
+suspiciousFields(fieldDeclarations) flags static ThreadLocal fields that may leak thread state.
+A declaration is suspicious when it contains both "static" and "ThreadLocal".
+A field is cleared when any declaration contains a remove call for that field's name, such as NAME.remove().
+Instance fields, non-ThreadLocal statics, null entries, and blank entries are ignored; flagged declarations are returned in input order.

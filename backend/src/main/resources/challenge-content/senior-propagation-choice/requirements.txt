@@ -1,0 +1,4 @@
+Return "REQUIRED" for the scenario "write", because a normal write should join the caller transaction and roll back with it.
+Return "REQUIRES_NEW" for the scenario "audit", because an audit record must survive a caller rollback in its own independent transaction.
+Return "NOT_SUPPORTED" for the scenario "long-read", because a long read should suspend any transaction instead of holding locks.
+Match the scenario ignoring case and surrounding whitespace, and return "REQUIRED" for a null or unrecognized scenario; never return null.

@@ -1,0 +1,4 @@
+A cached entry is fresh while cachedAgeMillis is less than or equal to ttlMillis and the action is USE_CACHE.
+A stale entry asks the registry for fresh data with REFRESH when registryAvailable is true.
+A stale entry with an unreachable registry returns FAIL_FAST instead of serving stale data.
+Negative ages or ttl values throw IllegalArgumentException.

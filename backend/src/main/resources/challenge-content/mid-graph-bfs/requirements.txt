@@ -1,0 +1,4 @@
+Return the nodes reachable from the start node in breadth-first order, including the start itself.
+Visit the neighbours of each node in natural string order so the result is deterministic.
+Tolerate cycles and repeated edges; every node appears at most once.
+Return an empty list when the graph is null or empty or the start is missing or null; skip null neighbours.

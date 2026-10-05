@@ -1,0 +1,4 @@
+Aggregate the indicator statuses into one overall status using the documented precedence DOWN, then OUT_OF_SERVICE, then UP, then UNKNOWN, where the first status present in that list wins.
+Compare statuses ignoring case and surrounding whitespace, and ignore entries that are not one of the four documented statuses.
+Return "UNKNOWN" when there is no indicator list, when it is empty, or when it contains no recognized status.
+Never return null: the aggregate is always one of DOWN, OUT_OF_SERVICE, UP or UNKNOWN.

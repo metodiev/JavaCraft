@@ -1,0 +1,5 @@
+chooseReturnType returns "Page" whenever needsTotalCount is true, because Page carries the total element count and total page count while Slice does not.
+When needsTotalCount is false but either largeTable or infiniteScroll is true, it returns "Slice", because Slice avoids the extra count query and only needs the row after the page to detect a next slice.
+When none of the flags are set, it returns "Page" as the default with the full metadata.
+The two flags largeTable and infiniteScroll are treated as a single "avoid the count" signal.
+The result is always exactly "Page" or "Slice" with that capitalisation.

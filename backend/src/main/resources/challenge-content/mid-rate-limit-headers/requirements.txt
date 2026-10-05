@@ -1,0 +1,5 @@
+Return exactly four headers: RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset and RateLimit-Policy.
+Every value is the decimal text of the number.
+RateLimit-Policy is the limit followed by ";w=60".
+Clamp remaining into 0..limit so it is never negative and never above the limit.
+Throw IllegalArgumentException for a negative limit or a negative reset.

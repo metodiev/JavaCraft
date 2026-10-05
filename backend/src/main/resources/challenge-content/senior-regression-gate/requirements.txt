@@ -1,0 +1,4 @@
+Report the signed percentage change as "<verdict> <change>", where change is formatted with Locale.ROOT to one decimal place, for example FAIL +12.5%.
+The change ratio is (candidateP99 - baselineP99) / baselineP99.
+PASS when the change ratio is at most tolerance, WARN when it is at most twice the tolerance, and FAIL beyond that.
+baselineP99 must be positive, candidateP99 must not be negative, and tolerance must be finite and not negative; otherwise throw IllegalArgumentException.

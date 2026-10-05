@@ -1,0 +1,4 @@
+Compose the key from prefix and tenant, then the arguments, joined by the ":" separator and always terminated by a trailing separator.
+Escape every ":" and "\" inside a part by prefixing it with a backslash, so a part can never be confused with several parts.
+Render a null argument as an empty part, and treat a null argument list as an empty list.
+Return a non-null key for every input, including null prefix or tenant and empty arguments.

@@ -1,0 +1,4 @@
+Return "request" for a bean that holds state for the lifetime of a single web request.
+Return "prototype" when the bean holds mutable state that must not be shared between callers, even when creating it is expensive.
+Return "singleton" for stateless beans, including expensive ones whose creation cost should be paid once.
+Request scope outranks every other concern, because request state cannot live in a wider scope.

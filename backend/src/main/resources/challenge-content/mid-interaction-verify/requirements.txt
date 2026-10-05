@@ -1,0 +1,6 @@
+Plan the verifications for a test that exercises a service throwing a checked exception.
+Add "verify once with expected argument" when the method was called exactly once.
+Add "verify times(N)" when the method was called more than once, using the actual count.
+Add "verify payload is unchanged" when idempotency is required.
+A count of zero or less, or a call that never happened, adds no call verification.
+Every applicable verification is reported in the documented order, and results never contain duplicates.

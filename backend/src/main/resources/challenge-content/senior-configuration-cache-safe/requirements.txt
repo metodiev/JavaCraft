@@ -1,0 +1,4 @@
+violations audits Gradle task lines the way the configuration cache does and reports every line that captures something the cache cannot store.
+A line is a violation when it references Project as a whole word, calls through the implicit project receiver, calls getProject(, or reads the process environment with System.getenv.
+Each offending line is reported trimmed and exactly as written, sorted naturally and de-duplicated.
+Blank and null entries are ignored, and supported alternatives such as providers.environmentVariable, projectDir, layout.buildDirectory or providers.gradleProperty are not violations.

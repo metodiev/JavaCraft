@@ -1,0 +1,4 @@
+Split totalMillis evenly over attempts; the per attempt share is totalMillis / attempts (integer division), so a tiny total with many attempts can leave a zero share.
+Give the per attempt share a read budget of half of it (integer division) and a connect budget of the rest, so connect + read equals the share.
+Return a map with exactly the keys budget, connect and read, where budget is the unchanged total in milliseconds.
+Throw IllegalArgumentException when totalMillis is below 1 or attempts is below 1.

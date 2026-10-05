@@ -1,0 +1,5 @@
+Return a problem detail document with exactly the members "type", "title" and "status" holding the supplied values.
+Add the extension member "errors" only when at least one field has a non-empty list of messages; omit the member entirely otherwise.
+Each errors entry is a map with the keys "field" and "message", ordered by field name and then by message so the response is deterministic.
+Substitute "about:blank" for a null type and an empty string for a null title, and never return null.
+Do not modify the supplied field-error map or its lists.

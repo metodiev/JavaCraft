@@ -1,0 +1,4 @@
+Invalid bookkeeping — negative attempts or maxAttempts below 1 — returns "DISCARD" and is checked before the other rules.
+A permanent failure is never retried: return "DLQ".
+A transient failure with attempts below maxAttempts returns "RETRY".
+A transient failure that has reached or exceeded maxAttempts returns "DLQ".

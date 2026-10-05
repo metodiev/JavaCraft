@@ -1,0 +1,4 @@
+Every event starts with HH:mm followed by a space and a non-blank description; anything else, including a null event, throws IllegalArgumentException.
+Order events chronologically by time and keep entries of equal time in input order unless one description contains detection, then mitigation, then resolved.
+Within the same minute, detection ranks before mitigation, mitigation before resolved, and unrelated descriptions keep their input order.
+A null or empty list returns an empty list.

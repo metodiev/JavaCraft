@@ -1,0 +1,3 @@
+A decision record must contain the sections context, options, decision, consequences and revisit.
+A section counts as present only when its key maps to a non-blank value; keys are matched ignoring case and surrounding whitespace, and extra keys are ignored.
+missingSections returns the absent sections in the canonical order context, options, decision, consequences, revisit; a null record misses every section.

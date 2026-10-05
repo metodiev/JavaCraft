@@ -1,0 +1,5 @@
+Return an empty map when the request is valid, and never return null values inside it.
+Report "must not be blank" under "reference" when the reference is null or blank.
+Report "must be between 1 and 100" under "quantity" when quantity falls outside 1..100 inclusive.
+Report "must be one of EUR, USD, CZK" under "currency" when the currency is null or is not one of those three values.
+Report every violated field instead of stopping at the first, with keys ordered reference, quantity, currency.

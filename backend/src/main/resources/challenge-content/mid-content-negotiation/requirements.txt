@@ -1,0 +1,5 @@
+Parse the Accept header as comma separated media ranges, each with an optional q parameter (default 1).
+A supported type matches an accept entry when the entry is the same type, the same type family with a * subtype, or */*.
+The quality of a supported type is the highest q among the entries that match it; q=0 entries never match.
+Return the supported type with the highest quality, breaking ties with the order of supported.
+When the header is absent or nothing matches, return the first supported type; a null or empty supported list throws IllegalArgumentException.

@@ -1,0 +1,5 @@
+Missing claims are reported first as "missing sub", "missing exp" and "missing aud" in that order, for a null claim map too; a claim counts as missing when it is absent or null.
+After the missing-claim checks, the token is "expired" when exp is not greater than nowEpochSeconds, and "audience mismatch" when expectedAudience is non-null and the aud value is not equal to it.
+The audience check is skipped entirely when expectedAudience is null or blank, and aud is still required in the claims.
+exp is compared as a long; a fractional or string value that is not a Long or Integer counts as missing.
+The result list is empty only for a token that is missing no claim, is not expired and matches the expected audience.

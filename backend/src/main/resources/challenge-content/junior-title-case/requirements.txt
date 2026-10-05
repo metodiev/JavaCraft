@@ -1,0 +1,4 @@
+Return an empty string for null or blank input.
+Remove leading and trailing whitespace and collapse every whitespace run to a single space.
+Start each word with an uppercase letter and lowercase its remaining letters.
+Digits and punctuation stay attached to their word and never start a new one.

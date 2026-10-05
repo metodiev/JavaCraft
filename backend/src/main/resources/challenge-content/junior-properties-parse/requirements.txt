@@ -1,0 +1,5 @@
+Return an empty map for null or empty text.
+Skip lines that are blank or whose first non-blank character is #.
+Split every other line on its first = or :, whichever comes first, and trim the key and the value.
+Ignore lines without a separator and lines whose key is blank.
+When the same key appears more than once, the last value wins.

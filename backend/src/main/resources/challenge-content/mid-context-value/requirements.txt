@@ -1,0 +1,3 @@
+Reactor Context is immutable and scoped to the subscription that wrote it, so a reader sees only its own keys.
+Return true when contextKeys contains readerKey using an exact, case-sensitive match.
+Return false for a null key, a null set, or a key that is not present.

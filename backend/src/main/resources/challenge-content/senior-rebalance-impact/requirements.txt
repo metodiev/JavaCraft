@@ -1,0 +1,4 @@
+Fewer than one partition or one consumer is "INVALID", and this is checked first.
+More consumers than partitions returns "IDLE_CONSUMERS", because extra members sit idle.
+Otherwise assess the disruption: cooperative rebalancing that pauses only moved partitions is "MINIMAL" for stateless consumers and "MODERATE" when consumers hold per-partition state.
+Eager rebalancing revokes every partition from every member: "HIGH" for stateless consumers and "SEVERE" when consumers hold per-partition state.

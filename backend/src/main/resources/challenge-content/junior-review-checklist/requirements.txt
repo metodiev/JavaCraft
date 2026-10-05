@@ -1,0 +1,5 @@
+Every review starts with "readability and naming" and then "tests cover the change".
+When hasTests is false add "add or update tests".
+When touchesConfig is true add "check configuration and environment impact".
+When changedLines exceeds 200 add "split the change or review in small commits" as the last item.
+Return the focus areas in that order; changedLines must be at least 1, otherwise IllegalArgumentException.

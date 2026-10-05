@@ -1,0 +1,5 @@
+cacheKey fingerprints a Gradle task so that identical inputs share a cache entry.
+The SHA-256 payload is exactly three newline separated lines: the trimmed task name, the trimmed JDK version, then the task inputs.
+Inputs are trimmed, blanks and nulls dropped, repeats counted once and the rest sorted naturally then joined with newlines, so the payload ends with a newline when there are no inputs.
+The result is the 64 character lower-case hexadecimal digest, which ignores input order but changes with the task name, the input set or the JDK version.
+Inputs may be null, but a null or blank task name or JDK version is rejected with IllegalArgumentException.

@@ -1,0 +1,4 @@
+Scan the pipeline listing and treat each entry as one line, numbered from 1.
+A line is flagged when it contains any blocking token: Thread.sleep(, .block(, .blockFirst(, .blockLast( or awaitTermination(, matched case-sensitively.
+A line whose trimmed text starts with // is a comment and is never flagged, and a flagged line is reported only once.
+Return the flagged line numbers in ascending order, and throw IllegalArgumentException for a null list or a null element.

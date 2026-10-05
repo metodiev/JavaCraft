@@ -1,0 +1,4 @@
+Reject negative rows, a chunkSize below 1, and a targetWorkers below 1 with IllegalArgumentException.
+Zero rows need no partitions: return 0.
+Otherwise return the smaller of targetWorkers and the chunk count ceil(rows / chunkSize), never fewer than 1.
+The chunk count must stay correct for very large row counts, so do not overflow while rounding up.

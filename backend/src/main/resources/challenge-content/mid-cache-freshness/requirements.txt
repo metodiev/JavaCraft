@@ -1,0 +1,4 @@
+An entry may be used only when ageSeconds is strictly less than maxAgeSeconds and mustRevalidate is false.
+An entry whose age equals or exceeds maxAgeSeconds is stale.
+A maxAgeSeconds of zero is always stale, even at age zero.
+Throw IllegalArgumentException when ageSeconds or maxAgeSeconds is negative.

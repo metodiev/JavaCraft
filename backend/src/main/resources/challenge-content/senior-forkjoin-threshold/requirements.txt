@@ -1,0 +1,4 @@
+threshold(elements, cores, perElementCostMicros) returns the chunk size for a divide-and-conquer task.
+The total work is elements * perElementCostMicros, and each chunk should hold about total work / (cores * 100) elements.
+The result is clamped to at least 1000 and at most 100000.
+Zero or negative elements, cores, or per-element cost fall back to the 1000 minimum.

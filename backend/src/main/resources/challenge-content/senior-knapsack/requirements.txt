@@ -1,0 +1,4 @@
+Return the greatest total value achievable with items whose total weight does not exceed the capacity.
+Each item can be used at most once, and items heavier than the capacity are simply skipped.
+Return zero when the arrays have different lengths, either array is null, or the capacity is not positive.
+An empty item list yields zero.

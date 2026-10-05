@@ -1,0 +1,4 @@
+Insert a comma between every group of three digits, counting from the right.
+Values with fewer than four digits are returned unchanged.
+Negative values keep their leading minus sign.
+Long.MIN_VALUE and Long.MAX_VALUE are formatted exactly, without overflow.

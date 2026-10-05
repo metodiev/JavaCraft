@@ -1,0 +1,5 @@
+Implement a thread-safe fixed-capacity least-recently-used cache with get, put and size.
+get and put are atomic with respect to each other, and size never exceeds the capacity, even under concurrent access.
+get returns the cached value or null for a missing key, and marks the entry as most recently used; put inserts or updates and makes the entry most recently used.
+Evict the least recently used entry when a put would exceed the capacity.
+Constructing with a non-positive capacity throws IllegalArgumentException.

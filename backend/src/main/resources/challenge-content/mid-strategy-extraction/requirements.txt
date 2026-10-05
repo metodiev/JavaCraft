@@ -1,0 +1,4 @@
+Return one handler method name per case key of switchCases, keeping the original keys.
+The handler name is "ship" followed by the key converted to camel case: split the key on underscores, hyphens and other non-alphanumeric characters, lower case each word and capitalise the first letter of each following word.
+A null or blank key, and a null or blank switchCases, produce no handler.
+Never copy branch text from the map values into the handler name.

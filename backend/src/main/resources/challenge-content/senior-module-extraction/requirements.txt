@@ -1,0 +1,5 @@
+moduleDeps maps every module to the set of modules it depends on.
+Return the modules in an order that extracts leaves before the modules that depend on them, so a module never appears before anything in its dependency set.
+Break ties alphabetically by module name, and ignore dependency names that are not keys of moduleDeps.
+Return an empty list when any cycle exists, including a module that depends on itself.
+A null map has no order.

@@ -1,0 +1,5 @@
+problems inspects an entity mapping described by property name to mapping text and returns messages of the form "Order: <detail>", sorted alphabetically.
+When the mapping has no "id" property it reports "Order: missing id" as a single problem, even for a null or empty mapping.
+A collection mapping marked EAGER is reported as "Order: collection <property> should be LAZY" because collections should use LAZY fetch.
+A mapping that combines a generated strategy (IDENTITY, SEQUENCE or TABLE) with a second "assigned" id property is reported as "Order: generated id conflicts with assigned id on <property>".
+A well-formed mapping returns an empty list, and the input map is not modified.

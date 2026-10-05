@@ -1,0 +1,5 @@
+vacuum_scale_factor is 0.2 * (1 - updateRatio), clamped up to a floor of 0.01.
+vacuum_threshold is 50 - 30 * updateRatio, clamped down to a floor of 20.
+vacuum_trigger_rows is floor(vacuum_threshold + vacuum_scale_factor * tableRows), the dead-tuple count that starts a vacuum.
+analyze_scale_factor is 0.1 * (1 - updateRatio), clamped up to a floor of 0.005.
+Throw IllegalArgumentException when tableRows is negative or updateRatio is outside 0 through 1 inclusive (NaN included).

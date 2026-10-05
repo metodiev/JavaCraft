@@ -1,0 +1,3 @@
+A strategy has exactly these sections in order: "context and forces", the horizon section, "principles that guide decisions", "options and trade-offs", "decision and investment", "measurement and review cadence".
+The horizon section reads "<n> year horizon and outcomes" where n is the spelled-out number for 2 through 9.
+Only the spellings two, three, four, five, six, seven, eight and nine are supported; any other horizon throws IllegalArgumentException.

@@ -1,0 +1,4 @@
+Return the number of bytes of the container that the percentage represents, truncating any fraction.
+Clamp the percentage into the range 1 to 100, so 0 and negative values mean 1 percent and values above 100 mean the whole container.
+A container size of zero or less returns 0 bytes.
+Do not overflow for container sizes close to Long.MAX_VALUE.

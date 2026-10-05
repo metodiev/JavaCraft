@@ -1,0 +1,4 @@
+Return the number of distinct values in an ascending sorted array.
+Compact the distinct values into the front of the array in place, in ascending order.
+Return zero for null or empty input without throwing.
+Ignore the values beyond the returned count; do not create a new array.

@@ -1,0 +1,4 @@
+Group words by their first character converted to lowercase and count how many words share it.
+Skip null and blank words, and never return null.
+An empty or null list returns an empty map.
+Digits and symbols are valid group keys.

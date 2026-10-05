@@ -1,0 +1,5 @@
+Return a deterministic list of characterisation cases for the given inputs, always starting with the fixed cases.
+The fixed cases include "case: whitespace only" and the legacy quirks "legacy: null text returns empty", "legacy: trailing spaces preserved", "legacy: mixed case preserved", "legacy: negative number not rejected" and "legacy: tabs treated as blank".
+Each supplied input adds "input: <value>" in order, and every blank input adds the single case "empty" instead.
+An input of one character adds "boundary: single char", an input longer than 255 characters adds "boundary: long input", an input of exactly 255 characters adds "boundary: 255 chars" and exactly 256 characters adds "boundary: 256 chars".
+A null list behaves like an empty list, and repeated calls with the same inputs return the same cases.

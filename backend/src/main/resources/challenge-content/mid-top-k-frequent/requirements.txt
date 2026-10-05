@@ -1,0 +1,4 @@
+Return at most k words ordered by descending frequency, breaking ties by natural string order.
+Count only non-null words; null entries in the input are skipped.
+Return an empty list when k is not positive or when the input is null or empty.
+When k exceeds the number of distinct words, return every distinct word.

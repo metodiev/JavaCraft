@@ -1,0 +1,4 @@
+Return the first occurrence of each value in its original position and drop every later duplicate.
+Skip null entries entirely instead of storing them.
+A null input list returns an empty list, never null.
+Comparison is case sensitive and blank strings are ordinary values.

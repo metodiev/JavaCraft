@@ -1,0 +1,4 @@
+requiredPractices returns the build practices an organisation standard requires, in the order they should be introduced.
+Every build adopts reproducible-builds then locked-dependency-versions, a publisher additionally adopts published-metadata then signed-artifacts, and a regulated domain additionally adopts dependency-audit then build-provenance.
+When both flags are set the regulated practices come before the publication ones, and no practice is ever repeated.
+The returned list is unmodifiable and identical for identical inputs.

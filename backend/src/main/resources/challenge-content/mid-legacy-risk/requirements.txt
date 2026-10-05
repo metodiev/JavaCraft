@@ -1,0 +1,5 @@
+Classify risk as HIGH, MEDIUM or LOW from complexity, testCoveragePercent and hasRecentIncidents.
+Complexity above 20 is high risk, complexity above 10 up to 20 is medium risk, and complexity of 10 or less is low risk.
+Test coverage below 50 percent raises the risk one level and coverage below 25 percent raises it two levels.
+Any recent incident makes the risk high.
+Coverage and incidents only ever raise the risk, never lower it, so complexity 3 with 20 percent coverage is HIGH while complexity 3 with 50 percent coverage is LOW.

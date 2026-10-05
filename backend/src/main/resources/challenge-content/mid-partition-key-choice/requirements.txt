@@ -1,0 +1,4 @@
+Ordering is required when the ordering requirement is non-null and non-blank; return the first ordering-safe candidate, or null when none exists.
+A candidate is ordering-safe when it is non-null, non-blank, and not equal to "random" ignoring case: never randomize a key that carries an ordering requirement.
+Without an ordering requirement, hot key risk prefers a candidate equal to "random" (ignoring case) over the first candidate.
+Otherwise return the first non-null, non-blank candidate, or null when there is none.

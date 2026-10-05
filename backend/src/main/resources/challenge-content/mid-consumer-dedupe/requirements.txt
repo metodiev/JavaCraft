@@ -1,0 +1,4 @@
+The first delivery of a non-null id adds it to seenIds and returns false.
+A repeat of a recorded id returns true and leaves the set unchanged.
+A null event id is always a duplicate: return true without touching the set.
+A null seenIds throws IllegalArgumentException.
